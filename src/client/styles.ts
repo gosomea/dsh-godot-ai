@@ -1,0 +1,16 @@
+const STYLE_ID = 'dsh-godot-ai/onboarding'
+
+const CSS = `
+.dga-dialog{width:min(620px,100%);padding:0}.dga-content{display:flex;flex-direction:column;max-height:calc(100vh - 48px);padding:28px;box-sizing:border-box;overflow-y:auto}.dga-kicker{margin:0 0 8px;color:#478cbf;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.dga-title{margin:0;color:var(--dsw-alias-label-primary);font-size:22px;line-height:30px;font-weight:600}.dga-copy{margin:16px 0 0;color:var(--dsw-alias-label-secondary);font-size:14px;line-height:22px}.dga-status{margin:18px 0 0;padding:12px 14px;border:1px solid color-mix(in srgb,#478cbf 32%,transparent);border-radius:10px;background:color-mix(in srgb,#478cbf 8%,transparent);color:var(--dsw-alias-label-primary);font-size:13px;line-height:20px}.dga-status[data-error=true]{border-color:color-mix(in srgb,#d95c5c 40%,transparent);background:color-mix(in srgb,#d95c5c 8%,transparent)}.dga-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}.dga-integration{display:flex;flex-direction:column;gap:16px;padding:18px;border:1px solid color-mix(in srgb,#478cbf 24%,var(--dsw-alias-separator));border-radius:14px;background:linear-gradient(145deg,color-mix(in srgb,#478cbf 8%,transparent),transparent 55%)}.dga-integration-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.dga-integration-title{color:var(--dsw-alias-label-primary);font-size:15px;font-weight:650}.dga-integration-desc,.dga-integration-loading,.dga-update-help{margin:4px 0 0;color:var(--dsw-alias-label-secondary);font-size:12px;line-height:18px}.dga-integration-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.dga-fact{display:flex;min-width:0;flex-direction:column;gap:4px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--dsw-alias-label-primary) 4%,transparent)}.dga-fact span{color:var(--dsw-alias-label-secondary);font-size:11px}.dga-fact strong{overflow-wrap:anywhere;color:var(--dsw-alias-label-primary);font-size:12px;line-height:18px;font-weight:550}.dga-fact strong[data-tone=warn]{color:#d58a2f}.dga-fact strong[data-tone=ok]{color:#3d9a6d}.dga-install-help{display:flex;flex-direction:column;gap:5px;padding:12px;border-left:3px solid #478cbf;background:color-mix(in srgb,#478cbf 6%,transparent);color:var(--dsw-alias-label-secondary);font-size:12px;line-height:18px}.dga-install-help strong{color:var(--dsw-alias-label-primary)}.dga-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:3px}.dga-links a{color:#478cbf;text-decoration:none}.dga-links a:hover{text-decoration:underline}.dga-update-help code{user-select:all;color:var(--dsw-alias-label-primary)}.dga-inline-error{margin:0;color:#d95c5c;font-size:12px;line-height:18px}@media(max-width:560px){.dga-content{padding:22px}.dga-actions{flex-direction:column-reverse}.dga-integration-head{align-items:stretch;flex-direction:column}.dga-integration-grid{grid-template-columns:1fr}}
+`
+
+export function installStyles(): () => void {
+  const existing = document.querySelector(`style[data-plugin-css="${STYLE_ID}"]`)
+  if (existing !== null) return () => undefined
+  const style = document.createElement('style')
+  style.dataset.plugin = 'dsh-godot-ai'
+  style.dataset.pluginCss = STYLE_ID
+  style.textContent = CSS
+  document.head.append(style)
+  return () => { style.remove() }
+}

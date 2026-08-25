@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "wrapperVersion": "0.4.1",
+  "dsh": {
+    "tested": "0.1.0-rc.5",
+    "range": ">=0.1.0-rc.5 <0.2.0"
+  },
+  "godotAi": {
+    "defaultVersion": "3.1.5",
+    "testedVersions": ["3.1.5"],
+    "attachProtocolVersion": 1,
+    "expectedToolCount": 45,
+    "expectedToolCatalogHash": "af75d04a00d4be87421db50c6f51ba709375286178ea02482ef2776acace1470",
+    "httpPort": 8000,
+    "wsPort": 9500,
+    "excludeDomains": [],
+    "toolCallTimeoutMs": 360000,
+    "reconnect": {
+      "initialDelayMs": 500,
+      "maxDelayMs": 30000,
+      "maxAttempts": 10
+    },
+    "pypiJsonUrl": "https://pypi.org/pypi/godot-ai/json",
+    "godotMinimum": "4.5",
+    "godotRecommended": "4.7"
+  }
+}

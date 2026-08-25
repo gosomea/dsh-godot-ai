@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "name": "multi-game-feasibility-2026-08-24",
+  "dshUrl": "http://127.0.0.1:3080",
+  "projectPath": "/Users/yuqixian/forever-skills/projects/godot-test-project",
+  "agentPreset": "godot-creator",
+  "provider": "deepseek-official",
+  "reasoningEffort": "max",
+  "games": [
+    {
+      "id": "neon-dash",
+      "model": "deepseek-v4-flash-ioa",
+      "prompt": "prompts/neon-dash.md",
+      "target": "validation_games/neon_dash"
+    },
+    {
+      "id": "signal-circuit",
+      "model": "deepseek-v4-pro-ioa",
+      "prompt": "prompts/signal-circuit.md",
+      "target": "validation_games/signal_circuit"
+    },
+    {
+      "id": "orbit-collector-build",
+      "model": "deepseek-v4-flash-ioa",
+      "prompt": "prompts/orbit-collector-build.md",
+      "target": "validation_games/orbit_collector"
+    },
+    {
+      "id": "orbit-collector-review",
+      "model": "deepseek-v4-pro-ioa",
+      "prompt": "prompts/orbit-collector-review.md",
+      "target": "validation_games/orbit_collector"
+    }
+  ]
+}

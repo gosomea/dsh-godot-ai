@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "templates": [
+    {
+      "id": "create-2d-game-foundation",
+      "name": "创建 2D 游戏骨架",
+      "description": "从玩法目标开始，建立可运行、可继续迭代的 2D 项目主循环。",
+      "inputs": [
+        { "id": "gameplay", "label": "核心玩法", "kind": "text", "required": true },
+        { "id": "controls", "label": "控制方式", "kind": "text", "required": true },
+        { "id": "resolution", "label": "目标分辨率", "kind": "text", "required": false, "default": "1280×720" },
+        { "id": "art-direction", "label": "画面方向", "kind": "text", "required": false }
+      ],
+      "stages": [
+        { "id": "discover", "goal": "确认目标编辑器、项目、当前场景和已有资产边界。", "acceptance": ["目标项目唯一且明确", "已有入口场景与输入约束已记录"], "recovery": "连接或目标不明确时停止写入并让用户选择。" },
+        { "id": "design", "goal": "把核心玩法拆成玩家、世界、交互、相机和 HUD 的最小职责。", "acceptance": ["节点职责与数据流可解释", "首个可玩循环有明确完成条件"], "recovery": "范围过大时缩减到一个可玩的垂直切片。" },
+        { "id": "scaffold", "goal": "搭建主场景、玩家、世界与相机的最小结构。", "acceptance": ["场景层级回读符合设计", "关键节点名称稳定且无重复"], "recovery": "从最后一个回读通过的节点继续，避免整体重建。" },
+        { "id": "wire", "goal": "配置输入、脚本、信号和基础 HUD，形成游戏循环。", "acceptance": ["输入映射存在", "脚本与信号连接可回读", "HUD 展示核心状态"], "recovery": "按输入、脚本、信号、UI 分组定位失败，不混合重试。" },
+        { "id": "validate", "goal": "保存并运行项目，检查状态、日志和视觉结果。", "acceptance": ["项目能够启动", "没有未处理错误", "核心玩法路径可完成", "最终场景状态已独立回读"], "recovery": "先修复最早出现的错误，再重新运行完整路径。" }
+      ],
+      "done": ["存在可运行的 2D 垂直切片", "玩法、控制与 HUD 相互一致", "变更与验证结果可向用户复述"]
+    },
+    {
+      "id": "create-3d-prototype",
+      "name": "创建 3D 可玩原型",
+      "description": "建立包含空间、玩家、相机、光照和基础交互的 3D 垂直切片。",
+      "inputs": [
+        { "id": "gameplay", "label": "核心玩法", "kind": "text", "required": true },
+        { "id": "camera", "label": "相机视角", "kind": "select", "required": true, "options": ["第一人称", "第三人称", "俯视"] },
+        { "id": "movement", "label": "移动方式", "kind": "text", "required": true },
+        { "id": "visual-scope", "label": "视觉范围", "kind": "text", "required": false }
+      ],
+      "stages": [
+        { "id": "discover", "goal": "确认目标项目、渲染环境、入口场景和已有 3D 资产。", "acceptance": ["项目与活动会话明确", "渲染与资产约束已记录"], "recovery": "有多个编辑器时先选择会话。" },
+        { "id": "world", "goal": "建立可导航空间、碰撞、环境、光照和出生点。", "acceptance": ["层级与空间职责清晰", "地面和关键障碍具有预期碰撞"], "recovery": "先保留几何与碰撞，延后非必要视觉装饰。" },
+        { "id": "player", "goal": "建立玩家控制、相机和核心交互。", "acceptance": ["输入与移动逻辑可回读", "相机行为匹配所选视角", "核心交互有可观察反馈"], "recovery": "分别验证移动、相机和交互，避免一次修改多个故障源。" },
+        { "id": "feedback", "goal": "补充最小 UI、材质和状态反馈。", "acceptance": ["玩家能理解当前目标与状态", "视觉反馈不遮挡操作"], "recovery": "优先保证可读性，再增加表现层。" },
+        { "id": "validate", "goal": "运行原型，检查移动、碰撞、相机、交互、日志与画面。", "acceptance": ["原型可启动和停止", "核心路径无阻塞错误", "最终层级与关键属性已回读"], "recovery": "从最早失败的验证项开始修复并重新跑完整路径。" }
+      ],
+      "done": ["存在可运行的 3D 垂直切片", "移动、相机、碰撞和交互闭环", "错误、警告和视觉结果均已检查"]
+    },
+    {
+      "id": "add-game-ui-flow",
+      "name": "添加菜单、HUD 与暂停流程",
+      "description": "为已有游戏添加响应式主菜单、游戏内 HUD、暂停和恢复流程。",
+      "inputs": [
+        { "id": "screens", "label": "需要的界面", "kind": "text", "required": true },
+        { "id": "hud-data", "label": "HUD 数据", "kind": "text", "required": true },
+        { "id": "input", "label": "菜单与暂停输入", "kind": "text", "required": true },
+        { "id": "theme", "label": "视觉主题", "kind": "text", "required": false }
+      ],
+      "stages": [
+        { "id": "audit", "goal": "读取现有场景、分辨率、输入和游戏状态来源。", "acceptance": ["UI 挂载位置明确", "HUD 数据源与暂停所有权明确"], "recovery": "数据所有权不清时先追踪现有脚本和信号。" },
+        { "id": "structure", "goal": "建立菜单、HUD、暂停层和响应式容器结构。", "acceptance": ["层级回读正确", "锚点与容器规则适应目标分辨率"], "recovery": "保留结构，逐个修复布局分支。" },
+        { "id": "behavior", "goal": "连接导航、数据刷新、暂停、恢复和返回流程。", "acceptance": ["输入与信号连接可回读", "暂停不会破坏必要 UI 输入", "状态切换路径闭合"], "recovery": "按导航、数据、暂停三个独立批次排错。" },
+        { "id": "style", "goal": "应用一致的主题、可访问文本与状态反馈。", "acceptance": ["视觉层级清晰", "重要状态不只依赖颜色", "交互焦点可识别"], "recovery": "先恢复可用性和可读性，再处理装饰。" },
+        { "id": "validate", "goal": "运行并遍历开始、游戏、暂停、恢复与退出路径。", "acceptance": ["所有界面路径可达", "HUD 数据正确更新", "无新增错误", "关键布局已视觉检查"], "recovery": "记录失败路径和已完成副作用，从最近的稳定界面状态恢复。" }
+      ],
+      "done": ["菜单、HUD 与暂停形成闭环", "响应式布局和输入路径通过验证", "运行日志和视觉结果已检查"]
+    }
+  ]
+}
