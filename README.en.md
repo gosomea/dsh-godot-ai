@@ -16,9 +16,12 @@
 
 ## Is Godot Creator based on Minimal mode?
 
-No. It copies the current DSH **Standard** preset into an independent `godot-creator` user preset, then adds the Creator persona, Godot AI MCP integration, 16 Godot skills, three workflows, and scoped PTC. Other DSH presets remain unchanged.
+The precise answer is: **both Creator presets are installed from DSH Standard, while Adaptive uses a controlled minimal first phase.** The plugin does not copy or modify DSH Minimal and does not change DSH source code.
 
-Standard is used so Creator retains normal file, shell, search, skill, planning, and verification capabilities.
+- `godot-creator` keeps the Standard capabilities from the first turn and adds the Creator persona, Godot AI, 16 skills, three workflows, and scoped PTC / Code Mode.
+- `godot-creator-adaptive` is also copied from Standard. For a build or repair request, its first phase temporarily replaces the prompt with a short complete prompt and permits `run_code` to orchestrate only two read-only Godot bindings. After a successful inspection it promotes to the full Standard + Godot Creator surface.
+
+Adaptive therefore borrows the focus and tool discipline of a minimal startup without becoming a Minimal-derived preset. Classic and Adaptive remain independent, and other DSH presets are unchanged.
 
 ## Quick start
 

@@ -22,30 +22,30 @@
 
 ## Godot Creator 是从极简模式改的吗？
 
-**不是。当前版本继承的是 DeepSeek Harness 的 Standard（标准）模式。**
+**准确地说：安装底座仍然是 DSH Standard，但 Adaptive 的首轮执行采用了“极简化启动”。**
 
-安装 Godot Creator 时，插件会：
+插件没有复制或修改 DSH 的 Minimal preset，也没有修改 DSH 源码。安装时，两个模式都会从当前 DSH 自带的 `standard` 创建独立用户 preset：
 
-1. 复制当前 DSH 自带的 `standard` preset。
-2. 创建一个独立的 `godot-creator` 用户 preset。
-3. 在其中加入 Godot Creator Persona、Godot AI MCP、16 个 Godot Skills 和 3 个游戏工作流。
-4. 只在 Godot Creator 里把工具切换为 PTC / Code Mode；其他模式完全不受影响。
+| 模式 | preset | 启动方式 | 适合场景 |
+| --- | --- | --- | --- |
+| Godot Creator | `godot-creator` | 从第一轮开始保留 Standard 能力，并加入 Godot Persona、Godot AI、16 个 Skills、3 个工作流和 PTC / Code Mode | 通用创作、过程透明、方便调试 |
+| Godot Creator Adaptive | `godot-creator-adaptive` | 仍以 Standard 为安装底座；创建/修复任务首轮临时使用完整短提示词，只允许 `run_code` 编排两个只读 Godot binding；检查成功后提升到完整 Standard + Godot 能力 | 批量搭建、固定工作流、减少首轮工具和提示词干扰 |
 
-所以它的关系是：
+也就是说，Adaptive 不是“换成 Minimal preset”，而是在 Standard 底座上实现了一段受控的极简阶段：
 
 ```text
-DSH Standard 标准模式
+DSH Standard 独立副本
         +
-Godot Creator 对话规则
+Godot Creator Persona / Skills / Workflows
         +
-Godot AI 全部工具
-        +
-Godot Skills 与游戏工作流
-        =
-独立的 Godot Creator 模式
+Godot AI 完整工具面
+        ↓
+Adaptive 首轮：短完整提示词 + run_code + 只读检查
+        ↓ 检查成功后 promotion
+完整 Standard + Godot Creator 能力
 ```
 
-它使用起来比较专注，但底座并不是 Minimal / 极简模式。这样做是为了保留 Standard 已有的文件、Shell、检索、Skills、计划和验证能力。
+这样既利用了极简启动在首轮聚焦和工具控制上的优势，又保留 Standard 的文件、Shell、检索、Skills、计划和验证能力。稳定的 `godot-creator` 不经过 Adaptive 路由；两个模式互相独立，可以随时切换和对照。
 
 ## 五分钟开始
 
