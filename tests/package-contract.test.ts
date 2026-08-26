@@ -14,7 +14,7 @@ describe('DSH bundle contract', () => {
       files: string[]
       peerDependencies: Record<string, string>
     }
-    expect(manifest.version).toBe('0.4.2')
+    expect(manifest.version).toBe('0.5.0')
     expect(manifest.dsh.bundle.patch).toBe('./cordis.patch.yml')
     expect(manifest.dsh.client.platform).toBe('web')
     expect(manifest.exports).toHaveProperty('.')
@@ -25,10 +25,13 @@ describe('DSH bundle contract', () => {
     expect(manifest.files).toContain('assets')
     expect(manifest.files).toContain('skills')
     expect(manifest.files).toContain('THIRD_PARTY_NOTICES.md')
+    expect(manifest.files).toContain('PLUGIN-CAPABILITY.md')
     expect(manifest.dsh.client.inject).toContain('@deepseek-ai/dsh-client-ui-conversation')
     expect(manifest.dsh.client.inject).toContain('@deepseek-ai/dsh-client-locale')
     expect(manifest.peerDependencies).toHaveProperty('@deepseek-ai/dsh-mcp-client')
     expect(manifest.peerDependencies).toHaveProperty('@deepseek-ai/dsh-skill')
+    expect(manifest.peerDependencies).toHaveProperty('@deepseek-ai/dsh-agent')
+    expect(manifest.peerDependencies).toHaveProperty('@deepseek-ai/dsh-session')
   })
 
   it('adds only its own Host row and keeps the managed template stable', async () => {
@@ -41,5 +44,6 @@ describe('DSH bundle contract', () => {
       + '  name: dsh-godot-ai/agent\n'
       + '# dsh-godot-ai:managed:end\n',
     )
+    expect(await readFile(join(root, 'templates/godot-creator-adaptive-managed-row.yml'), 'utf8')).toContain('mode: adaptive')
   })
 })

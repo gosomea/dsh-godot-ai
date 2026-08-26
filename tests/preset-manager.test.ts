@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import type { AgentPreset } from '@deepseek-ai/dsh-agent-presets'
-import { GODOT_PRESET_ID, SOURCE_PRESET_ID } from '../src/core/types.js'
+import { GODOT_ADAPTIVE_PRESET_ID, GODOT_PRESET_ID, SOURCE_PRESET_ID } from '../src/core/types.js'
 import { ManagedPresetManager, type PresetRoster } from '../src/host/preset-manager.js'
 
 const BLOCK_V1 = `# dsh-godot-ai:managed:start schema=1
@@ -31,8 +31,10 @@ class FakeRoster implements PresetRoster {
 
   async list(): Promise<readonly AgentPreset[]> {
     const presets: AgentPreset[] = [await this.resolve(SOURCE_PRESET_ID)]
-    try { presets.push(await this.resolve(GODOT_PRESET_ID)) }
-    catch { /* absent */ }
+    for (const id of [GODOT_PRESET_ID, GODOT_ADAPTIVE_PRESET_ID]) {
+      try { presets.push(await this.resolve(id)) }
+      catch { /* absent */ }
+    }
     return presets
   }
 
@@ -99,6 +101,22 @@ afterEach(async () => {
 const compositionPath = (): string => join(userRoot, GODOT_PRESET_ID, 'agent.cordis.yml')
 
 describe('ManagedPresetManager', () => {
+  it('can manage an independent adaptive preset without changing classic', async () => {
+    const adaptive = new ManagedPresetManager({
+      roster,
+      wrapperVersion: '0.1.0',
+      schemaVersion: 1,
+      managedBlock: BLOCK_V1.replace('name: dsh-godot-ai/agent', 'name: dsh-godot-ai/agent\n  config:\n    mode: adaptive'),
+      presetId: GODOT_ADAPTIVE_PRESET_ID,
+      displayName: 'Godot Creator Adaptive',
+    })
+
+    expect((await adaptive.install()).kind).toBe('current')
+    expect(await manager.state()).toEqual({ kind: 'not-installed' })
+    expect(await readFile(join(userRoot, GODOT_ADAPTIVE_PRESET_ID, 'agent.cordis.yml'), 'utf8'))
+      .toContain('mode: adaptive')
+  })
+
   it('installs once, preserves the copied bytes, and serializes concurrent requests', async () => {
     const source = await roster.read(SOURCE_PRESET_ID)
     const [first, second] = await Promise.all([manager.install(), manager.install()])

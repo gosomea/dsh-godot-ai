@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-08-26T09:29:41.492Z",
+  "baseUrl": "http://127.0.0.1:3081",
+  "projectPath": "/Users/yuqixian/forever-skills/projects/godot-test-project",
+  "selectedRun": "06-bugfix-flash-adaptive-1",
+  "dryRun": false,
+  "total": 1,
+  "completed": 1,
+  "passed": 0,
+  "classic": {
+    "total": 0,
+    "passed": 0
+  },
+  "adaptive": {
+    "total": 1,
+    "passed": 0
+  },
+  "runnerErrors": []
+}

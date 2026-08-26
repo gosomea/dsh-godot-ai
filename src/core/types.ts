@@ -1,7 +1,32 @@
 export const GODOT_PRESET_ID = 'godot-creator'
+export const GODOT_ADAPTIVE_PRESET_ID = 'godot-creator-adaptive'
 export const SOURCE_PRESET_ID = 'standard'
 export const PRESET_API_PREFIX = '/api/dsh-godot-ai/preset'
+export const ADAPTIVE_PRESET_API_PREFIX = '/api/dsh-godot-ai/adaptive/preset'
+export const ADAPTIVE_ROUTE_API_PREFIX = '/api/dsh-godot-ai/adaptive/route'
 export const INTEGRATION_API_PREFIX = '/api/dsh-godot-ai/integration'
+
+export type GodotAdaptiveSelection = 'auto' | 'build' | 'repair'
+export type GodotAdaptiveRoute = 'build' | 'repair' | 'classic'
+export type GodotAdaptivePhase = 'unclassified' | 'bootstrap' | 'full'
+export type GodotAdaptiveSource = 'manual' | 'classifier' | 'model-policy' | 'fallback'
+export type GodotModelClass = 'pro' | 'flash' | 'other'
+
+export interface GodotAdaptiveState {
+  readonly selection: GodotAdaptiveSelection
+  readonly route: GodotAdaptiveRoute
+  readonly phase: GodotAdaptivePhase
+  readonly source: GodotAdaptiveSource
+  readonly reason: string
+  readonly classifierVersion: string
+  readonly promptVariant: string
+  readonly modelClass: GodotModelClass
+  readonly updatedAt: string
+}
+
+export interface GodotAdaptiveRouteResponse {
+  readonly state: GodotAdaptiveState
+}
 
 export type ManagedPresetState =
   | { kind: 'not-installed' }

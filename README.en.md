@@ -4,7 +4,7 @@
 
 `dsh-godot-ai` adds a dedicated **Godot Creator mode** to [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness). With a Godot project open, DeepSeek Flash / Pro can inspect and operate the running editor through [Godot AI](https://github.com/hi-godot/godot-ai), build a playable prototype, run it, and verify the result.
 
-> Current version: `0.4.2` controlled beta. Supervised use with the Godot editor open is recommended.
+> Current release: `0.5.0`. The live plugin capability gate passed on DSH rc8 and Godot, but the full 15 Classic + 15 Adaptive product matrix is incomplete. Supervised use with the Godot editor open is recommended.
 
 ## What it can do
 
@@ -24,7 +24,7 @@ Standard is used so Creator retains normal file, shell, search, skill, planning,
 
 Requirements:
 
-- DeepSeek Harness `>=0.1.0-rc.5 <0.2.0`
+- DeepSeek Harness `>=0.1.0-rc.8 <0.2.0`
 - Node.js `22.19.0+`
 - Godot `4.5+` (`4.7` recommended)
 - [`uv`](https://docs.astral.sh/uv/getting-started/installation/)

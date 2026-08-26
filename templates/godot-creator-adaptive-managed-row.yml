@@ -1,0 +1,6 @@
+# dsh-godot-ai:managed:start schema=1
+- id: dsh-godot-ai-agent
+  name: dsh-godot-ai/agent
+  config:
+    mode: adaptive
+# dsh-godot-ai:managed:end

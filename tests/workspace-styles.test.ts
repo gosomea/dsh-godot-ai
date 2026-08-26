@@ -15,6 +15,8 @@ describe('Godot workspace responsive styles', () => {
     expect(css).toContain('.dga-ws-header{height:44px')
     expect(css).toContain('env(safe-area-inset-bottom)')
     expect(css).toContain('@media(prefers-reduced-motion:reduce)')
+    expect(css).toContain('data-dga-mode=godot-creator-adaptive')
+    expect(css).toContain('.dga-ws-route-options')
     dispose()
     expect(document.querySelector('style[data-plugin-css="dsh-godot-ai/workspace"]')).toBeNull()
   })

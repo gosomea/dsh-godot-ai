@@ -2,3 +2,10 @@ node_modules/
 lib/
 *.tgz
 .DS_Store
+
+# Large local validation traces and screenshots. Keep the runner, manifests,
+# aggregate summaries, issue ledger, and visual review notes in Git.
+validation/rc8-adaptive/calibration-runs/
+validation/rc8-adaptive/formal-runs/
+validation/rc8-adaptive/game-artifacts/
+validation/rc8-adaptive/pilots/

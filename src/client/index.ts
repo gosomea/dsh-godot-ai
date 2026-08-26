@@ -3,9 +3,10 @@ import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import { GodotIntegrationCard } from './GodotIntegrationCard.js'
+import { GodotAdaptivePresetCard } from './GodotAdaptivePresetCard.js'
 import { GodotPresetOnboarding } from './GodotPresetOnboarding.js'
 import { GodotWorkspaceHeader } from './GodotWorkspaceHeader.js'
-import { GodotIntegrationApi, GodotPresetApi } from './api.js'
+import { GodotAdaptivePresetApi, GodotAdaptiveRouteApi, GodotIntegrationApi, GodotPresetApi } from './api.js'
 import { installStyles } from './styles.js'
 import { installWorkspaceStyles } from './workspace-styles.js'
 import { en, zh, type GodotAiKey } from './locales.js'
@@ -24,6 +25,8 @@ export const inject = ['slots', 'locale']
 export function apply(ctx: ClientContext): void {
   const api = new GodotPresetApi()
   const integrationApi = new GodotIntegrationApi()
+  const adaptivePresetApi = new GodotAdaptivePresetApi()
+  const adaptiveRouteApi = new GodotAdaptiveRouteApi()
   ctx.effect(() => ctx.locale.register(NS, { zh, en }), 'dsh-godot-ai: dictionaries')
   ctx.effect(installStyles, 'dsh-godot-ai: onboarding styles')
   ctx.effect(installWorkspaceStyles, 'dsh-godot-ai: Creator workspace v0 styles')
@@ -39,10 +42,16 @@ export function apply(ctx: ClientContext): void {
     order: 40,
     locale: NS,
   }, props => createElement(GodotIntegrationCard, { ...props, api: integrationApi })))
+  ctx.slots.inject('settings.general.item', () => ctx.slots.register({
+    name: 'settings.general.item',
+    id: 'godot-ai-adaptive',
+    order: 41,
+    locale: NS,
+  }, props => createElement(GodotAdaptivePresetCard, { ...props, api: adaptivePresetApi })))
   ctx.slots.inject('conversation.session.header.actions', () => ctx.slots.register({
     name: 'conversation.session.header.actions',
     id: 'dsh-godot-ai-workspace',
     order: -5,
     locale: NS,
-  }, props => createElement(GodotWorkspaceHeader, { ...props, api: integrationApi })))
+  }, props => createElement(GodotWorkspaceHeader, { ...props, api: integrationApi, adaptiveApi: adaptiveRouteApi })))
 }

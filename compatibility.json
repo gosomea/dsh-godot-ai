@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "wrapperVersion": "0.4.2",
+  "wrapperVersion": "0.5.0",
   "dsh": {
-    "tested": "0.1.0-rc.5",
-    "range": ">=0.1.0-rc.5 <0.2.0"
+    "tested": "0.1.0-rc.8",
+    "range": ">=0.1.0-rc.8 <0.2.0"
   },
   "godotAi": {
     "defaultVersion": "3.1.5",

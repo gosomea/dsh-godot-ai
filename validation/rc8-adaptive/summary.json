@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-08-26T13:14:25.463Z",
+  "baseUrl": "http://127.0.0.1:3081",
+  "projectPath": "/Users/yuqixian/forever-skills/projects/godot-test-project",
+  "selectedRun": "02-2d-create-flash-adaptive-3",
+  "dryRun": false,
+  "matrixOrderSeed": "rc8-formal-v1",
+  "candidateSha256": "dee588866ecdcc6aa6c2d4fb3bc7215e46a367bb4adbaeec1b84e8344c5c6d5d",
+  "total": 1,
+  "completed": 1,
+  "passed": 1,
+  "classic": {
+    "total": 0,
+    "passed": 0
+  },
+  "adaptive": {
+    "total": 1,
+    "passed": 1
+  },
+  "runnerErrors": []
+}

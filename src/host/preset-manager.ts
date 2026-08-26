@@ -27,6 +27,8 @@ export interface ManagedPresetManagerOptions {
   readonly wrapperVersion: string
   readonly schemaVersion: number
   readonly managedBlock: string
+  readonly presetId?: string
+  readonly displayName?: string
   readonly now?: () => Date
 }
 
@@ -130,6 +132,8 @@ export class ManagedPresetManager {
   private readonly wrapperVersion: string
   private readonly schemaVersion: number
   private readonly managedBlock: string
+  private readonly presetId: string
+  private readonly displayName: string
   private readonly now: () => Date
   private mutation: Promise<void> = Promise.resolve()
 
@@ -138,6 +142,8 @@ export class ManagedPresetManager {
     this.wrapperVersion = options.wrapperVersion
     this.schemaVersion = options.schemaVersion
     this.managedBlock = options.managedBlock.endsWith('\n') ? options.managedBlock : `${options.managedBlock}\n`
+    this.presetId = options.presetId ?? GODOT_PRESET_ID
+    this.displayName = options.displayName ?? 'Godot Creator'
     this.now = options.now ?? (() => new Date())
     const location = managedBlockLocation(this.managedBlock)
     if (location === undefined || location.start !== 0 || location.end !== this.managedBlock.length) {
@@ -155,10 +161,10 @@ export class ManagedPresetManager {
     let presets: readonly AgentPreset[]
     try { presets = await this.roster.list() }
     catch (error) { return { kind: 'unavailable', reason: errorMessage(error) } }
-    const preset = presets.find(candidate => candidate.id === GODOT_PRESET_ID)
+    const preset = presets.find(candidate => candidate.id === this.presetId)
     if (preset === undefined) return { kind: 'not-installed' }
     if (preset.trust !== 'user') {
-      return { kind: 'unavailable', reason: `preset id "${GODOT_PRESET_ID}" is owned by a system root` }
+      return { kind: 'unavailable', reason: `preset id "${this.presetId}" is owned by a system root` }
     }
     if (preset.broken !== undefined) return { kind: 'broken', reason: preset.broken }
 
@@ -170,7 +176,7 @@ export class ManagedPresetManager {
       block = managedBlockLocation(composition)
       const stored = await readOptional(join(dirname(preset.path), SIDECAR_FILE))
       if (stored === undefined && block === undefined) {
-        return { kind: 'user-modified', reason: 'the existing godot-creator preset is not managed by dsh-godot-ai' }
+        return { kind: 'user-modified', reason: `the existing ${this.presetId} preset is not managed by dsh-godot-ai` }
       }
       if (stored === undefined) return { kind: 'broken', reason: `managed sidecar ${SIDECAR_FILE} is missing` }
       sidecar = parseSidecar(stored)
@@ -216,13 +222,13 @@ export class ManagedPresetManager {
       const state = await this.state()
       if (state.kind === 'current') return state
       if (state.kind !== 'not-installed') throw new Error(`cannot install from managed preset state "${state.kind}"`)
-      await this.roster.copy(SOURCE_PRESET_ID, GODOT_PRESET_ID, 'Godot Creator')
+      await this.roster.copy(SOURCE_PRESET_ID, this.presetId, this.displayName)
       try {
         const preset = await this.requireUserPreset()
         await this.writeFreshManagedFiles(preset.path)
         return await this.requireHealthyState()
       } catch (error) {
-        await this.roster.remove(GODOT_PRESET_ID).catch(() => undefined)
+        await this.roster.remove(this.presetId).catch(() => undefined)
         throw error
       }
     })
@@ -270,11 +276,11 @@ export class ManagedPresetManager {
       }
       const preset = await this.requireUserPreset()
       const directory = dirname(preset.path)
-      if (basename(directory) !== GODOT_PRESET_ID) throw new Error('managed preset directory does not match its id')
-      const backup = join(dirname(directory), `.${GODOT_PRESET_ID}.backup-${Date.now()}-${randomUUID()}`)
+      if (basename(directory) !== this.presetId) throw new Error('managed preset directory does not match its id')
+      const backup = join(dirname(directory), `.${this.presetId}.backup-${Date.now()}-${randomUUID()}`)
       await rename(directory, backup)
       try {
-        await this.roster.copy(SOURCE_PRESET_ID, GODOT_PRESET_ID, 'Godot Creator')
+        await this.roster.copy(SOURCE_PRESET_ID, this.presetId, this.displayName)
         const replacement = await this.requireUserPreset()
         await this.writeFreshManagedFiles(replacement.path)
         const healthy = await this.requireHealthyState()
@@ -297,7 +303,7 @@ export class ManagedPresetManager {
       if (!['current', 'sync-available', 'base-update-available'].includes(state.kind)) {
         throw new Error(`cannot uninstall from managed preset state "${state.kind}"`)
       }
-      await this.roster.remove(GODOT_PRESET_ID)
+      await this.roster.remove(this.presetId)
       const after = await this.state()
       if (after.kind !== 'not-installed') throw new Error(`uninstall settled in unexpected state "${after.kind}"`)
       return after
@@ -311,10 +317,10 @@ export class ManagedPresetManager {
   }
 
   private async requireUserPreset(): Promise<AgentPreset> {
-    const preset = await this.roster.resolve(GODOT_PRESET_ID)
-    if (preset.trust !== 'user') throw new Error(`preset "${GODOT_PRESET_ID}" is not writable user content`)
-    if (basename(dirname(preset.path)) !== GODOT_PRESET_ID) {
-      throw new Error(`preset "${GODOT_PRESET_ID}" resolved outside its expected directory`)
+    const preset = await this.roster.resolve(this.presetId)
+    if (preset.trust !== 'user') throw new Error(`preset "${this.presetId}" is not writable user content`)
+    if (basename(dirname(preset.path)) !== this.presetId) {
+      throw new Error(`preset "${this.presetId}" resolved outside its expected directory`)
     }
     return preset
   }

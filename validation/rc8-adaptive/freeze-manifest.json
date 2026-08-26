@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-08-26T12:53:33.529Z",
+  "candidateVersion": "0.5.0-rc.1",
+  "matrixOrderSeed": "rc8-formal-v1",
+  "environment": {
+    "dshVersion": "0.1.0-rc.8",
+    "dshCommit": "141eb6fef83422698aef7a981029e843e8161534",
+    "dshWorktreeClean": true,
+    "node": "v23.11.0",
+    "godot": "4.6",
+    "godotAi": "3.1.5",
+    "models": [
+      "deepseek-v4-pro-ioa",
+      "deepseek-v4-flash-ioa"
+    ],
+    "reasoningEffort": "max",
+    "runBudgetMs": 720000
+  },
+  "artifacts": {
+    "tarball": {
+      "path": "validation/rc8-adaptive/candidate/dsh-godot-ai-0.5.0-rc.1.tgz",
+      "sha256": "dee588866ecdcc6aa6c2d4fb3bc7215e46a367bb4adbaeec1b84e8344c5c6d5d"
+    },
+    "runner": {
+      "path": "validation/rc8-adaptive/run-matrix.mjs",
+      "sha256": "e8addb94380704156c06084fedf5b31d6956a44d75a47836d5f28dbcef33b248"
+    },
+    "orchestrationSkill": {
+      "path": "skills/godot-ai-orchestration/SKILL.md",
+      "sha256": "a6c66187f05f63795ef834aec8c222d2551c0b89b5885eb81764b32761b316e5"
+    },
+    "projectGodot": {
+      "path": "/Users/yuqixian/forever-skills/projects/godot-test-project/project.godot",
+      "sha256": "b41a4b74d23b2507a08fca07ccb74accc7142add56c914e9292db5095a76edb5"
+    },
+    "neutralScene": {
+      "path": "/Users/yuqixian/forever-skills/projects/godot-test-project/main.tscn",
+      "sha256": "641d9474daf05e2825565e374b0d892611a13f24a8d4b39fadcecec669a7d7ad"
+    },
+    "neonDashSeed": {
+      "path": "/Users/yuqixian/forever-skills/projects/godot-test-project/validation_games/neon_dash",
+      "sha256": "2816fdd5a902ca18ffe251308d301ce8440c3c2b0dcdf8c402e3154732e80d00"
+    }
+  }
+}

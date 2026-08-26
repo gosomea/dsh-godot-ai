@@ -14,7 +14,8 @@ describe('Godot Creator persona', () => {
     for (const expected of [
       '多个 editor session',
       'godot-ai-orchestration',
-      '只加载与任务匹配',
+      '再最多加载 2 个最相关的 Godot 领域 skill',
+      '通常不超过 3 个子调用或 120 行程序',
       '读－改－验',
       'read-back',
       '运行闭环',

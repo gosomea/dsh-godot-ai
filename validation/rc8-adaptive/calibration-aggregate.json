@@ -1,0 +1,448 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-26T09:29:48.676Z",
+  "gate": "strict-custom-target-fresh-screenshot-v1",
+  "completed": 11,
+  "passed": 5,
+  "modes": {
+    "classic": {
+      "completed": 4,
+      "passed": 2,
+      "successRate": 0.5
+    },
+    "adaptive": {
+      "completed": 7,
+      "passed": 3,
+      "successRate": 0.42857142857142855
+    }
+  },
+  "rows": [
+    {
+      "runId": "01-2d-create-pro-adaptive-2",
+      "category": "2d-create",
+      "model": "deepseek-v4-pro-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 720604,
+      "inputTokens": 79402,
+      "outputTokens": 36760,
+      "originalPass": false,
+      "strictPass": false,
+      "checks": {
+        "completedWithinBudget": false,
+        "targetExists": true,
+        "noOutsideChanges": false,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": false,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": false,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/01-2d-create-pro-adaptive-2/main.tscn"
+        }
+      ],
+      "freshScreenshotCount": 0
+    },
+    {
+      "runId": "01-2d-create-pro-classic-1",
+      "category": "2d-create",
+      "model": "deepseek-v4-pro-ioa",
+      "mode": "classic",
+      "wallTimeMs": 720650,
+      "inputTokens": 44782,
+      "outputTokens": 27106,
+      "originalPass": false,
+      "strictPass": false,
+      "checks": {
+        "completedWithinBudget": false,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": false,
+        "ranExactTarget": false,
+        "readLogs": false,
+        "capturedFreshScreenshot": false,
+        "readScene": false
+      },
+      "targetRuns": [],
+      "freshScreenshotCount": 0
+    },
+    {
+      "runId": "02-2d-create-flash-adaptive-1",
+      "category": "2d-create",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 720703,
+      "inputTokens": 69385,
+      "outputTokens": 52602,
+      "originalPass": false,
+      "strictPass": false,
+      "checks": {
+        "completedWithinBudget": false,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": false,
+        "turnCompleted": false,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-1/flash_dodge.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-1/flash_dodge.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-1/flash_dodge.tscn",
+          "autosave": true
+        }
+      ],
+      "freshScreenshotCount": 6
+    },
+    {
+      "runId": "02-2d-create-flash-adaptive-3",
+      "category": "2d-create",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 615734,
+      "inputTokens": 181340,
+      "outputTokens": 53185,
+      "originalPass": true,
+      "strictPass": true,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-3/dodge_game.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-3/dodge_game.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-3/dodge_game.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-3/dodge_game.tscn",
+          "autosave": true
+        }
+      ],
+      "freshScreenshotCount": 4
+    },
+    {
+      "runId": "02-2d-create-flash-classic-2",
+      "category": "2d-create",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "classic",
+      "wallTimeMs": 721117,
+      "inputTokens": 91578,
+      "outputTokens": 56396,
+      "originalPass": false,
+      "strictPass": false,
+      "checks": {
+        "completedWithinBudget": false,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": false,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-classic-2/dodge_classic.tscn"
+        }
+      ],
+      "freshScreenshotCount": 3
+    },
+    {
+      "runId": "04-3d-create-flash-adaptive-1",
+      "category": "3d-create",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 655544,
+      "inputTokens": 156524,
+      "outputTokens": 50824,
+      "originalPass": true,
+      "strictPass": true,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-adaptive-1/collect3d.tscn",
+          "autosave": true,
+          "session_id": ""
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-adaptive-1/collect3d.tscn",
+          "autosave": true,
+          "session_id": ""
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-adaptive-1/collect3d.tscn",
+          "autosave": true,
+          "session_id": ""
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-adaptive-1/collect3d.tscn",
+          "autosave": true,
+          "session_id": ""
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-adaptive-1/collect3d.tscn",
+          "autosave": true,
+          "session_id": ""
+        }
+      ],
+      "freshScreenshotCount": 3
+    },
+    {
+      "runId": "04-3d-create-flash-classic-2",
+      "category": "3d-create",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "classic",
+      "wallTimeMs": 592711,
+      "inputTokens": 64597,
+      "outputTokens": 56722,
+      "originalPass": true,
+      "strictPass": true,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-classic-2/flash_collector.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-classic-2/flash_collector.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-classic-2/flash_collector.tscn"
+        }
+      ],
+      "freshScreenshotCount": 4
+    },
+    {
+      "runId": "06-bugfix-flash-adaptive-1",
+      "category": "bugfix",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 721193,
+      "inputTokens": 128091,
+      "outputTokens": 56412,
+      "originalPass": false,
+      "strictPass": false,
+      "checks": {
+        "completedWithinBudget": false,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": false,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/06-bugfix-flash-adaptive-1/neon_dash.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/06-bugfix-flash-adaptive-1/neon_dash.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/06-bugfix-flash-adaptive-1/neon_dash.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/06-bugfix-flash-adaptive-1/neon_dash.tscn"
+        }
+      ],
+      "freshScreenshotCount": 5
+    },
+    {
+      "runId": "08-ui-animation-flash-adaptive-1",
+      "category": "ui-animation",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 412543,
+      "inputTokens": 102413,
+      "outputTokens": 36040,
+      "originalPass": true,
+      "strictPass": false,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": false,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [],
+      "freshScreenshotCount": 1
+    },
+    {
+      "runId": "08-ui-animation-flash-adaptive-3",
+      "category": "ui-animation",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 301907,
+      "inputTokens": 82215,
+      "outputTokens": 28937,
+      "originalPass": true,
+      "strictPass": true,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/08-ui-animation-flash-adaptive-3/ui_flash_demo.tscn",
+          "autosave": true
+        }
+      ],
+      "freshScreenshotCount": 4
+    },
+    {
+      "runId": "08-ui-animation-flash-classic-2",
+      "category": "ui-animation",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "classic",
+      "wallTimeMs": 440252,
+      "inputTokens": 43549,
+      "outputTokens": 35596,
+      "originalPass": true,
+      "strictPass": true,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/08-ui-animation-flash-classic-2/ui_animation_flash.tscn",
+          "autosave": true
+        }
+      ],
+      "freshScreenshotCount": 3
+    }
+  ]
+}

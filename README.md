@@ -6,7 +6,7 @@
 
 简单说：你在 Godot 里打开项目，AI 就能通过 [Godot AI](https://github.com/hi-godot/godot-ai) 读取编辑器、创建场景、修改脚本、运行游戏，并检查做出来的结果。
 
-> 当前版本：`0.4.2` 受控 beta。推荐在 Godot 编辑器旁监督使用，暂不承诺完全无人值守。
+> 当前正式版本：`0.5.0`。插件能力门已经通过真实 DSH rc8 + Godot 编辑器验证；完整 15 Classic + 15 Adaptive 产品矩阵尚未跑满，推荐在 Godot 编辑器旁监督使用，暂不承诺完全无人值守。
 
 ## 它能帮你做什么
 
@@ -51,7 +51,7 @@ Godot Skills 与游戏工作流
 
 ### 1. 准备环境
 
-- DeepSeek Harness：`>=0.1.0-rc.5 <0.2.0`
+- DeepSeek Harness：`>=0.1.0-rc.8 <0.2.0`
 - Node.js：`22.19.0+`
 - Godot：`4.5+`，推荐 `4.7`
 - [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
@@ -189,6 +189,22 @@ Godot Creator 默认按以下过程工作：
 
 完整报告见 [`validation/report.md`](validation/report.md)，已知问题见 [`validation/issues.md`](validation/issues.md)。
 
+需要区分两类验证：上面的游戏原型是产品级端到端回归，证明“从对话到 Godot 项目”的链路能否交付；它不能单独证明插件自己的路由、注入和安全守卫有效。插件能力还会单独执行以下检查：
+
+- 静态契约：`godot-creator` 与 `godot-creator-adaptive` 的 preset 组成、16 个 Godot Skills、45 个工具目录、兼容性、工作流和 preset 更新保护。
+- 实机能力：Adaptive 是否先走只读 bootstrap、是否在检查成功后 promotion 到 full、是否真的挂载 Adaptive MCP 工具、是否阻止写入工具和空工具名。
+- 上游边界：检查只通过公开的 DSH rc8 扩展面工作，不把改动写入 DeepSeek Harness 或 Godot AI 源码。
+
+在已启动 DSH Web（默认 `http://127.0.0.1:3081`）和 Godot 编辑器后，可以运行：
+
+```bash
+pnpm test:capability:static   # 不访问网络，不修改 Godot 项目
+pnpm test:capability:live     # 真实 DSH → 插件 → MCP → Godot，只做一次只读检查
+pnpm test:capability          # 先跑静态，再跑实机能力门
+```
+
+实机报告写入 [`validation/plugin-capability-report.json`](validation/plugin-capability-report.json)，验证说明见 [`PLUGIN-CAPABILITY.md`](PLUGIN-CAPABILITY.md)。只有插件能力门通过后，才把游戏矩阵结果作为发布决策的补充证据；不能用游戏 PASS 代替插件能力门。
+
 ## Godot AI 版本与更新
 
 当前固定并验证的 Godot AI 版本是 `3.1.5`：
@@ -255,8 +271,8 @@ pnpm test:live
 
 | 组件 | 版本 |
 | --- | --- |
-| dsh-godot-ai | `0.4.2` |
-| DeepSeek Harness | `>=0.1.0-rc.5 <0.2.0` |
+| dsh-godot-ai | `0.5.0` |
+| DeepSeek Harness | `>=0.1.0-rc.8 <0.2.0` |
 | Node.js | `>=22.19.0` |
 | Godot AI | `3.1.5` |
 | Godot | `>=4.5`，推荐 `4.7` |

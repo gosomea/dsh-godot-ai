@@ -1,7 +1,13 @@
 import type { Config as McpClientConfig } from '@deepseek-ai/dsh-mcp-client'
 import type { CompatibilityManifest } from '../core/compatibility.js'
 
-export function createGodotMcpConfig(manifest: CompatibilityManifest): McpClientConfig {
+export const GODOT_MCP_SERVER_NAME = 'godot-ai'
+export const GODOT_ADAPTIVE_MCP_SERVER_NAME = 'godot-ai-adaptive'
+
+export function createGodotMcpConfig(
+  manifest: CompatibilityManifest,
+  serverName: string = GODOT_MCP_SERVER_NAME,
+): McpClientConfig {
   const config = manifest.godotAi
   const args = [
     '--link-mode', 'copy',
@@ -13,7 +19,7 @@ export function createGodotMcpConfig(manifest: CompatibilityManifest): McpClient
   if (config.excludeDomains.length > 0) args.push('--exclude-domains', config.excludeDomains.join(','))
   return Object.freeze({
     transport: 'stdio' as const,
-    serverName: 'godot-ai',
+    serverName,
     command: 'uvx',
     args: Object.freeze(args) as unknown as string[],
     env: {},

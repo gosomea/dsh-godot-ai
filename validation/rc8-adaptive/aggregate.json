@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-26T13:14:33.363Z",
+  "gate": "strict-custom-target-fresh-screenshot-plugin-v2",
+  "completed": 7,
+  "passed": 3,
+  "modes": {
+    "classic": {
+      "completed": 3,
+      "passed": 1,
+      "successRate": 0.3333333333333333
+    },
+    "adaptive": {
+      "completed": 4,
+      "passed": 2,
+      "successRate": 0.5
+    }
+  },
+  "rows": [
+    {
+      "runId": "01-2d-create-pro-classic-3",
+      "category": "2d-create",
+      "model": "deepseek-v4-pro-ioa",
+      "mode": "classic",
+      "wallTimeMs": 720262,
+      "inputTokens": 34704,
+      "outputTokens": 21829,
+      "originalPass": false,
+      "legacyEvidence": true,
+      "strictPass": false,
+      "pluginEvidenceComplete": false,
+      "checks": {
+        "completedWithinBudget": false,
+        "targetExists": false,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": false,
+        "ranExactTarget": false,
+        "readLogs": false,
+        "capturedFreshScreenshot": false,
+        "readScene": false,
+        "pluginPresetMatches": true,
+        "pluginGodotSkillCatalogComplete": false,
+        "pluginNamespaceMatches": false,
+        "pluginRouteLifecycle": false,
+        "pluginBootstrapReadOnlyOnly": false,
+        "pluginRunCodeUsed": false
+      },
+      "targetRuns": [],
+      "freshScreenshotCount": 0
+    },
+    {
+      "runId": "02-2d-create-flash-adaptive-3",
+      "category": "2d-create",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 410662,
+      "inputTokens": 123389,
+      "outputTokens": 39707,
+      "originalPass": true,
+      "legacyEvidence": false,
+      "strictPass": true,
+      "pluginEvidenceComplete": true,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true,
+        "pluginPresetMatches": true,
+        "pluginGodotSkillCatalogComplete": true,
+        "pluginNamespaceMatches": true,
+        "pluginRouteLifecycle": true,
+        "pluginBootstrapReadOnlyOnly": true,
+        "pluginRunCodeUsed": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-3/dodge_game.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/02-2d-create-flash-adaptive-3/dodge_game.tscn",
+          "autosave": true
+        }
+      ],
+      "freshScreenshotCount": 2
+    },
+    {
+      "runId": "04-3d-create-flash-adaptive-2",
+      "category": "3d-create",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 549050,
+      "inputTokens": 128540,
+      "outputTokens": 60645,
+      "originalPass": true,
+      "legacyEvidence": false,
+      "strictPass": true,
+      "pluginEvidenceComplete": true,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true,
+        "pluginPresetMatches": true,
+        "pluginGodotSkillCatalogComplete": true,
+        "pluginNamespaceMatches": true,
+        "pluginRouteLifecycle": true,
+        "pluginBootstrapReadOnlyOnly": true,
+        "pluginRunCodeUsed": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-adaptive-2/collect_3d.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/04-3d-create-flash-adaptive-2/collect_3d.tscn"
+        }
+      ],
+      "freshScreenshotCount": 1
+    },
+    {
+      "runId": "07-ui-animation-pro-adaptive-1",
+      "category": "ui-animation",
+      "model": "deepseek-v4-pro-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 547572,
+      "inputTokens": 105367,
+      "outputTokens": 28289,
+      "originalPass": true,
+      "legacyEvidence": true,
+      "strictPass": false,
+      "pluginEvidenceComplete": false,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true,
+        "pluginPresetMatches": true,
+        "pluginGodotSkillCatalogComplete": false,
+        "pluginNamespaceMatches": false,
+        "pluginRouteLifecycle": false,
+        "pluginBootstrapReadOnlyOnly": false,
+        "pluginRunCodeUsed": false
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/07-ui-animation-pro-adaptive-1/ui_demo.tscn"
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/07-ui-animation-pro-adaptive-1/ui_demo.tscn"
+        }
+      ],
+      "freshScreenshotCount": 2
+    },
+    {
+      "runId": "07-ui-animation-pro-classic-2",
+      "category": "ui-animation",
+      "model": "deepseek-v4-pro-ioa",
+      "mode": "classic",
+      "wallTimeMs": 720491,
+      "inputTokens": 28667,
+      "outputTokens": 30337,
+      "originalPass": false,
+      "legacyEvidence": false,
+      "strictPass": false,
+      "pluginEvidenceComplete": true,
+      "checks": {
+        "completedWithinBudget": false,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": false,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true,
+        "pluginPresetMatches": true,
+        "pluginGodotSkillCatalogComplete": true,
+        "pluginNamespaceMatches": true,
+        "pluginRouteLifecycle": true,
+        "pluginBootstrapReadOnlyOnly": true,
+        "pluginRunCodeUsed": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/07-ui-animation-pro-classic-2/ui_counter_scene.tscn"
+        }
+      ],
+      "freshScreenshotCount": 2
+    },
+    {
+      "runId": "08-ui-animation-flash-classic-3",
+      "category": "ui-animation",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "classic",
+      "wallTimeMs": 375687,
+      "inputTokens": 47885,
+      "outputTokens": 27430,
+      "originalPass": true,
+      "legacyEvidence": false,
+      "strictPass": true,
+      "pluginEvidenceComplete": true,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true,
+        "pluginPresetMatches": true,
+        "pluginGodotSkillCatalogComplete": true,
+        "pluginNamespaceMatches": true,
+        "pluginRouteLifecycle": true,
+        "pluginBootstrapReadOnlyOnly": true,
+        "pluginRunCodeUsed": true
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/08-ui-animation-flash-classic-3/ui_flash_classic.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/08-ui-animation-flash-classic-3/ui_flash_classic.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/08-ui-animation-flash-classic-3/ui_flash_classic.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/08-ui-animation-flash-classic-3/ui_flash_classic.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/08-ui-animation-flash-classic-3/ui_flash_classic.tscn",
+          "autosave": true
+        }
+      ],
+      "freshScreenshotCount": 2
+    },
+    {
+      "runId": "10-long-resume-flash-adaptive-3",
+      "category": "long-resume",
+      "model": "deepseek-v4-flash-ioa",
+      "mode": "adaptive",
+      "wallTimeMs": 392003,
+      "inputTokens": 70478,
+      "outputTokens": 35930,
+      "originalPass": true,
+      "legacyEvidence": true,
+      "strictPass": false,
+      "pluginEvidenceComplete": false,
+      "checks": {
+        "completedWithinBudget": true,
+        "targetExists": true,
+        "noOutsideChanges": true,
+        "noEmptyToolNames": true,
+        "noScopeViolations": true,
+        "turnCompleted": true,
+        "ranExactTarget": true,
+        "readLogs": true,
+        "capturedFreshScreenshot": true,
+        "readScene": true,
+        "pluginPresetMatches": true,
+        "pluginGodotSkillCatalogComplete": false,
+        "pluginNamespaceMatches": false,
+        "pluginRouteLifecycle": false,
+        "pluginBootstrapReadOnlyOnly": false,
+        "pluginRunCodeUsed": false
+      },
+      "targetRuns": [
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/10-long-resume-flash-adaptive-3/click_timer_game.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/10-long-resume-flash-adaptive-3/click_timer_game.tscn",
+          "autosave": true
+        },
+        {
+          "mode": "custom",
+          "scene": "res://validation_games/rc8_matrix/10-long-resume-flash-adaptive-3/click_timer_game.tscn",
+          "autosave": true
+        }
+      ],
+      "freshScreenshotCount": 1
+    }
+  ]
+}

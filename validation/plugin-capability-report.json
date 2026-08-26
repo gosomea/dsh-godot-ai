@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-26T12:26:05.915Z",
+  "baseUrl": "http://127.0.0.1:3081",
+  "model": "deepseek-v4-flash-ioa",
+  "timeoutMs": 180000,
+  "purpose": "plugin-capability-smoke",
+  "scope": "plugin capability, not game-delivery quality",
+  "host": {
+    "integration": {
+      "checkedAt": "2026-08-26T12:25:02.859Z",
+      "wrapperVersion": "0.5.0-rc.1",
+      "testedVersion": "3.1.5",
+      "godotMinimum": "4.5",
+      "godotRecommended": "4.7",
+      "uvx": {
+        "kind": "available",
+        "version": "uvx 0.11.32 (3010295ae 2026-07-23 aarch64-apple-darwin)"
+      },
+      "backend": {
+        "kind": "ready",
+        "details": {
+          "serverVersion": "3.1.5",
+          "attachProtocolVersion": 1,
+          "wsPort": 9500,
+          "excludeDomains": [],
+          "ownerType": "attach",
+          "toolCatalogHash": "af75d04a00d4be87421db50c6f51ba709375286178ea02482ef2776acace1470",
+          "activeLeaseCount": 3
+        }
+      },
+      "editor": {
+        "kind": "connected",
+        "sessions": [
+          {
+            "sessionId": "godot-test-project@48a1",
+            "name": "godot-test-project",
+            "godotVersion": "4.6-stable (official)",
+            "projectPath": "/Users/yuqixian/forever-skills/projects/godot-test-project/",
+            "pluginVersion": "3.1.5",
+            "currentScene": "res://validation_games/rc8_matrix/10-long-resume-flash-adaptive-3/click_timer_game.tscn",
+            "playState": "stopped",
+            "readiness": "ready",
+            "isActive": true
+          }
+        ]
+      },
+      "update": {
+        "kind": "unverified-update",
+        "latestVersion": "3.2.0"
+      }
+    },
+    "presetStates": {
+      "classic": {
+        "kind": "current",
+        "wrapperVersion": "0.5.0-rc.1",
+        "installedWrapperVersion": "0.4.2",
+        "baseHash": "fa14feb98daef20b810fef30bb7239a89a786de3c45c602b37743f7100d9a5af"
+      },
+      "adaptive": {
+        "kind": "current",
+        "wrapperVersion": "0.5.0-rc.1",
+        "installedWrapperVersion": "0.5.0-rc.0",
+        "baseHash": "fa14feb98daef20b810fef30bb7239a89a786de3c45c602b37743f7100d9a5af"
+      }
+    },
+    "checks": {
+      "wrapperVersion": true,
+      "backendReady": true,
+      "editorConnected": true,
+      "updateProbePresent": true,
+      "classicPresetRoute": true,
+      "adaptivePresetRoute": true
+    }
+  },
+  "classic": {
+    "sessionId": "capability-classic-1787747146791",
+    "agentPreset": "godot-creator",
+    "selected": {
+      "provider": "deepseek-official",
+      "model": "deepseek-v4-flash-ioa",
+      "reasoningEffort": "max"
+    },
+    "godotSkills": [
+      "godot-2d-movement",
+      "godot-3d-essentials",
+      "godot-ai-orchestration",
+      "godot-animation",
+      "godot-audio",
+      "godot-csharp",
+      "godot-export",
+      "godot-gdscript",
+      "godot-multiplayer",
+      "godot-nodes-scenes",
+      "godot-physics",
+      "godot-resources",
+      "godot-shaders",
+      "godot-signals-groups",
+      "godot-tilemap",
+      "godot-ui-control"
+    ],
+    "timedOut": false,
+    "routes": [],
+    "assistantToolCalls": [
+      {
+        "name": "run_code",
+        "id": "call_00_hYlwqyatRwVIvBEyIBF17898"
+      }
+    ],
+    "dispatches": [
+      {
+        "name": "mcp__godot-ai__editor_state",
+        "isError": false
+      },
+      {
+        "name": "mcp__godot-ai__session_manage",
+        "isError": false
+      }
+    ],
+    "checks": {
+      "classicPresetSelected": true,
+      "classicGodotToolsMounted": true,
+      "godotSkillCatalogComplete": true,
+      "noAdaptiveRouteEvents": true,
+      "noWriteTools": true,
+      "completedTurn": true,
+      "noEmptyToolNames": true
+    }
+  },
+  "adaptive": {
+    "manual": {
+      "sessionId": "capability-adaptive-1787747102883",
+      "timedOut": false,
+      "selection": {
+        "selection": "build",
+        "route": "classic",
+        "phase": "unclassified",
+        "source": "fallback",
+        "reason": "awaiting-first-message",
+        "classifierVersion": "keyword-v1",
+        "promptVariant": "creator-classic-v1",
+        "modelClass": "flash",
+        "updatedAt": "2026-08-26T12:25:02.951Z"
+      },
+      "finalRoute": {
+        "selection": "build",
+        "route": "build",
+        "phase": "full",
+        "source": "manual",
+        "reason": "bootstrap-inspection-succeeded",
+        "classifierVersion": "keyword-v1",
+        "promptVariant": "build-minimal-v1",
+        "modelClass": "flash",
+        "updatedAt": "2026-08-26T12:25:06.723Z"
+      },
+      "godotSkills": [
+        "godot-2d-movement",
+        "godot-3d-essentials",
+        "godot-ai-orchestration",
+        "godot-animation",
+        "godot-audio",
+        "godot-csharp",
+        "godot-export",
+        "godot-gdscript",
+        "godot-multiplayer",
+        "godot-nodes-scenes",
+        "godot-physics",
+        "godot-resources",
+        "godot-shaders",
+        "godot-signals-groups",
+        "godot-tilemap",
+        "godot-ui-control"
+      ],
+      "routes": [
+        {
+          "selection": "build",
+          "route": "build",
+          "phase": "bootstrap",
+          "source": "manual",
+          "reason": "manual-selection",
+          "classifierVersion": "keyword-v1",
+          "promptVariant": "build-minimal-v1",
+          "modelClass": "flash",
+          "updatedAt": "2026-08-26T12:25:02.954Z"
+        },
+        {
+          "selection": "build",
+          "route": "build",
+          "phase": "full",
+          "source": "manual",
+          "reason": "bootstrap-inspection-succeeded",
+          "classifierVersion": "keyword-v1",
+          "promptVariant": "build-minimal-v1",
+          "modelClass": "flash",
+          "updatedAt": "2026-08-26T12:25:06.723Z"
+        }
+      ],
+      "assistantToolCalls": [
+        {
+          "name": "run_code",
+          "id": "call_00_HjbbWt4G11WFzlrRtZk59304"
+        },
+        {
+          "name": "run_code",
+          "id": "call_00_CkWZkSIP74GR0NzPvSGr2044"
+        }
+      ],
+      "dispatches": [
+        {
+          "name": "mcp__godot-ai-adaptive__session_manage",
+          "isError": false
+        },
+        {
+          "name": "mcp__godot-ai-adaptive__editor_state",
+          "isError": false
+        },
+        {
+          "name": "mcp__godot-ai-adaptive__scene_get_hierarchy",
+          "isError": false
+        }
+      ],
+      "checks": {
+        "selectionAcceptedBeforeMessage": true,
+        "classifiedBuildIntent": true,
+        "promotedToFull": true,
+        "bootstrapUsedRunCode": true,
+        "adaptiveToolsMounted": true,
+        "fullContinuationCompleted": true,
+        "fullToolsUsedAfterPromotion": true,
+        "godotSkillCatalogComplete": true,
+        "bootstrapReadOnlyOnly": true,
+        "noWriteTools": true,
+        "completedTurn": true,
+        "noEmptyToolNames": true,
+        "selectionLockedAfterMessage": true
+      }
+    },
+    "auto": {
+      "sessionId": "capability-adaptive-1787747124853",
+      "timedOut": false,
+      "selection": {
+        "selection": "auto",
+        "route": "classic",
+        "phase": "unclassified",
+        "source": "fallback",
+        "reason": "awaiting-first-message",
+        "classifierVersion": "keyword-v1",
+        "promptVariant": "creator-classic-v1",
+        "modelClass": "flash",
+        "updatedAt": "2026-08-26T12:25:24.912Z"
+      },
+      "finalRoute": {
+        "selection": "auto",
+        "route": "build",
+        "phase": "full",
+        "source": "classifier",
+        "reason": "bootstrap-inspection-succeeded",
+        "classifierVersion": "keyword-v1",
+        "promptVariant": "build-minimal-v1",
+        "modelClass": "flash",
+        "updatedAt": "2026-08-26T12:25:28.836Z"
+      },
+      "godotSkills": [
+        "godot-2d-movement",
+        "godot-3d-essentials",
+        "godot-ai-orchestration",
+        "godot-animation",
+        "godot-audio",
+        "godot-csharp",
+        "godot-export",
+        "godot-gdscript",
+        "godot-multiplayer",
+        "godot-nodes-scenes",
+        "godot-physics",
+        "godot-resources",
+        "godot-shaders",
+        "godot-signals-groups",
+        "godot-tilemap",
+        "godot-ui-control"
+      ],
+      "routes": [
+        {
+          "selection": "auto",
+          "route": "build",
+          "phase": "bootstrap",
+          "source": "classifier",
+          "reason": "clear-build-intent",
+          "classifierVersion": "keyword-v1",
+          "promptVariant": "build-minimal-v1",
+          "modelClass": "flash",
+          "updatedAt": "2026-08-26T12:25:24.914Z"
+        },
+        {
+          "selection": "auto",
+          "route": "build",
+          "phase": "full",
+          "source": "classifier",
+          "reason": "bootstrap-inspection-succeeded",
+          "classifierVersion": "keyword-v1",
+          "promptVariant": "build-minimal-v1",
+          "modelClass": "flash",
+          "updatedAt": "2026-08-26T12:25:28.836Z"
+        }
+      ],
+      "assistantToolCalls": [
+        {
+          "name": "run_code",
+          "id": "call_00_9wFngr5BQOVk5F5Yu7eV4449"
+        },
+        {
+          "name": "run_code",
+          "id": "call_00_diKWwCUScf8vqm89LOxS9881"
+        }
+      ],
+      "dispatches": [
+        {
+          "name": "mcp__godot-ai-adaptive__session_manage",
+          "isError": false
+        },
+        {
+          "name": "mcp__godot-ai-adaptive__editor_state",
+          "isError": false
+        },
+        {
+          "name": "mcp__godot-ai-adaptive__scene_get_hierarchy",
+          "isError": false
+        }
+      ],
+      "checks": {
+        "selectionAcceptedBeforeMessage": true,
+        "classifiedBuildIntent": true,
+        "promotedToFull": true,
+        "bootstrapUsedRunCode": true,
+        "adaptiveToolsMounted": true,
+        "fullContinuationCompleted": true,
+        "fullToolsUsedAfterPromotion": true,
+        "godotSkillCatalogComplete": true,
+        "bootstrapReadOnlyOnly": true,
+        "noWriteTools": true,
+        "completedTurn": true,
+        "noEmptyToolNames": true,
+        "selectionLockedAfterMessage": true
+      }
+    }
+  },
+  "pass": true
+}

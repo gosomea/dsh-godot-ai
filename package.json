@@ -1,6 +1,6 @@
 {
   "name": "dsh-godot-ai",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Godot Creator mode and godot-ai integration for DeepSeek Harness",
   "repository": {
     "type": "git",
@@ -9,6 +9,10 @@
   "homepage": "https://github.com/gosomea/dsh-godot-ai#readme",
   "bugs": {
     "url": "https://github.com/gosomea/dsh-godot-ai/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "keywords": ["deepseek", "deepseek-harness", "dsh", "godot", "mcp", "game-development"],
   "type": "module",
@@ -31,6 +35,7 @@
     "README.md",
     "README.en.md",
     "CHANGELOG.md",
+    "PLUGIN-CAPABILITY.md",
     "brand-spec.md",
     "THIRD_PARTY_NOTICES.md",
     "LICENSE"
@@ -54,6 +59,9 @@
     "build": "pnpm clean && tsc -p tsconfig.json && tsdown",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
+    "test:capability:static": "vitest run tests/adaptive-routing.test.ts tests/adaptive-state.test.ts tests/tool-name-compat.test.ts tests/compatibility.test.ts tests/package-contract.test.ts tests/preset-manager.test.ts tests/skills.test.ts tests/workflows.test.ts",
+    "test:capability:live": "node validation/plugin-capability-smoke.mjs",
+    "test:capability": "pnpm test:capability:static && pnpm test:capability:live",
     "test:live": "vitest run tests/live-agent.test.ts",
     "prepare": "pnpm build"
   },
@@ -62,15 +70,19 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": ">=4.0.1 <5",
+    "@deepseek-ai/dsh-agent": ">=0.1.0-rc.8 <0.2.0",
     "@deepseek-ai/dsh-agent-presets": ">=0.1.0-rc.5 <0.2.0",
     "@deepseek-ai/dsh-host-webserver": ">=0.1.0-rc.5 <0.2.0",
+    "@deepseek-ai/dsh-llm": ">=0.1.0-rc.8 <0.2.0",
     "@deepseek-ai/dsh-mcp-client": ">=0.1.0-rc.5 <0.2.0",
+    "@deepseek-ai/dsh-session": ">=0.1.0-rc.8 <0.2.0",
     "@deepseek-ai/dsh-skill": ">=0.1.0-rc.5 <0.2.0",
     "@deepseek-ai/dsh-system-prompt": ">=0.1.0-rc.5 <0.2.0",
     "@deepseek-ai/dsh-tools": ">=0.1.0-rc.5 <0.2.0"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "4.0.1",
+    "@deepseek-ai/dsh-agent": "0.1.0-rc.8",
     "@deepseek-ai/dsh-agent-presets": "0.1.0-rc.8",
     "@deepseek-ai/dsh-code-runtime": "0.1.0-rc.8",
     "@deepseek-ai/dsh-client-runtime": "0.1.0-rc.8",
@@ -81,7 +93,9 @@
     "@deepseek-ai/dsh-client-ui-settings-general": "0.1.0-rc.8",
     "@deepseek-ai/dsh-client-ui-slots": "0.1.0-rc.8",
     "@deepseek-ai/dsh-host-webserver": "0.1.0-rc.8",
+    "@deepseek-ai/dsh-llm": "0.1.0-rc.8",
     "@deepseek-ai/dsh-mcp-client": "0.1.0-rc.8",
+    "@deepseek-ai/dsh-session": "0.1.0-rc.8",
     "@deepseek-ai/dsh-scope": "0.1.0-rc.8",
     "@deepseek-ai/dsh-skill": "0.1.0-rc.8",
     "@deepseek-ai/dsh-system-prompt": "0.1.0-rc.8",
