@@ -178,7 +178,7 @@ export function parseEditorSessions(result: unknown): readonly GodotEditorSessio
 }
 
 export async function readEditorSessions(url: URL): Promise<readonly GodotEditorSession[]> {
-  const client = new Client({ name: 'dsh-godot-ai-status', version: '0.4.1' }, { capabilities: {} })
+  const client = new Client({ name: 'dsh-godot-ai-status', version: '0.4.2' }, { capabilities: {} })
   const transport = new StreamableHTTPClientTransport(url)
   try {
     // SDK 1.x exposes sessionId as optional without `| undefined`; widen only

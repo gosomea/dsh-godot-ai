@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "wrapperVersion": "0.4.1",
+  "wrapperVersion": "0.4.2",
   "dsh": {
     "tested": "0.1.0-rc.5",
     "range": ">=0.1.0-rc.5 <0.2.0"

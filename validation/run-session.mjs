@@ -51,7 +51,7 @@ async function integration() {
 }
 
 function assertPreflight(snapshot) {
-  if (snapshot.wrapperVersion !== '0.4.1') throw new Error(`expected wrapper 0.4.1, got ${snapshot.wrapperVersion}`)
+  if (snapshot.wrapperVersion !== '0.4.2') throw new Error(`expected wrapper 0.4.2, got ${snapshot.wrapperVersion}`)
   if (snapshot.backend?.kind !== 'ready') throw new Error(`Godot AI backend is ${snapshot.backend?.kind ?? 'missing'}`)
   if (snapshot.backend.details?.serverVersion !== '3.1.5') {
     throw new Error(`expected Godot AI 3.1.5, got ${snapshot.backend.details?.serverVersion}`)

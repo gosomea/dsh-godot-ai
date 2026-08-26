@@ -1,64 +1,76 @@
 # dsh-godot-ai
 
-English | [中文](README.zh.md)
+中文 | [English](README.en.md)
 
-A dedicated **Godot game-creation mode** for [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness). It lets DeepSeek Flash / Pro inspect and operate a running Godot editor through [Godot AI](https://github.com/hi-godot/godot-ai), then builds playable prototypes through a discover → scaffold → configure → run → verify loop.
+给 [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness) 增加一个专门做 Godot 游戏的 **Godot Creator 模式**。
 
-> Current release: `0.4.1` controlled beta. It is intended for supervised creation with the Godot editor open; fully unattended operation and recovery across every desktop environment are not yet claimed.
+简单说：你在 Godot 里打开项目，AI 就能通过 [Godot AI](https://github.com/hi-godot/godot-ai) 读取编辑器、创建场景、修改脚本、运行游戏，并检查做出来的结果。
 
-## What it can do
+> 当前版本：`0.4.2` 受控 beta。推荐在 Godot 编辑器旁监督使用，暂不承诺完全无人值守。
 
-- Create and edit scenes, nodes, scripts, resources, signals, and input mappings.
-- Build 2D / 3D gameplay, collisions, cameras, menus, HUDs, and pause flows.
-- Configure UI, materials, shaders, animations, particles, audio, lighting, and environments.
-- Run the game, inject input, inspect scene trees and runtime state, and check errors and warnings.
-- Verify results with screenshots, visual descriptions, structural read-back, and runtime logs.
-- Use PTC / Code Mode to organize many Godot operations into small, recoverable batches.
+## 它能帮你做什么
 
-This is not another Godot editor or a fork of Godot AI. It is the product and orchestration layer between Godot AI and DeepSeek Harness:
+- 从零搭建可玩的 2D、3D 游戏原型。
+- 创建和修改场景、节点、脚本、资源、信号和输入设置。
+- 制作菜单、HUD、暂停界面、动画、材质、Shader、粒子、音频和相机。
+- 运行游戏并模拟键盘、鼠标或手柄输入。
+- 检查场景树、运行状态、报错、警告、日志和游戏画面。
+- 修改后重新读取结果，避免工具显示成功但项目实际没有改对。
+- 出错时从最近一次验证成功的阶段继续，不轻易推倒重来。
+
+它不是 Godot 编辑器的替代品，也不是 Godot AI 的修改版。它是在 DeepSeek Harness 和 Godot AI 之间加了一层更适合“完整做游戏”的对话方式、工作流、知识和安全检查。
+
+## Godot Creator 是从极简模式改的吗？
+
+**不是。当前版本继承的是 DeepSeek Harness 的 Standard（标准）模式。**
+
+安装 Godot Creator 时，插件会：
+
+1. 复制当前 DSH 自带的 `standard` preset。
+2. 创建一个独立的 `godot-creator` 用户 preset。
+3. 在其中加入 Godot Creator Persona、Godot AI MCP、16 个 Godot Skills 和 3 个游戏工作流。
+4. 只在 Godot Creator 里把工具切换为 PTC / Code Mode；其他模式完全不受影响。
+
+所以它的关系是：
 
 ```text
-Godot Creator session
-        ↓  Persona + 16 Godot skills + 3 workflows
-DSH Code Mode / PTC
-        ↓  generated TypeScript SDK
-Godot AI MCP backend (tested version pin)
-        ↓
-Godot AI addon
-        ↓
-Running Godot editor and project
+DSH Standard 标准模式
+        +
+Godot Creator 对话规则
+        +
+Godot AI 全部工具
+        +
+Godot Skills 与游戏工作流
+        =
+独立的 Godot Creator 模式
 ```
 
-## Core components
+它使用起来比较专注，但底座并不是 Minimal / 极简模式。这样做是为了保留 Standard 已有的文件、Shell、检索、Skills、计划和验证能力。
 
-| Component | Purpose |
-| --- | --- |
-| Godot Creator preset | A game-design, Godot-engineering, and verification persona scoped away from other DSH sessions |
-| Complete Godot AI surface | The currently tested 45 `mcp__godot-ai__*` bindings through DSH MCP Client |
-| Scoped PTC | Only `run_code` is directly exposed in Creator; a generated SDK orchestrates standard and Godot tools |
-| 16 Godot skills | One Godot AI orchestration contract and 15 domains including GDScript, scenes, signals, 2D/3D, UI, physics, and shaders |
-| 3 quick workflows | Create a 2D game foundation, create a playable 3D prototype, or add menus/HUD/pause flows |
-| Godot workspace | Session-level project, Editor/Addon, backend, version, and runtime status plus reviewable workflow prompts |
-| Safe lifecycle | Explicit Creator preset install, sync, backup/rebuild, and uninstall with compatibility and port diagnostics |
+## 五分钟开始
 
-## Five-minute quick start
+### 1. 准备环境
 
-### 1. Prepare the environment
-
-- DeepSeek Harness `>=0.1.0-rc.5 <0.2.0`
-- Node.js `22.19.0+`
-- Godot `4.5+` (`4.7` recommended)
+- DeepSeek Harness：`>=0.1.0-rc.5 <0.2.0`
+- Node.js：`22.19.0+`
+- Godot：`4.5+`，推荐 `4.7`
 - [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
 
-Confirm that `uvx` is available:
+先确认 `uvx` 可以运行：
 
 ```bash
 uvx --version
 ```
 
-### 2. Install dsh-godot-ai
+### 2. 安装 dsh-godot-ai
 
-Install the first public beta from a GitHub source checkout:
+从 npm 安装：
+
+```bash
+dsh plugin --profile web add dsh-godot-ai
+```
+
+如果你要使用 GitHub 上的源码：
 
 ```bash
 git clone https://github.com/gosomea/dsh-godot-ai.git
@@ -68,175 +80,189 @@ pnpm build
 dsh plugin --profile web add "$(pwd)"
 ```
 
-After the npm package is published, direct installation will be available:
-
-```bash
-dsh plugin --profile web add dsh-godot-ai
-```
-
-Restart DSH Web after installation:
+安装完成后重新启动 DSH：
 
 ```bash
 dsh web --port 3080
 ```
 
-Open DSH Settings. The first-run onboarding explains the user-preset write before offering **Install Godot Creator mode**. Installing the bundle alone never writes a preset silently.
+打开 DSH Settings，点击 **安装游戏创造模式**。这个按钮只创建 DSH 用户 preset，不会修改 Godot 项目。
 
-### 3. Install the addon in the Godot project
+### 3. 给 Godot 项目安装 Addon
 
-The DSH bundle and the Godot addon are separate installations. This plugin **never modifies a Godot project automatically**.
+这一步需要你自己操作。插件不会自动往项目里写 Addon。
 
-Choose one installation path:
+推荐方式：
 
-1. Open **AssetLib** in Godot, search for **Godot AI**, then download and install it.
-2. Download the latest [Godot AI GitHub release](https://github.com/hi-godot/godot-ai/releases/latest) and copy `addons/godot_ai` into the project.
-3. Clone the upstream repository and copy `plugin/addons/godot_ai` into the project.
+1. 在 Godot 中打开 **AssetLib**。
+2. 搜索 **Godot AI** 并安装。
+3. 打开 **Project → Project Settings → Plugins**。
+4. 启用 **Godot AI**。
+5. 保持目标项目在 Godot 编辑器中打开。
 
-Open **Project → Project Settings → Plugins**, enable **Godot AI**, and keep the target project open in the Godot editor.
+也可以下载最新 [Godot AI Release](https://github.com/hi-godot/godot-ai/releases/latest)，把 `addons/godot_ai` 复制到项目。
 
-### 4. Start creating
+### 4. 开始做游戏
 
-1. Create a DSH session and select **Godot Creator**.
-2. Confirm that the session header shows the intended project as connected.
-3. Open the **Godot Creator** status entry and choose the 2D, 3D, or menus/HUD quick workflow.
-4. A workflow only inserts a reviewable request into the composer. Add your requirements and send it when ready.
+1. 在 DSH 中新建会话。
+2. 选择 **Godot Creator**。
+3. 确认顶部显示正确的 Godot 项目，并且状态为“已连接”。
+4. 直接描述游戏，或者打开 Godot Creator 面板选择快捷工作流。
 
-You can also describe the task directly:
+例如：
 
 ```text
-Create a 480×720 2D avoidance game. The player can move left/right and jump,
-respawns after touching a hazard, wins at the goal, and can restart.
-Inspect the current project first, work in recoverable stages, read back each batch,
-then run the game and check its logs and visuals.
+创建一个 480×720 的 2D 躲避游戏。
+玩家可以左右移动和跳跃，碰到障碍后重生，走到终点显示胜利，
+并提供重新开始按钮。完成后运行游戏，检查日志和画面。
 ```
 
 ```text
-Inspect the current 3D project and build a third-person collection prototype.
-Collecting three energy orbs should unlock the exit. Add a follow camera, collisions,
-a status HUD, basic materials and lighting, then verify the complete play path.
+读取当前 3D 项目，制作一个第三人称收集游戏。
+收集 3 个能量球后打开出口，加入跟随相机、碰撞、HUD、材质和灯光，
+最后完整玩一遍并修复发现的问题。
 ```
 
 ```text
-Add a main menu, responsive HUD, pause, resume, and return-to-menu flow to the current game.
-Preserve ownership of the existing game logic and test keyboard and mouse navigation.
+给当前游戏添加主菜单、HUD、暂停、恢复和返回主菜单功能，
+保留现有游戏逻辑，并测试键盘和鼠标操作。
 ```
 
-## How Godot Creator works
+## 三个快捷工作流
 
-Creator first identifies the editor session, project path, current scene, selection, and play state. It reduces the request to a playable vertical slice and then executes:
+| 工作流 | 适合做什么 |
+| --- | --- |
+| 创建 2D 游戏骨架 | 玩家、世界、相机、输入、HUD 和基础玩法循环 |
+| 创建 3D 可玩原型 | 空间、角色、碰撞、相机、灯光和基础交互 |
+| 添加菜单与 HUD | 主菜单、状态显示、暂停、恢复和界面导航 |
 
-1. **Discover**: inspect existing scenes, nodes, scripts, resources, inputs, and project constraints.
-2. **Scaffold**: create structures by a single subtree or resource family, normally keeping a side-effect batch at 20 commands or fewer.
-3. **Configure**: connect scripts, signals, input, UI, materials, and behavior.
-4. **Run**: save and run the project, then traverse the core gameplay path.
-5. **Verify**: independently read results back and inspect state, errors, warnings, logs, and visual evidence.
+点击工作流不会立刻修改项目。它只会把一段可以检查和补充的需求放进输入框，发送以后 AI 才开始工作。
 
-A tool returning `success` is not considered proof of completion. Creator reads every write batch back. After a partial failure it records observed side effects and resumes from the latest verified stage.
+## 插件里包含什么
 
-## PTC, skills, and workflows
+| 能力 | 通俗解释 |
+| --- | --- |
+| Godot AI 工具 | 真正负责读取和操作 Godot 编辑器，当前验证了 45 个工具 bindings |
+| Godot Creator Persona | 告诉 AI 应该怎样设计、实现、运行和验收游戏 |
+| PTC / Code Mode | 把多次工具调用组合成较小的程序批次，减少来回等待 |
+| 16 个 Godot Skills | 补充 GDScript、2D/3D、UI、物理、动画、Shader、音频等知识 |
+| 3 个工作流 | 规定每类任务需要哪些输入、阶段、验收和出错恢复方式 |
+| 游戏创作台 | 显示项目、Addon、Backend、版本和运行状态，并提供工作流入口 |
 
-- **Godot AI tools** perform the actual editor reads and mutations.
-- **PTC / Code Mode** groups tool calls into fewer, recoverable program batches.
-- **Godot skills** provide domain knowledge, parameter constraints, verification methods, and known-issue mitigations.
-- **Workflow templates** store goals, inputs, stages, acceptance, and recovery conditions without hard-coding TypeScript or upstream parameters.
-- The **Godot Creator persona** organizes all of them into one explainable creation process.
+工作路径如下：
 
-See [`skills/README.md`](skills/README.md) and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for skill sources, snapshots, licenses, and update policy.
+```text
+Godot Creator 对话
+    ↓
+PTC / Code Mode 编排
+    ↓
+Godot AI MCP backend
+    ↓
+Godot AI Addon
+    ↓
+当前打开的 Godot 编辑器
+```
 
-## Backend and version policy
+完整 Skills 来源和许可证见 [`skills/README.md`](skills/README.md) 与 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
 
-Only a `godot-creator` session mounts the Godot MCP integration. The current tested backend starts through this exact version pin:
+## 它怎样保证修改更可靠
+
+Godot Creator 默认按以下过程工作：
+
+1. **先看**：确认目标项目、场景、已有节点、脚本和运行状态。
+2. **再做**：把任务拆成场景、脚本、UI 等小批次。
+3. **回头检查**：每批修改后重新读取关键结果。
+4. **实际运行**：启动游戏并走一遍主要玩法。
+5. **最后验收**：检查错误、警告、日志、状态和画面。
+
+单个工具返回 `success` 不代表整个任务完成。只有项目可以运行、核心玩法走通、结果已经回读，Creator 才会把它当作完成。
+
+## 已经做过哪些真实验证
+
+我们使用真实的 DSH、Godot AI 和 Godot 编辑器创建了三款不同类型的原型：
+
+| 原型 | 验证内容 | 结果 |
+| --- | --- | --- |
+| Neon Dash | 2D 移动、跳跃、障碍、重生、相机、胜利和重新开始 | PASS |
+| Signal Circuit | UI、信号、焦点导航、键鼠、Tween 和程序音频 | PASS |
+| Orbit Collector | 3D 移动、相机、碰撞、材质、灯光、HUD 和收集玩法 | PASS |
+
+完整报告见 [`validation/report.md`](validation/report.md)，已知问题见 [`validation/issues.md`](validation/issues.md)。
+
+## Godot AI 版本与更新
+
+当前固定并验证的 Godot AI 版本是 `3.1.5`：
 
 ```bash
 uvx --link-mode copy --from godot-ai==3.1.5 \
   godot-ai attach --port 8000 --ws-port 9500
 ```
 
-The first session may download and cache the Python package. It still does not install the Godot addon or write a Godot project. Every Godot tool domain is enabled, individual calls have a 360-second timeout, and connections use bounded retries.
+第一次打开 Godot Creator 时，`uvx` 可能需要下载 Python 包。它仍然不会自动安装 Godot Addon。
 
-If port 8000 is owned by an unrelated process, the status card reports a foreign listener and the bridge fails closed with `PORT_OCCUPIED`. It never kills or replaces an unidentified process.
-
-The safe update path advances the wrapper and compatibility matrix together:
+更新本插件：
 
 ```bash
 dsh plugin --profile web update dsh-godot-ai
 ```
 
-Restart DSH afterwards. Managed presets refer to the stable `dsh-godot-ai/agent` export and normally need no rebuild. A newer Godot AI release stays informational until it is listed in `compatibility.json`; it is never selected automatically.
+更新后重启 DSH。新的 Godot AI 版本只有通过兼容性验证后才会成为默认版本，不会因为 PyPI 出现新版本就自动切换。
 
-## Validated game prototypes
+## 常见问题
 
-Version `0.4.1` created and verified three complementary prototypes through real DSH, Godot AI, and Godot editor sessions:
-
-| Prototype | Capability coverage | Result |
-| --- | --- | --- |
-| Neon Dash | 2D movement, jumping, hazards, respawn, camera, victory, and restart | PASS |
-| Signal Circuit | Responsive UI, signals, focus navigation, keyboard/mouse, tween, and procedural audio | PASS |
-| Orbit Collector | 3D movement, camera, collisions, materials, lighting, HUD, collection, and exit logic | PASS |
-
-Flash built the games and Pro could independently inspect the project and make evidence-driven minimal fixes. See [`validation/report.md`](validation/report.md) and [`validation/issues.md`](validation/issues.md) for the environment, defects, recovery traces, and limitations.
-
-## Status and troubleshooting
-
-| Symptom | What to check |
+| 现象 | 怎么处理 |
 | --- | --- |
-| Godot Creator preset is missing | Open Settings onboarding, explicitly install Creator mode, then restart DSH |
-| `uvx` is missing | Install `uv` and verify `uvx --version` |
-| Backend is waiting to start | Create or open a Godot Creator session; the first start may download the pinned package |
-| Editor / Addon is disconnected | Keep the Godot project open and enable Godot AI under Project Settings → Plugins |
-| Port 8000 is occupied | Inspect the owning process; this plugin does not terminate unknown listeners |
-| Many Web boot plugins stay `pending` | Confirm that the `dsh web` process is still running; losing the base runtime connection leaves dependent plugins waiting |
+| 找不到 Godot Creator | 到 Settings 安装游戏创造模式，然后重启 DSH |
+| 提示没有 `uvx` | 安装 `uv`，再运行 `uvx --version` |
+| Backend 等待启动 | 打开一个 Godot Creator 会话；首次启动可能需要下载依赖 |
+| Editor / Addon 未连接 | 打开 Godot 项目，并在 Plugins 中启用 Godot AI |
+| 8000 端口被占用 | 检查占用进程；插件不会自动结束未知进程 |
+| Web boot 显示很多插件 `pending` | 先确认 `dsh web` 仍在运行；基础连接断开会让很多插件一起等待 |
 
-## Safety boundaries
+## 安全边界
 
-- npm lifecycle scripts and plugin startup hooks never write `$DSH_HOME/.agent-presets`.
-- Install, sync, rebuild, and uninstall actions are explicit and serialized.
-- An existing unmanaged `godot-creator` preset is never overwritten.
-- A user-modified composition, marker, or sidecar is reported as user-modified and is not removed automatically.
-- Rebuild moves the old preset to a hidden sibling backup and restores it on failure.
-- Management HTTP routes accept loopback, same-origin requests only.
-- The bundle never modifies a Godot project or its `addons/` directory.
-- Version checks only read public PyPI metadata and fail non-fatally.
-- An untested Godot AI version never becomes the runtime pin automatically.
+- 不修改 DeepSeek Harness 源码。
+- 不自动安装 Godot Addon，也不自动修改项目的 `addons/`。
+- 安装、同步、重建和卸载 Creator preset 都需要用户主动操作。
+- 不覆盖已经存在但不属于本插件管理的 `godot-creator`。
+- 重建 preset 前会创建备份，失败时恢复。
+- 只连接本机 loopback 服务。
+- 不会杀掉占用端口的未知进程。
+- 不会自动使用未经验证的 Godot AI 新版本。
 
-## Uninstall
+## 卸载
 
-Uninstall the managed Godot Creator preset in the plugin UI before removing the bundle:
+先在插件界面卸载 Godot Creator preset，再删除插件：
 
 ```bash
 dsh plugin --profile web remove dsh-godot-ai
 ```
 
-DSH currently has no package-removal hook. Removing the npm package first leaves the managed preset on disk, where it becomes broken because `dsh-godot-ai/agent` no longer resolves.
+如果先删除 npm 包，磁盘上的 Creator preset 会因为找不到 `dsh-godot-ai/agent` 而损坏。
 
-## Development and test
+## 开发与测试
 
 ```bash
 pnpm check
 pnpm test
 pnpm build
-```
-
-Run the real protocol integration test with:
-
-```bash
 pnpm test:live
 ```
 
-The live test follows the real `uvx → godot-ai attach → DSH MCP Client → Code Mode` path. It asserts that the Creator wire catalog contains only `run_code`, discovers 45 Godot SDK bindings, and executes read-only `session_manage(list)`. It never writes a Godot project and can validate the protocol without a connected editor.
+`test:live` 会走真实的 `uvx → godot-ai → DSH MCP Client → Code Mode` 路径，但只执行只读检查，不会修改 Godot 项目。
 
-## Compatibility
+## 兼容性
 
-| Component | Tested version |
+| 组件 | 版本 |
 | --- | --- |
-| dsh-godot-ai | `0.4.1` |
-| DeepSeek Harness | `0.1.0-rc.5` baseline |
+| dsh-godot-ai | `0.4.2` |
+| DeepSeek Harness | `>=0.1.0-rc.5 <0.2.0` |
 | Node.js | `>=22.19.0` |
 | Godot AI | `3.1.5` |
-| Godot | `>=4.5`; `4.7` recommended |
+| Godot | `>=4.5`，推荐 `4.7` |
 
-See [`compatibility.json`](compatibility.json) for the machine-readable matrix.
+机器可读配置见 [`compatibility.json`](compatibility.json)。
 
 ## License
 
-[MIT](LICENSE). See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for Godot AI and community skill sources and licenses.
+[MIT](LICENSE)。第三方来源和许可证见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
