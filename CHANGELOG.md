@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.0 - 2026-08-27
 
 - 开始实现 0.6.0 Skill 市场基础：增加固定来源和许可证的 10 个候选审核清单、市场 rank 350 Provider 骨架，以及 Standard composition 继承契约测试。
 - 将 npm 随包的 16 个 Godot Skill 从 runtime rank 250 迁移到 DSH 标准 bundled rank 600；项目、自定义目录、市场和用户同名 Skill 现在可以按公开优先级覆盖插件兜底版本。

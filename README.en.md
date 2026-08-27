@@ -4,7 +4,7 @@
 
 `dsh-godot-ai` adds a dedicated **Godot Creator mode** to [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness). With a Godot project open, DeepSeek Flash / Pro can inspect and operate the running editor through [Godot AI](https://github.com/hi-godot/godot-ai), build a playable prototype, run it, and verify the result.
 
-> Current release: `0.5.0`. The live plugin capability gate passed on DSH rc8 and Godot, but the full 15 Classic + 15 Adaptive product matrix is incomplete. Supervised use with the Godot editor open is recommended.
+> Current release: `0.6.0`. The live plugin capability gate passed on DSH rc8 and Godot, but the full 15 Classic + 15 Adaptive product matrix is incomplete. Supervised use with the Godot editor open is recommended.
 
 ## What it can do
 
@@ -64,6 +64,17 @@ respawn, a goal, and restart. Run the game and verify logs and visuals.
 | 16 Godot skills | Godot AI orchestration plus 15 engine domains |
 | 3 workflows | 2D foundation, playable 3D prototype, and menus/HUD/pause |
 | Creator workspace | Project, Addon, backend, version, runtime status, and workflow prompts |
+| Godot Skill Market | Review, install, update, roll back, and recover third-party game-development skills |
+
+## Godot Skill Market
+
+Version 0.6.0 keeps the 16 packaged Godot skills as rank-600 offline fallbacks and adds a separately updated market. Project, custom, market, and user skills can override a fallback with DSH's documented precedence.
+
+The first signed catalog records all ten requested candidates. Five are currently installable after review: `game-feel`, `game-ui-ux`, `game-ui-design`, `game-developer`, and the optional `threejs-game-ui-designer`. Only the first three form the recommended Godot starter set, and none is downloaded automatically. `develop-web-game` and the Three.js skill are explicitly not default-installed.
+
+Every install follows a fixed-commit download, executable/script quarantine, prompt-risk scan, bounded diff, explicit finding review, and disabled-by-default activation. Critical findings cannot be overridden. High and medium findings require per-item acknowledgement. Third-party market skills always remain `modelInvocable: false`; a user must explicitly enable one before it becomes user-invocable.
+
+The catalog is protected by Ed25519 signatures, key IDs, a multi-key npm trust root, an initial hash pin, and monotonically increasing serials. Updates are checked at most once per 24 hours with ETag caching. These controls establish provenance and rollback resistance; they do not prove that third-party prompt content is safe, and the static scanner is not a sandbox.
 
 ## Validated prototypes
 

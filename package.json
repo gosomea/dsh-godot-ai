@@ -1,6 +1,6 @@
 {
   "name": "dsh-godot-ai",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Godot Creator mode and godot-ai integration for DeepSeek Harness",
   "repository": {
     "type": "git",

@@ -30,3 +30,22 @@ The 15 Godot engine skill names, domain taxonomy, and routing boundaries were in
 
 - Reviewed snapshot: https://github.com/jame581/GodotPrompter/tree/eae755a1f3719076d52f50ab76f21993ebb9682b
 - License: MIT
+
+## Skill Market catalog metadata
+
+The package contains signed catalog metadata, source commits, hashes, risk summaries, and review decisions for third-party Skill candidates. It does **not** vendor their Skill bodies. Installable content is downloaded from the pinned upstream GitHub commit only after the user starts an inspection; scripts, hooks, binaries, and executable files are quarantined and never run by the market.
+
+| Candidate | Pinned source | License / status | 0.6.0 runtime decision |
+| --- | --- | --- | --- |
+| `higgsfield-game-generation` | `higgsfield-ai/skills@9db2e5bf22ff93d0bffb48664a8d0d6bb417082c` | MIT; removed/moved upstream | Not installable; critical remote-execution finding |
+| `game-engine` | `github/awesome-copilot@634b92f887487fc61cddc2f61d77830e09e8f589` | MIT | Not installable; pinned archive exceeds the 16 MiB safety limit |
+| `multiplayer-game` | `rivet-dev/skills@ba5d3db3d7489cfc6190fd0de45b96e3787e1ea3` | No confirmed redistribution license | Not installable |
+| `game-developer` | `Jeffallan/claude-skills@882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf` | MIT | Optional, review required |
+| `game-ui-design` | `omer-metin/skills-for-antigravity@e8dcf4e8737921a10088bd5c9eb65e81f74c051f` | Apache-2.0 | Recommended starter, review required |
+| `game-design-theory` | `pluginagentmarketplace/custom-plugin-game-developer@aa7edfe267b34eac63d888f60b13e08aca7850ed` | Custom `LicenseRef-PluginAgentMarketplace` | Not installable until full-license review UI exists |
+| `game-feel` | `gamedev-skills/awesome-gamedev-agent-skills@7110607ab816ece9669274bc84937857a8819796` | Apache-2.0 | Recommended starter, review required |
+| `game-ui-ux` | same pinned repository and commit as `game-feel` | Apache-2.0 | Recommended starter, review required |
+| `threejs-game-ui-designer` | `majidmanzarpour/threejs-game-skills@7221c1f4a6d2ae189a4d85d058d24f3228499d46` | MIT | Optional; never default-installed |
+| `develop-web-game` | historical skills.sh snapshot only | Apache-2.0 snapshot; no accepted immutable runtime source | Not installable and never default-installed |
+
+Catalog inclusion is not an endorsement of safety or quality. The signed release assets are in `market/releases/skills-v1/`; the public audit report intentionally contains no upstream prompt excerpts.

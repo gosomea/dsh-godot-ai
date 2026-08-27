@@ -6,7 +6,7 @@
 
 简单说：你在 Godot 里打开项目，AI 就能通过 [Godot AI](https://github.com/hi-godot/godot-ai) 读取编辑器、创建场景、修改脚本、运行游戏，并检查做出来的结果。
 
-> 当前正式版本：`0.5.0`。插件能力门已经通过真实 DSH rc8 + Godot 编辑器验证；完整 15 Classic + 15 Adaptive 产品矩阵尚未跑满，推荐在 Godot 编辑器旁监督使用，暂不承诺完全无人值守。
+> 当前版本：`0.6.0`。插件能力门已经通过真实 DSH rc8 + Godot 编辑器验证；完整 15 Classic + 15 Adaptive 产品矩阵尚未跑满，推荐在 Godot 编辑器旁监督使用，暂不承诺完全无人值守。
 
 ## 它能帮你做什么
 
@@ -148,6 +148,7 @@ dsh web --port 3080
 | 16 个 Godot Skills | 补充 GDScript、2D/3D、UI、物理、动画、Shader、音频等知识 |
 | 3 个工作流 | 规定每类任务需要哪些输入、阶段、验收和出错恢复方式 |
 | 游戏创作台 | 显示项目、Addon、Backend、版本和运行状态，并提供工作流入口 |
+| Godot Skill 市场 | 审阅、安装、更新和回滚第三方游戏开发 Skill；默认不会自动安装、自动启用或交给模型调用 |
 
 工作路径如下：
 
@@ -164,6 +165,48 @@ Godot AI Addon
 ```
 
 完整 Skills 来源和许可证见 [`skills/README.md`](skills/README.md) 与 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
+
+## Godot Skill 市场
+
+0.6.0 在设置页加入了一个独立的 Skill 市场。它解决的是“第三方游戏开发知识怎样持续更新”，不会替换插件随包的 16 个 Godot Skills：
+
+- 随包 16 个 Skill 是 rank 600 的离线兜底，跟随 npm 插件版本更新。
+- 项目、用户、自定义目录和市场中的同名 Skill 可以按 DSH 优先级覆盖兜底版本。
+- 市场内容保存在 `$DSH_HOME/dsh-godot-ai/skill-market/v1`，不会复制到插件源码目录。
+- 精选 Catalog 使用 Ed25519 签名、keyId、多 key 信任根和单调 serial，拒绝旧版本回滚。
+- Catalog 每 24 小时最多后台检查一次，并使用 ETag；也可以在“更新”页手动检查。
+
+首发保留了你指定的 10 个候选状态，其中 8 个固定 GitHub commit 完成了真实下载和扫描。当前可以进入安装审阅的有 5 个：
+
+| Skill | 定位 | 默认策略 |
+| --- | --- | --- |
+| `game-feel` | 手感、反馈、打击感；含 Godot 示例 | Starter 推荐，不自动安装 |
+| `game-ui-ux` | Godot Control、锚点、安全区、焦点导航 | Starter 推荐，不自动安装 |
+| `game-ui-design` | HUD、菜单、可访问性、手柄和响应式 UI | Starter 推荐，不自动安装 |
+| `game-developer` | 通用开发与性能；偏 Unity/Unreal | 可选，不默认推荐 |
+| `threejs-game-ui-designer` | Three.js 专用游戏 UI | 可选，明确不默认安装 |
+
+其余候选仍会显示真实状态：
+
+- `higgsfield-game-generation` 已被上游迁移，且历史正文命中远程下载后交给 Shell 执行的 critical 规则，硬阻断。
+- `multiplayer-game` 缺少可确认的再分发许可证，不可安装。
+- `game-engine` 的固定仓库归档约 86 MB，超过 16 MiB codeload 安全上限，不为了 Web 引擎 Skill 放大所有用户的内存攻击面。
+- `game-design-theory` 使用自定义许可证，在许可证全文审阅 UI 完成前不可安装。
+- `develop-web-game` 只找到历史快照，没有可接受的当前固定 GitHub 来源；按你的要求明确不默认安装。
+
+安装流程不是“一点就信任”，而是：
+
+```text
+固定 commit 下载
+    → 隔离 scripts / hooks / bin / 可执行文件
+    → 扫描 SKILL.md 和引用正文中的 Prompt 风险
+    → 查看 active 与新 Artifact 的 diff
+    → critical 硬阻断；high / medium 逐条确认
+    → 安装为默认禁用
+    → 用户再次点击启用后，才进入用户可调用面
+```
+
+第三方市场 Skill 在 0.6.0 始终是 `modelInvocable: false`。即使它来自签名精选 Catalog，模型也不能自动选择它；签名只证明“这是维护者发布的 Catalog”，不证明 Skill 正文绝对安全。更新同样重新经过 Inspect、Diff、Scan 和 Confirm，当前版本在确认前保持可用；历史最多保留三版，可回滚。卸载后失去引用的 Artifact 和过期暂存会在 GC 时先进入七天可恢复回收站。
 
 ## 它怎样保证修改更可靠
 
@@ -245,6 +288,9 @@ dsh plugin --profile web update dsh-godot-ai
 - 只连接本机 loopback 服务。
 - 不会杀掉占用端口的未知进程。
 - 不会自动使用未经验证的 Godot AI 新版本。
+- 不自动安装、启用或让模型自动调用第三方市场 Skill。
+- 静态扫描是启发式 Guardrail，不是沙箱，也不能证明 Prompt 没有恶意指令。
+- GitHub 导入只接受 owner/repo、ref 和子目录；ref 先固定为 commit，归档只从 `codeload.github.com` 下载。
 
 ## 卸载
 
@@ -263,6 +309,7 @@ pnpm check
 pnpm test
 pnpm build
 pnpm test:live
+pnpm market:build   # 维护者：按固定 commit 重建首批 Catalog（会访问 GitHub）
 ```
 
 `test:live` 会走真实的 `uvx → godot-ai → DSH MCP Client → Code Mode` 路径，但只执行只读检查，不会修改 Godot 项目。
@@ -271,7 +318,7 @@ pnpm test:live
 
 | 组件 | 版本 |
 | --- | --- |
-| dsh-godot-ai | `0.5.0` |
+| dsh-godot-ai | `0.6.0` |
 | DeepSeek Harness | `>=0.1.0-rc.8 <0.2.0` |
 | Node.js | `>=22.19.0` |
 | Godot AI | `3.1.5` |

@@ -14,7 +14,7 @@ describe('DSH bundle contract', () => {
       files: string[]
       peerDependencies: Record<string, string>
     }
-    expect(manifest.version).toBe('0.5.0')
+    expect(manifest.version).toBe('0.6.0')
     expect(manifest.dsh.bundle.patch).toBe('./cordis.patch.yml')
     expect(manifest.dsh.client.platform).toBe('web')
     expect(manifest.exports).toHaveProperty('.')
