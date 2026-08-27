@@ -241,6 +241,30 @@ describe('SkillMarketStore', () => {
     })
   })
 
+  it('lists, discards, and restores inspection staging without exposing arbitrary paths', async () => {
+    const inspectionId = '1'.repeat(36)
+    await mkdir(join(store.paths.staging, inspectionId))
+    await writeFile(join(store.paths.staging, inspectionId, 'inspection.json'), '{}')
+    await mkdir(join(store.paths.quarantine, inspectionId))
+    await writeFile(join(store.paths.quarantine, inspectionId, 'install.sh'), 'never run')
+
+    const moved = await store.discardInspection(inspectionId)
+    const trash = await store.listTrash()
+    expect(moved).toHaveLength(2)
+    expect(trash.map(item => [item.kind, item.originalName]).sort()).toEqual([
+      ['quarantine', inspectionId],
+      ['staging', inspectionId],
+    ].sort())
+    expect(await pathExists(join(store.paths.staging, inspectionId))).toBe(false)
+    expect(await pathExists(join(store.paths.quarantine, inspectionId))).toBe(false)
+
+    const staging = trash.find(item => item.kind === 'staging')!
+    await store.restoreTrash(staging.trashId)
+    expect(await pathExists(join(store.paths.staging, inspectionId))).toBe(true)
+    expect((await store.listTrash()).map(item => item.kind)).toEqual(['quarantine'])
+    await expect(store.discardInspection('../escape')).rejects.toThrow(/invalid inspection id/)
+  })
+
   it('keeps only the configured number of unique rollback revisions', async () => {
     store = new SkillMarketStore({ dshHome, now: () => now, historyLimit: 3 })
     for (let index = 1; index <= 5; index += 1) {

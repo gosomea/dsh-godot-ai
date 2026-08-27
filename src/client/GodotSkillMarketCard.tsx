@@ -90,6 +90,14 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
     })
   }
 
+  const continueInspection = (next: SkillInspection): void => {
+    void run(async () => {
+      setInspection(next)
+      setDiff(await api.diff(next.skillId))
+      setAcknowledgements({})
+    })
+  }
+
   const action = (value: Parameters<GodotSkillMarketApi['action']>[0]): void => {
     void run(async () => { await api.action(value); await load() })
   }
@@ -158,6 +166,19 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
                   : <Button disabled={busy || item.approvalHash === undefined || item.state !== 'ready'} onClick={() => action({ action: 'enable', skillId: id, approvalHash: item.approvalHash!, expectedRevision: state.market.revision })}>启用</Button>}
                 <Button variant="outline" disabled={busy} onClick={() => action({ action: 'uninstall', skillId: id, expectedRevision: state.market.revision })}>卸载</Button>
               </div>
+              {item.history.length === 0 ? null : (
+                <details className="dga-market-diff">
+                  <summary>历史版本（{item.history.length}）</summary>
+                  {item.history.map(revision => (
+                    <div className="dga-market-row" key={revision.artifactHash}>
+                      <span>{revision.version} · {revision.artifactHash.slice(0, 12)}</span>
+                      <Button variant="outline" disabled={busy} onClick={() => action({
+                        action: 'rollback', skillId: id, artifactHash: revision.artifactHash, expectedRevision: state.market.revision,
+                      })}>回滚（默认禁用）</Button>
+                    </div>
+                  ))}
+                </details>
+              )}
             </div>
           ))}
         </div>
@@ -186,6 +207,24 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
           <p className="dga-market-empty">更新不会自动激活；每个新版本都重新走 Inspect → Diff → Scan → Confirm。</p>
           <Button disabled={busy} onClick={() => action({ action: 'check-updates' })}>立即检查精选更新</Button>
           <Button variant="outline" disabled={busy} onClick={() => action({ action: 'gc' })}>清理过期暂存（可恢复）</Button>
+          {state?.inspections.filter(item => item.state === 'ready').map(item => (
+            <div className="dga-market-skill" key={item.inspectionId}>
+              <div className="dga-market-row"><strong>{item.skillId}</strong><span>{item.version} · 待确认</span></div>
+              <p>暂存至 {new Date(item.expiresAt).toLocaleString()}；确认前不会替换当前版本。</p>
+              <div className="dga-market-actions">
+                <Button disabled={busy} onClick={() => continueInspection(item)}>继续审阅</Button>
+                <Button variant="outline" disabled={busy} onClick={() => action({ action: 'discard-inspection', inspectionId: item.inspectionId })}>放弃暂存</Button>
+              </div>
+            </div>
+          ))}
+          {state !== undefined && state.market.trash.length > 0 ? <strong>可恢复回收站</strong> : null}
+          {state?.market.trash.map(item => (
+            <div className="dga-market-skill" key={item.trashId}>
+              <div className="dga-market-row"><strong>{item.kind}</strong><span>{item.originalName}</span></div>
+              <p>将在 {new Date(item.purgeAfter).toLocaleString()} 后永久清理。</p>
+              <Button variant="outline" disabled={busy} onClick={() => action({ action: 'restore-trash', trashId: item.trashId })}>恢复</Button>
+            </div>
+          ))}
         </div>
       )}
     </section>

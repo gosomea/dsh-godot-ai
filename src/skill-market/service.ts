@@ -11,7 +11,7 @@ import {
   type SkillRiskReport,
 } from './scanner.js'
 import { reviewRiskReport, type RiskAcknowledgement } from './approval.js'
-import { SkillMarketStore } from './store.js'
+import { SkillMarketStore, type SkillMarketTrashEntry } from './store.js'
 import type { InstalledSkillLock, InstalledSkillSource } from './lockfile.js'
 import type { CuratedSkillEntry, SkillCatalogVerifier } from './catalog.js'
 import type { CatalogRemoteClient } from './catalog-fetch.js'
@@ -38,6 +38,7 @@ export type SkillMarketAction =
   | { readonly action: 'uninstall'; readonly skillId: string; readonly expectedRevision?: number }
   | { readonly action: 'rollback'; readonly skillId: string; readonly artifactHash: string; readonly expectedRevision?: number }
   | { readonly action: 'restore-trash'; readonly trashId: string }
+  | { readonly action: 'discard-inspection'; readonly inspectionId: string }
   | { readonly action: 'check-updates' }
   | { readonly action: 'gc' }
 
@@ -66,6 +67,7 @@ export interface SkillMarketSnapshot {
   readonly installed: Readonly<Record<string, InstalledSkillLock>>
   readonly catalog: readonly CuratedSkillEntry[]
   readonly starterSkillIds: typeof STARTER_SKILL_IDS
+  readonly trash: readonly SkillMarketTrashEntry[]
   readonly securityBoundary: string
 }
 
@@ -163,6 +165,10 @@ export function parseSkillMarketAction(value: unknown): SkillMarketAction {
     if (typeof value.trashId !== 'string') throw new Error('trashId is invalid')
     return { action: 'restore-trash', trashId: value.trashId }
   }
+  if (value.action === 'discard-inspection') {
+    if (typeof value.inspectionId !== 'string' || !INSPECTION_ID.test(value.inspectionId)) throw new Error('inspectionId is invalid')
+    return { action: 'discard-inspection', inspectionId: value.inspectionId }
+  }
   if (value.action === 'check-updates' || value.action === 'gc') return { action: value.action }
   throw new Error(`unsupported Skill Market action ${value.action}`)
 }
@@ -205,9 +211,10 @@ export class SkillMarketService {
 
   async snapshot(): Promise<SkillMarketSnapshot> {
     await this.store.initialize()
-    const [lockfile, catalog] = await Promise.all([
+    const [lockfile, catalog, trash] = await Promise.all([
       this.store.readLockfile(),
       this.catalogVerifier?.readLastGoodCatalog(),
+      this.store.listTrash(),
     ])
     return {
       schemaVersion: 1,
@@ -216,6 +223,7 @@ export class SkillMarketService {
       installed: lockfile.installed,
       catalog: catalog?.skills ?? [],
       starterSkillIds: STARTER_SKILL_IDS,
+      trash,
       securityBoundary: '静态扫描是启发式 Guardrail，不是沙箱，也不能证明第三方 Skill 安全。',
     }
   }
@@ -283,7 +291,7 @@ export class SkillMarketService {
 
   async install(request: SkillInstallRequest): Promise<InstalledSkillLock> {
     const directory = this.inspectionDirectory(request.inspectionId)
-    return withFileLease(join(directory, '.inspection.lock'), async () => {
+    return withFileLease(this.store.inspectionLeasePath(request.inspectionId), async () => {
       const path = join(directory, 'inspection.json')
       const inspection = parseInspection(await readOptionalJson(path))
       if (inspection.state !== 'ready') throw new Error(`inspection ${request.inspectionId} is already ${inspection.state}`)
@@ -318,6 +326,7 @@ export class SkillMarketService {
     if (action.action === 'uninstall') return this.store.uninstall(action.skillId, action.expectedRevision)
     if (action.action === 'rollback') return this.store.rollback(action.skillId, action.artifactHash, action.expectedRevision)
     if (action.action === 'restore-trash') return this.store.restoreTrash(action.trashId)
+    if (action.action === 'discard-inspection') return this.store.discardInspection(action.inspectionId)
     if (action.action === 'gc') return this.store.garbageCollect()
     if (this.catalogRemote === undefined) throw new Error('Catalog updates are not configured')
     return this.catalogRemote.check({ force: true })

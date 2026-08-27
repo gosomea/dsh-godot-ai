@@ -151,6 +151,7 @@ describe('SkillMarketService inspect/install/action workflow', () => {
     expect(() => parseSkillInspectRequest({ source: { kind: 'url', url: 'file:///tmp/x' } })).toThrow(/unsupported/)
     expect(() => parseSkillInstallRequest({ inspectionId: '../escape', acknowledgements: [] })).toThrow(/inspectionId/)
     expect(() => parseSkillMarketAction({ action: 'enable', skillId: 'test-skill', approvalHash: 'bad' })).toThrow(/approvalHash/)
+    expect(() => parseSkillMarketAction({ action: 'discard-inspection', inspectionId: '../escape' })).toThrow(/inspectionId/)
     expect(() => parseSkillMarketAction({ action: 'delete-everything' })).toThrow(/unsupported/)
   })
 })

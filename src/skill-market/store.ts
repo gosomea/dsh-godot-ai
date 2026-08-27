@@ -71,14 +71,17 @@ export interface GarbageCollectionReport {
   readonly purgedTrash: readonly string[]
 }
 
-interface TrashMetadata {
+export interface SkillMarketTrashEntry {
   readonly schemaVersion: 1
+  readonly trashId: string
   readonly kind: 'artifact' | 'staging' | 'quarantine' | 'temporary'
   readonly originalName: string
   readonly artifactHash?: string
   readonly trashedAt: string
   readonly purgeAfter: string
 }
+
+type TrashMetadata = Omit<SkillMarketTrashEntry, 'trashId'>
 
 interface InspectionReference {
   readonly artifactHash: string
@@ -182,6 +185,13 @@ export class SkillMarketStore {
     assertSha256(artifactHash, 'artifactHash')
     const path = join(this.paths.artifacts, artifactHash)
     assertPathInside(this.paths.artifacts, path)
+    return path
+  }
+
+  inspectionLeasePath(inspectionId: string): string {
+    if (!/^[a-f0-9-]{36}$/.test(inspectionId)) throw new Error('invalid inspection id')
+    const path = join(this.paths.root, '.inspection-locks', `${inspectionId}.lock`)
+    assertPathInside(this.paths.root, path)
     return path
   }
 
@@ -487,6 +497,34 @@ export class SkillMarketStore {
       const purgedTrash = await this.purgeExpiredTrash()
       return { movedArtifacts, movedStaging, movedQuarantine, movedTemporaryEntries, purgedTrash }
     }))
+  }
+
+  async listTrash(): Promise<readonly SkillMarketTrashEntry[]> {
+    await this.initialize()
+    const output: SkillMarketTrashEntry[] = []
+    for (const entry of await readdir(this.paths.trash, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue
+      const directory = join(this.paths.trash, entry.name)
+      const metadata = parseTrashMetadata(await readOptionalJson(join(directory, 'trash.json')).catch(() => undefined))
+      if (metadata === undefined || !await pathExists(join(directory, 'payload'))) continue
+      output.push({ trashId: entry.name, ...metadata })
+    }
+    return output.sort((left, right) => right.trashedAt.localeCompare(left.trashedAt) || left.trashId.localeCompare(right.trashId, 'en'))
+  }
+
+  async discardInspection(inspectionId: string): Promise<readonly string[]> {
+    const leasePath = this.inspectionLeasePath(inspectionId)
+    await this.initialize()
+    return withFileLease(leasePath, () => this.exclusive(() => withFileLease(this.paths.mutationLock, async () => {
+      const staging = join(this.paths.staging, inspectionId)
+      assertPathInside(this.paths.staging, staging)
+      if (!await pathExists(staging)) throw new Error(`inspection ${inspectionId} is missing`)
+      const moved = [await this.moveToTrash(staging, 'staging', inspectionId)]
+      const quarantine = join(this.paths.quarantine, inspectionId)
+      assertPathInside(this.paths.quarantine, quarantine)
+      if (await pathExists(quarantine)) moved.push(await this.moveToTrash(quarantine, 'quarantine', inspectionId))
+      return moved
+    })))
   }
 
   async restoreTrash(trashId: string): Promise<void> {
