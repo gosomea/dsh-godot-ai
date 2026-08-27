@@ -31,11 +31,15 @@ export function assertPathInside(root: string, target: string): void {
 }
 
 export async function atomicWriteJson(path: string, value: unknown): Promise<void> {
+  await atomicWriteFile(path, Buffer.from(`${JSON.stringify(value, null, 2)}\n`, 'utf8'))
+}
+
+export async function atomicWriteFile(path: string, bytes: Uint8Array): Promise<void> {
   await mkdir(dirname(path), { recursive: true })
   const temporary = join(dirname(path), `.${basename(path)}.${process.pid}.${randomUUID()}.tmp`)
   const handle = await open(temporary, 'wx', 0o600)
   try {
-    await handle.writeFile(`${JSON.stringify(value, null, 2)}\n`, 'utf8')
+    await handle.writeFile(bytes)
     await handle.sync()
     await handle.close()
     await rename(temporary, path)

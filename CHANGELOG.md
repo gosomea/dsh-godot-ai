@@ -9,6 +9,8 @@
 - 增加完整性校验回滚、缺失 Artifact 的 fail-closed 启动恢复、30 分钟 inspection TTL、可恢复 trash、七天后清理和 symlink 拒绝测试。
 - 增加确定性的 Prompt / 文件风险扫描、稳定 finding/report/approval hash、critical 硬阻断和 high 逐条确认。
 - 增加扫描规则升级时的 fail-closed 重审生命周期，并把第三方 scripts、hooks、bin 和可执行文件隔离到永不执行的 quarantine。
+- 增加 Ed25519 多 key Catalog 信任根、零状态 hash pin、单调 serial 防回滚/防歧义、过期与未来时间窗，以及并发 last-good 状态保护。
+- 增加 24 小时 ETag Catalog 更新和固定 commit GitHub Import；归档仅从 codeload 获取，并限制重定向、大小、文件数、路径穿越和链接。
 
 ## 0.5.0 - 2026-08-26
 
