@@ -65,13 +65,14 @@ export interface InstallReviewedSkillInput {
 export interface GarbageCollectionReport {
   readonly movedArtifacts: readonly string[]
   readonly movedStaging: readonly string[]
+  readonly movedQuarantine: readonly string[]
   readonly movedTemporaryEntries: readonly string[]
   readonly purgedTrash: readonly string[]
 }
 
 interface TrashMetadata {
   readonly schemaVersion: 1
-  readonly kind: 'artifact' | 'staging' | 'temporary'
+  readonly kind: 'artifact' | 'staging' | 'quarantine' | 'temporary'
   readonly originalName: string
   readonly artifactHash?: string
   readonly trashedAt: string
@@ -127,7 +128,7 @@ function uniqueHistory(history: readonly InstalledSkillRevision[], limit: number
 
 function parseTrashMetadata(value: unknown): TrashMetadata | undefined {
   if (!isRecord(value) || value.schemaVersion !== 1) return undefined
-  if (!['artifact', 'staging', 'temporary'].includes(String(value.kind))) return undefined
+  if (!['artifact', 'staging', 'quarantine', 'temporary'].includes(String(value.kind))) return undefined
   if (typeof value.originalName !== 'string' || typeof value.trashedAt !== 'string' || typeof value.purgeAfter !== 'string') return undefined
   if (basename(value.originalName) !== value.originalName || value.originalName.length === 0) return undefined
   if (value.artifactHash !== undefined && (typeof value.artifactHash !== 'string' || !SHA256.test(value.artifactHash))) return undefined
@@ -455,15 +456,25 @@ export class SkillMarketStore {
         for (const revision of installed.history) live.add(revision.artifactHash)
       }
       const movedStaging: string[] = []
+      const liveInspectionIds = new Set<string>()
       for (const entry of await readdir(this.paths.staging, { withFileTypes: true })) {
         if (!entry.isDirectory()) continue
         const directory = join(this.paths.staging, entry.name)
         const reference = await this.readLiveInspectionReference(directory)
-        if (reference !== undefined) live.add(reference.artifactHash)
+        if (reference !== undefined) {
+          live.add(reference.artifactHash)
+          liveInspectionIds.add(entry.name)
+        }
         else {
           await this.moveToTrash(directory, 'staging', entry.name)
           movedStaging.push(entry.name)
         }
+      }
+      const movedQuarantine: string[] = []
+      for (const entry of await readdir(this.paths.quarantine, { withFileTypes: true })) {
+        if (!entry.isDirectory() || liveInspectionIds.has(entry.name)) continue
+        await this.moveToTrash(join(this.paths.quarantine, entry.name), 'quarantine', entry.name)
+        movedQuarantine.push(entry.name)
       }
       const movedTemporaryEntries = await this.moveArtifactTemporariesToTrash()
       const movedArtifacts: string[] = []
@@ -473,7 +484,7 @@ export class SkillMarketStore {
         movedArtifacts.push(entry.name)
       }
       const purgedTrash = await this.purgeExpiredTrash()
-      return { movedArtifacts, movedStaging, movedTemporaryEntries, purgedTrash }
+      return { movedArtifacts, movedStaging, movedQuarantine, movedTemporaryEntries, purgedTrash }
     }))
   }
 
@@ -493,6 +504,7 @@ export class SkillMarketStore {
         }
         destination = this.artifactPath(metadata.artifactHash)
       } else if (metadata.kind === 'staging') destination = join(this.paths.staging, metadata.originalName)
+      else if (metadata.kind === 'quarantine') destination = join(this.paths.quarantine, metadata.originalName)
       else destination = join(this.paths.artifacts, metadata.originalName)
       if (await pathExists(destination)) throw new Error(`restore destination already exists: ${destination}`)
       await rename(payload, destination)

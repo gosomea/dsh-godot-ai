@@ -16,7 +16,7 @@ import { loadBundledGodotSkills } from './skills.js'
 import { installToolNameCompatibility } from './tool-name-compat.js'
 import { loadWorkflowCatalog } from './workflows.js'
 import { GODOT_ADAPTIVE_PRESET_ID, GODOT_PRESET_ID } from '../core/types.js'
-import { MarketSkillProvider } from '../skill-market/provider.js'
+import { StoreBackedMarketSkillProvider } from '../skill-market/provider.js'
 
 export const name = 'dsh-godot-ai/agent'
 export const inject = ['skills', 'systemPrompt', 'tools']
@@ -33,7 +33,7 @@ export async function apply(ctx: Context, config: Config = {}): Promise<void> {
     loadBundledGodotSkills(),
   ])
   ctx.skills.registerProvider(() => new BundledGodotSkillProvider(skills))
-  ctx.skills.registerProvider(() => new MarketSkillProvider())
+  ctx.skills.registerProvider(() => new StoreBackedMarketSkillProvider())
   ctx.tools.presentAs('code')
   ctx.systemPrompt.section({
     name: 'godot-ai:creator-mode',

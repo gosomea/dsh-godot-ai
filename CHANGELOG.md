@@ -11,6 +11,8 @@
 - 增加扫描规则升级时的 fail-closed 重审生命周期，并把第三方 scripts、hooks、bin 和可执行文件隔离到永不执行的 quarantine。
 - 增加 Ed25519 多 key Catalog 信任根、零状态 hash pin、单调 serial 防回滚/防歧义、过期与未来时间窗，以及并发 last-good 状态保护。
 - 增加 24 小时 ETag Catalog 更新和固定 commit GitHub Import；归档仅从 codeload 获取，并限制重定向、大小、文件数、路径穿越和链接。
+- 增加 Store-backed 市场 Provider：只暴露已启用、当前扫描规则、批准有效且哈希完整的用户调用 Skill，并避免跨进程状态被 DSH 长期缓存。
+- 增加五路由 Host API 的后端闭环：GitHub/精选 Inspect、风险确认、一次性 Install、Enable/Disable/Rollback/GC 等 action，以及 inspection/quarantine TTL 回收。
 
 ## 0.5.0 - 2026-08-26
 

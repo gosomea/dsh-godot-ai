@@ -9,6 +9,8 @@ import { loadCompatibilityManifest } from './core/compatibility.js'
 import { GodotIntegrationManager } from './host/integration-manager.js'
 import { ManagedPresetManager } from './host/preset-manager.js'
 import { registerAdaptiveRoute, registerIntegrationRoutes, registerManagedPresetRoutes, registerPresetRoutes } from './host/routes.js'
+import { registerSkillMarketRoutes } from './host/skill-market-routes.js'
+import { SkillMarketService } from './skill-market/service.js'
 
 export * from './core/types.js'
 export * from './core/compatibility.js'
@@ -18,6 +20,7 @@ export * from './skill-market/approval.js'
 export * from './skill-market/catalog.js'
 export * from './skill-market/catalog-fetch.js'
 export * from './skill-market/github-import.js'
+export * from './skill-market/service.js'
 export * from './skill-market/preparation.js'
 export * from './skill-market/scanner.js'
 
@@ -57,12 +60,15 @@ export async function apply(ctx: Context): Promise<void> {
     displayName: 'Godot Creator Adaptive',
   })
   const integration = new GodotIntegrationManager(compatibility, wrapperVersion)
+  const skillMarket = new SkillMarketService()
+  await skillMarket.initialize()
   ctx.effect(() => {
     const disposers = [
       registerPresetRoutes(ctx.webServer, manager),
       registerManagedPresetRoutes(ctx.webServer, adaptiveManager, ADAPTIVE_PRESET_API_PREFIX),
       registerAdaptiveRoute(ctx.webServer, ctx.agents),
       registerIntegrationRoutes(ctx.webServer, integration),
+      registerSkillMarketRoutes(ctx.webServer, skillMarket),
     ]
     return () => { for (const dispose of disposers.reverse()) dispose() }
   }, 'dsh-godot-ai: local management routes')
