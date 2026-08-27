@@ -3,7 +3,7 @@ import type { FormEvent, ReactNode } from 'react'
 import type { PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import { Button } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { RiskAcknowledgementKind } from '../skill-market/approval.js'
-import type { SkillInspection } from '../skill-market/service.js'
+import type { SkillInspection, SkillMarketDiffSummary } from '../skill-market/service.js'
 import { GodotSkillMarketApi, type SkillMarketStateResponse } from './api.js'
 
 type Tab = 'installed' | 'curated' | 'github' | 'updates'
@@ -22,6 +22,7 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string>()
   const [inspection, setInspection] = useState<SkillInspection>()
+  const [diff, setDiff] = useState<SkillMarketDiffSummary>()
   const [acknowledgements, setAcknowledgements] = useState<Record<string, RiskAcknowledgementKind>>({})
   const [owner, setOwner] = useState('')
   const [repo, setRepo] = useState('')
@@ -55,6 +56,7 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
     void run(async () => {
       const next = await api.inspect({ source: { kind: 'curated', skillId } })
       setInspection(next)
+      setDiff(await api.diff(next.skillId))
       setAcknowledgements({})
     })
   }
@@ -64,6 +66,7 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
     void run(async () => {
       const next = await api.inspect({ source: { kind: 'github', owner, repo, ref, subdir } })
       setInspection(next)
+      setDiff(await api.diff(next.skillId))
       setAcknowledgements({})
     })
   }
@@ -80,6 +83,7 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
         ...state === undefined ? {} : { expectedRevision: state.market.revision },
       })
       setInspection(undefined)
+      setDiff(undefined)
       setAcknowledgements({})
       await load()
       setTab('installed')
@@ -115,6 +119,13 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
             <span data-severity="high">high {inspection.report.summary.high}</span>
             <span>medium {inspection.report.summary.medium}</span><span>low {inspection.report.summary.low}</span>
           </div>
+          {diff?.diff === undefined ? null : (
+            <details className="dga-market-diff" open>
+              <summary>变更：{diff.diff.changedFiles} 个文件 · +{diff.diff.additions} / -{diff.diff.deletions}{diff.diff.truncated ? ' · 已截断' : ''}</summary>
+              <pre>{diff.diff.patch || '文件内容没有变化。'}</pre>
+              {diff.diff.omittedFiles > 0 ? <p>另有 {diff.diff.omittedFiles} 个文件未在响应中展开。</p> : null}
+            </details>
+          )}
           {inspection.report.findings.map(finding => (
             <div className="dga-finding" key={finding.findingId} data-severity={finding.severity}>
               <div><strong>{finding.severity} · {finding.ruleId}</strong><span>{finding.file}:{finding.line}</span></div>
@@ -130,7 +141,7 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
             </div>
           ))}
           <div className="dga-market-actions">
-            <Button variant="outline" onClick={() => setInspection(undefined)}>取消</Button>
+            <Button variant="outline" onClick={() => { setInspection(undefined); setDiff(undefined) }}>取消</Button>
             <Button disabled={busy || inspection.report.blocked || !reviewComplete} onClick={install}>安装（默认禁用）</Button>
           </div>
         </div>

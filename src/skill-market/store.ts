@@ -27,6 +27,7 @@ import {
   type SkillRiskApproval,
 } from './approval.js'
 import { verifyRiskReport, type SkillRiskReport } from './scanner.js'
+import { ArtifactDiffCache } from './diff.js'
 
 const SHA256 = /^[a-f0-9]{64}$/
 const SKILL_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -607,6 +608,9 @@ export class SkillMarketStore {
       const purgeAfter = Date.parse(metadata.purgeAfter)
       if (Number.isNaN(purgeAfter) || purgeAfter > this.now().getTime()) continue
       assertPathInside(this.paths.trash, directory)
+      if (metadata.kind === 'artifact' && metadata.artifactHash !== undefined) {
+        await new ArtifactDiffCache(this.paths.diffCache, { now: this.now }).removeReferencing(metadata.artifactHash)
+      }
       await rm(directory, { recursive: true, force: true })
       purged.push(entry.name)
     }

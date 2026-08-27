@@ -19,6 +19,7 @@ import type {
   SkillInstallRequest,
   SkillMarketAction,
   SkillMarketSnapshot,
+  SkillMarketDiffSummary,
 } from '../skill-market/service.js'
 import type { InstalledSkillLock } from '../skill-market/lockfile.js'
 
@@ -118,6 +119,11 @@ export class GodotSkillMarketApi {
       method: 'POST', body: JSON.stringify(request),
     })
     return body.inspection
+  }
+
+  async diff(skillId: string): Promise<SkillMarketDiffSummary> {
+    const body = await requestSkillMarket<{ diff: SkillMarketDiffSummary }>(`/diff/${encodeURIComponent(skillId)}`)
+    return body.diff
   }
 
   async install(request: SkillInstallRequest): Promise<InstalledSkillLock> {

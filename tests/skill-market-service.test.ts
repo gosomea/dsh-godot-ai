@@ -110,6 +110,43 @@ describe('SkillMarketService inspect/install/action workflow', () => {
     expect(await readdir(store.paths.quarantine)).toEqual([])
   })
 
+  it('diffs the active Artifact against a ready update inspection and reuses the hash-pair cache', async () => {
+    const firstService = new SkillMarketService({
+      store,
+      github: fakeGitHub('---\nname: test-skill\ndescription: Safe.\n---\nOld game feel guidance.'),
+      now: () => now,
+    })
+    const firstInspection = await firstService.inspect(request)
+    const acknowledgements = firstInspection.report.findings
+      .filter(finding => finding.severity === 'high' || finding.severity === 'medium')
+      .map(finding => ({ findingId: finding.findingId, kind: 'accepted-risk' as const }))
+    const installed = await firstService.install({ inspectionId: firstInspection.inspectionId, acknowledgements })
+
+    now = new Date(now.getTime() + 1_000)
+    const updateService = new SkillMarketService({
+      store,
+      github: fakeGitHub('---\nname: test-skill\ndescription: Safe.\n---\nNew game feel guidance.'),
+      now: () => now,
+    })
+    const updateInspection = await updateService.inspect(request)
+    const firstDiff = await updateService.diffSummary('test-skill')
+    const cachedDiff = await updateService.diffSummary('test-skill')
+
+    expect(firstDiff).toMatchObject({
+      skillId: 'test-skill',
+      oldArtifactHash: installed.activeArtifactHash,
+      newArtifactHash: updateInspection.artifactHash,
+      inspectionId: updateInspection.inspectionId,
+      changed: true,
+      cacheHit: false,
+      diff: { changedFiles: 1, truncated: false },
+    })
+    expect(firstDiff.diff?.patch).toContain('-Old game feel guidance.')
+    expect(firstDiff.diff?.patch).toContain('+New game feel guidance.')
+    expect(cachedDiff.cacheHit).toBe(true)
+    expect(cachedDiff.diff).toEqual(firstDiff.diff)
+  })
+
   it('rejects malformed request unions before side effects', () => {
     expect(() => parseSkillInspectRequest({ source: { kind: 'url', url: 'file:///tmp/x' } })).toThrow(/unsupported/)
     expect(() => parseSkillInstallRequest({ inspectionId: '../escape', acknowledgements: [] })).toThrow(/inspectionId/)

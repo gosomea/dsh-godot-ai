@@ -78,4 +78,27 @@ describe('Skill Market host routes', () => {
     expect(malformed.output.status).toBe(400)
     expect(service.action).not.toHaveBeenCalled()
   })
+
+  it('serves only one encoded Skill id from the bounded diff route', async () => {
+    const routes: WebRoute[] = []
+    const webServer = { register: (route: WebRoute) => { routes.push(route); return () => undefined } } as unknown as WebServer
+    const service = {
+      snapshot: vi.fn(), inspections: vi.fn(),
+      diffSummary: vi.fn(async skillId => ({ skillId, changed: true, diff: { patch: '+safe' } })),
+      inspect: vi.fn(), install: vi.fn(), action: vi.fn(),
+    } as unknown as SkillMarketService
+    registerSkillMarketRoutes(webServer, service)
+    const diffRoute = routes.find(route => route.path.endsWith('/diff'))!
+
+    const valid = response()
+    await diffRoute.handler(request('GET', `${diffRoute.path}/game-feel`), valid.res)
+    expect(valid.output.status).toBe(200)
+    expect(service.diffSummary).toHaveBeenCalledWith('game-feel')
+    expect(JSON.parse(valid.output.body)).toMatchObject({ diff: { skillId: 'game-feel', changed: true } })
+
+    const nested = response()
+    await diffRoute.handler(request('GET', `${diffRoute.path}/game-feel/escape`), nested.res)
+    expect(nested.output.status).toBe(400)
+    expect(service.diffSummary).toHaveBeenCalledTimes(1)
+  })
 })

@@ -16,6 +16,7 @@ import type { InstalledSkillLock, InstalledSkillSource } from './lockfile.js'
 import type { CuratedSkillEntry, SkillCatalogVerifier } from './catalog.js'
 import type { CatalogRemoteClient } from './catalog-fetch.js'
 import { SKILL_MARKET_API_PREFIX } from '../core/types.js'
+import { ArtifactDiffCache, diffArtifactDirectories, type ArtifactDiff } from './diff.js'
 
 export { SKILL_MARKET_API_PREFIX }
 export const STARTER_SKILL_IDS = ['game-feel', 'game-ui-ux', 'game-ui-design'] as const
@@ -76,6 +77,8 @@ export interface SkillMarketDiffSummary {
   readonly inspectionId?: string
   readonly riskReportHash?: string
   readonly findings?: SkillRiskReport['summary']
+  readonly diff?: ArtifactDiff
+  readonly cacheHit?: boolean
 }
 
 export interface SkillMarketServiceOptions {
@@ -183,6 +186,7 @@ export class SkillMarketService {
   private readonly catalogRemote: CatalogRemoteClient | undefined
   private readonly now: () => Date
   private readonly inspectionTtlMs: number
+  private readonly diffCache: ArtifactDiffCache
 
   constructor(options: SkillMarketServiceOptions = {}) {
     this.store = options.store ?? new SkillMarketStore()
@@ -191,6 +195,7 @@ export class SkillMarketService {
     this.catalogRemote = options.catalogRemote
     this.now = options.now ?? (() => new Date())
     this.inspectionTtlMs = options.inspectionTtlMs ?? 30 * 60_000
+    this.diffCache = new ArtifactDiffCache(this.store.paths.diffCache, { now: this.now })
   }
 
   async initialize(): Promise<void> {
@@ -331,21 +336,34 @@ export class SkillMarketService {
 
   async diffSummary(requestedSkillId: string): Promise<SkillMarketDiffSummary> {
     const id = skillId(requestedSkillId)
+    await this.store.initialize()
     const [lockfile, inspections] = await Promise.all([this.store.readLockfile(), this.inspections()])
     const current = lockfile.installed[id]
     const staged = inspections
       .filter(inspection => inspection.skillId === id && inspection.state === 'ready' && Date.parse(inspection.expiresAt) > this.now().getTime())
       .sort((left, right) => right.createdAt.localeCompare(left.createdAt))[0]
-    return {
+    if (staged === undefined) return {
       skillId: id,
       ...current === undefined ? {} : { oldArtifactHash: current.activeArtifactHash },
-      ...staged === undefined ? {} : {
-        newArtifactHash: staged.artifactHash,
-        inspectionId: staged.inspectionId,
-        riskReportHash: staged.report.riskReportHash,
-        findings: staged.report.summary,
-      },
-      changed: staged !== undefined && staged.artifactHash !== current?.activeArtifactHash,
+      changed: false,
+    }
+    const oldArtifactHash = current?.activeArtifactHash
+    const cached = await this.diffCache.getOrCreate(oldArtifactHash, staged.artifactHash, async () => diffArtifactDirectories(
+      current === undefined ? undefined : this.store.artifactPath(current.activeArtifactHash),
+      join(this.store.paths.staging, staged.inspectionId, 'resource'),
+      oldArtifactHash,
+      staged.artifactHash,
+    ))
+    return {
+      skillId: id,
+      ...oldArtifactHash === undefined ? {} : { oldArtifactHash },
+      newArtifactHash: staged.artifactHash,
+      inspectionId: staged.inspectionId,
+      riskReportHash: staged.report.riskReportHash,
+      findings: staged.report.summary,
+      changed: staged.artifactHash !== oldArtifactHash,
+      diff: cached.diff,
+      cacheHit: cached.cacheHit,
     }
   }
 

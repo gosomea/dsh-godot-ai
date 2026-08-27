@@ -60,7 +60,7 @@
     "build": "pnpm clean && tsc -p tsconfig.json && tsdown",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "test:capability:static": "vitest run tests/adaptive-routing.test.ts tests/adaptive-state.test.ts tests/tool-name-compat.test.ts tests/compatibility.test.ts tests/package-contract.test.ts tests/preset-manager.test.ts tests/skills.test.ts tests/skill-providers.test.ts tests/skill-store-provider.test.ts tests/skill-market-contracts.test.ts tests/skill-market-store.test.ts tests/skill-market-scanner.test.ts tests/skill-market-rescan.test.ts tests/skill-market-preparation.test.ts tests/skill-market-catalog.test.ts tests/skill-market-github-import.test.ts tests/skill-market-service.test.ts tests/skill-market-routes.test.ts tests/skill-market-card.test.tsx tests/workflows.test.ts",
+    "test:capability:static": "vitest run tests/adaptive-routing.test.ts tests/adaptive-state.test.ts tests/tool-name-compat.test.ts tests/compatibility.test.ts tests/package-contract.test.ts tests/preset-manager.test.ts tests/skills.test.ts tests/skill-providers.test.ts tests/skill-store-provider.test.ts tests/skill-market-contracts.test.ts tests/skill-market-store.test.ts tests/skill-market-scanner.test.ts tests/skill-market-rescan.test.ts tests/skill-market-preparation.test.ts tests/skill-market-catalog.test.ts tests/skill-market-github-import.test.ts tests/skill-market-diff.test.ts tests/skill-market-service.test.ts tests/skill-market-routes.test.ts tests/skill-market-card.test.tsx tests/workflows.test.ts",
     "test:capability:live": "node validation/plugin-capability-smoke.mjs",
     "test:capability": "pnpm test:capability:static && pnpm test:capability:live",
     "test:live": "vitest run tests/live-agent.test.ts",

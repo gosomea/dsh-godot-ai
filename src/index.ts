@@ -19,6 +19,7 @@ export { ManagedPresetManager, type ManagedPresetManagerOptions, type PresetRost
 export * from './skill-market/approval.js'
 export * from './skill-market/catalog.js'
 export * from './skill-market/catalog-fetch.js'
+export * from './skill-market/diff.js'
 export * from './skill-market/github-import.js'
 export * from './skill-market/service.js'
 export * from './skill-market/preparation.js'
