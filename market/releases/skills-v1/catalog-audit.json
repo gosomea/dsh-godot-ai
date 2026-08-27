@@ -1,0 +1,440 @@
+{
+  "schemaVersion": 1,
+  "catalogSerial": 1,
+  "reviewedAt": "2026-08-27T00:00:00.000Z",
+  "scannerRulesVersion": "2026-08-27.1",
+  "entries": [
+    {
+      "id": "higgsfield-game-generation",
+      "source": {
+        "owner": "higgsfield-ai",
+        "repo": "skills",
+        "ref": "9db2e5bf22ff93d0bffb48664a8d0d6bb417082c",
+        "commit": "9db2e5bf22ff93d0bffb48664a8d0d6bb417082c",
+        "subdir": "higgsfield-game-generation"
+      },
+      "decision": "moved",
+      "installable": false,
+      "audited": true,
+      "downloadedBytes": 491527,
+      "expandedBytes": 1382400,
+      "sourceArtifactSha256": "338c2db253e2e390aa09194bd7d19f4090b6a98d617b535fbf9fac3af9434310",
+      "preparedArtifactSha256": "c7de00488e3707ae4607f3eacc025f9c7bd3a288e165240bff037b33fb10b204",
+      "manifestSha256": "4b37dceaac89a3a228ed84bbdb737da6c34ee09e1e7fa7b3c8bb23f23cb006d5",
+      "resourceFiles": [
+        "SKILL.md",
+        "references/2d-animation.md",
+        "references/3d-animation.md",
+        "references/audio.md",
+        "references/game-design-system.md",
+        "references/meshy-api.md",
+        "references/meshy-input-rules.md",
+        "references/procedural-animation.md",
+        "references/stylization.md",
+        "references/textures.md"
+      ],
+      "quarantinedFiles": [
+        "scripts/fbx2glb.py",
+        "scripts/glb_inspect.py",
+        "scripts/glb_merge_anims.py",
+        "scripts/glb_patch.py",
+        "scripts/merge_anim_glbs.py",
+        "scripts/pipeline.py",
+        "scripts/proc_anim_dragon.py",
+        "scripts/proc_rig_dragon.py",
+        "scripts/proc_weights.py",
+        "scripts/rig_transfer.py",
+        "scripts/seamless.py"
+      ],
+      "risk": {
+        "scannerRulesVersion": "2026-08-27.1",
+        "riskReportHash": "59307725acb1894d71876969ee9f17ce9e74c5bb9767664a9355df7a31c7f61c",
+        "summary": {
+          "low": 7,
+          "medium": 27,
+          "high": 23,
+          "critical": 1
+        },
+        "blocked": true
+      }
+    },
+    {
+      "id": "game-engine",
+      "source": {
+        "owner": "github",
+        "repo": "awesome-copilot",
+        "ref": "634b92f887487fc61cddc2f61d77830e09e8f589",
+        "commit": "634b92f887487fc61cddc2f61d77830e09e8f589",
+        "subdir": "skills/game-engine"
+      },
+      "decision": "optional",
+      "installable": false,
+      "audited": false,
+      "reason": "response exceeds 16777216 bytes"
+    },
+    {
+      "id": "multiplayer-game",
+      "source": {
+        "owner": "rivet-dev",
+        "repo": "skills",
+        "ref": "ba5d3db3d7489cfc6190fd0de45b96e3787e1ea3",
+        "commit": "ba5d3db3d7489cfc6190fd0de45b96e3787e1ea3",
+        "subdir": "multiplayer-game"
+      },
+      "decision": "blocked",
+      "installable": false,
+      "audited": true,
+      "downloadedBytes": 1707532,
+      "expandedBytes": 7249920,
+      "sourceArtifactSha256": "2425b2b79c2f1e48fff1991bd55248466b0c65b11f1fa154cb954e1bbe4b52a0",
+      "preparedArtifactSha256": "2425b2b79c2f1e48fff1991bd55248466b0c65b11f1fa154cb954e1bbe4b52a0",
+      "manifestSha256": "f22a6cb4c2083676046dc37618624ff133b7eaae8f9f99784b380d1fe870ca7c",
+      "resourceFiles": [
+        "BASE_SKILL.md",
+        "SKILL.md",
+        "index.json",
+        "openapi.json",
+        "reference/actors/access-control.md",
+        "reference/actors/actions.md",
+        "reference/actors/actor-runtime-socket.md",
+        "reference/actors/appearance.md",
+        "reference/actors/authentication.md",
+        "reference/actors/communicating-between-actors.md",
+        "reference/actors/connections.md",
+        "reference/actors/debugging.md",
+        "reference/actors/design-patterns.md",
+        "reference/actors/destroy.md",
+        "reference/actors/errors.md",
+        "reference/actors/events.md",
+        "reference/actors/fetch-and-websocket-handler.md",
+        "reference/actors/helper-types.md",
+        "reference/actors/http-api.md",
+        "reference/actors/input.md",
+        "reference/actors/inspector-tabs.md",
+        "reference/actors/keys.md",
+        "reference/actors/kv.md",
+        "reference/actors/lifecycle.md",
+        "reference/actors/limits.md",
+        "reference/actors/metadata.md",
+        "reference/actors/queues.md",
+        "reference/actors/quickstart/backend.md",
+        "reference/actors/quickstart/cloudflare.md",
+        "reference/actors/quickstart/effect.md",
+        "reference/actors/quickstart/next-js.md",
+        "reference/actors/quickstart/react.md",
+        "reference/actors/quickstart/rust.md",
+        "reference/actors/quickstart/supabase.md",
+        "reference/actors/request-handler.md",
+        "reference/actors/scaling.md",
+        "reference/actors/schedule.md",
+        "reference/actors/sharing-and-joining-state.md",
+        "reference/actors/sqlite-drizzle.md",
+        "reference/actors/sqlite.md",
+        "reference/actors/state.md",
+        "reference/actors/statuses.md",
+        "reference/actors/testing.md",
+        "reference/actors/troubleshooting.md",
+        "reference/actors/types.md",
+        "reference/actors/versions.md",
+        "reference/actors/websocket-handler.md",
+        "reference/actors/workflows.md",
+        "reference/cli.md",
+        "reference/clients/javascript.md",
+        "reference/clients/react.md",
+        "reference/clients/rust.md",
+        "reference/clients/swift.md",
+        "reference/clients/swiftui.md",
+        "reference/cookbook/ai-agent.md",
+        "reference/cookbook/chat-room.md",
+        "reference/cookbook/collaborative-text-editor.md",
+        "reference/cookbook/cron-jobs.md",
+        "reference/cookbook/live-cursors.md",
+        "reference/cookbook/multiplayer-game.md",
+        "reference/cookbook/per-tenant-database.md",
+        "reference/cookbook/vpc-air-gapped.md",
+        "reference/deploy/aws-ecs.md",
+        "reference/deploy/aws-lambda.md",
+        "reference/deploy/cloudflare.md",
+        "reference/deploy/container-runner.md",
+        "reference/deploy/freestyle.md",
+        "reference/deploy/gcp-cloud-run.md",
+        "reference/deploy/hetzner.md",
+        "reference/deploy/kubernetes.md",
+        "reference/deploy/railway.md",
+        "reference/deploy/rivet-compute.md",
+        "reference/deploy/supabase.md",
+        "reference/deploy/vercel.md",
+        "reference/deploy/vm-and-bare-metal.md",
+        "reference/general/actor-configuration.md",
+        "reference/general/cors.md",
+        "reference/general/docs-for-llms.md",
+        "reference/general/edge.md",
+        "reference/general/endpoints.md",
+        "reference/general/environment-variables.md",
+        "reference/general/http-server.md",
+        "reference/general/logging.md",
+        "reference/general/pool-configuration.md",
+        "reference/general/production-checklist.md",
+        "reference/general/registry-configuration.md",
+        "reference/general/runtime-modes.md",
+        "reference/general/wasm-vs-native-sdk.md",
+        "reference/self-hosting/configuration.md",
+        "reference/self-hosting/docker-compose.md",
+        "reference/self-hosting/docker-container.md",
+        "reference/self-hosting/filesystem.md",
+        "reference/self-hosting/foundationdb.md",
+        "reference/self-hosting/install.md",
+        "reference/self-hosting/kubernetes.md",
+        "reference/self-hosting/multi-region.md",
+        "reference/self-hosting/postgres.md",
+        "reference/self-hosting/production-checklist.md",
+        "reference/self-hosting/railway.md",
+        "reference/self-hosting/render.md",
+        "reference/self-hosting/tls.md"
+      ],
+      "quarantinedFiles": [],
+      "risk": {
+        "scannerRulesVersion": "2026-08-27.1",
+        "riskReportHash": "4ff2a0a79678be7b7e5fb40a031575e6347c3326a7a57dc401f1ce3cafdc92e1",
+        "summary": {
+          "low": 337,
+          "medium": 150,
+          "high": 13,
+          "critical": 0
+        },
+        "blocked": false
+      }
+    },
+    {
+      "id": "game-developer",
+      "source": {
+        "owner": "Jeffallan",
+        "repo": "claude-skills",
+        "ref": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+        "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+        "subdir": "skills/game-developer"
+      },
+      "decision": "optional",
+      "installable": true,
+      "audited": true,
+      "downloadedBytes": 2091731,
+      "expandedBytes": 6246400,
+      "sourceArtifactSha256": "00a6cc4c6a33d1b1df53f8e379d27a3c53148e8e0ed85224382becffe0177d27",
+      "preparedArtifactSha256": "00a6cc4c6a33d1b1df53f8e379d27a3c53148e8e0ed85224382becffe0177d27",
+      "manifestSha256": "89297efd2a6ba43237bd711d41d5d8bc50241954fe535d413bc08a1c345bc176",
+      "resourceFiles": [
+        "SKILL.md",
+        "references/ecs-patterns.md",
+        "references/multiplayer-networking.md",
+        "references/performance-optimization.md",
+        "references/unity-patterns.md",
+        "references/unreal-cpp.md"
+      ],
+      "quarantinedFiles": [],
+      "risk": {
+        "scannerRulesVersion": "2026-08-27.1",
+        "riskReportHash": "028a7cd6888a05fdd3bd42a46106c7e82ca85a7b594a6f3b739eb40390834554",
+        "summary": {
+          "low": 2,
+          "medium": 2,
+          "high": 0,
+          "critical": 0
+        },
+        "blocked": false
+      }
+    },
+    {
+      "id": "game-ui-design",
+      "source": {
+        "owner": "omer-metin",
+        "repo": "skills-for-antigravity",
+        "ref": "e8dcf4e8737921a10088bd5c9eb65e81f74c051f",
+        "commit": "e8dcf4e8737921a10088bd5c9eb65e81f74c051f",
+        "subdir": "skills/game-ui-design"
+      },
+      "decision": "recommended",
+      "installable": true,
+      "audited": true,
+      "downloadedBytes": 4384877,
+      "expandedBytes": 16599040,
+      "sourceArtifactSha256": "a8052e029e9ef449c5927280906a3455df798bb2185ad0870e16f9806027b426",
+      "preparedArtifactSha256": "a8052e029e9ef449c5927280906a3455df798bb2185ad0870e16f9806027b426",
+      "manifestSha256": "24797d586cf7de743c930295a2be7356bda42031177f8de9d53855f99822a940",
+      "resourceFiles": [
+        "SKILL.md",
+        "references/patterns.md",
+        "references/sharp_edges.md",
+        "references/validations.md"
+      ],
+      "quarantinedFiles": [],
+      "risk": {
+        "scannerRulesVersion": "2026-08-27.1",
+        "riskReportHash": "79f7f5c64fa5d72067d5bb2b8e4a3544827154f704d30bb692d59297ea837093",
+        "summary": {
+          "low": 0,
+          "medium": 11,
+          "high": 0,
+          "critical": 0
+        },
+        "blocked": false
+      }
+    },
+    {
+      "id": "game-design-theory",
+      "source": {
+        "owner": "pluginagentmarketplace",
+        "repo": "custom-plugin-game-developer",
+        "ref": "aa7edfe267b34eac63d888f60b13e08aca7850ed",
+        "commit": "aa7edfe267b34eac63d888f60b13e08aca7850ed",
+        "subdir": "skills/game-design-theory"
+      },
+      "decision": "optional",
+      "installable": false,
+      "audited": true,
+      "downloadedBytes": 117602,
+      "expandedBytes": 706560,
+      "sourceArtifactSha256": "a97cd54f4d5ae9c246a4021a52a095afe94bb045b52049256e7b22c0b5665e9a",
+      "preparedArtifactSha256": "33d84df5568125c75e0d601672cca335d661fb3432cb32f9fb0b96d146b9e55e",
+      "manifestSha256": "548e01881f6509daddbb89fddfddbd5293ab92764d8067c9d9bc259afa32ff65",
+      "resourceFiles": [
+        "SKILL.md",
+        "assets/design_config.yaml",
+        "references/DESIGN_GUIDE.md"
+      ],
+      "quarantinedFiles": [
+        "scripts/design_analyzer.py"
+      ],
+      "risk": {
+        "scannerRulesVersion": "2026-08-27.1",
+        "riskReportHash": "149a71aa6a3ccaa433a08e4588edcd629f6ec92284df470ce16d30c7c69edbee",
+        "summary": {
+          "low": 0,
+          "medium": 2,
+          "high": 2,
+          "critical": 0
+        },
+        "blocked": false
+      }
+    },
+    {
+      "id": "game-feel",
+      "source": {
+        "owner": "gamedev-skills",
+        "repo": "awesome-gamedev-agent-skills",
+        "ref": "7110607ab816ece9669274bc84937857a8819796",
+        "commit": "7110607ab816ece9669274bc84937857a8819796",
+        "subdir": "skills/disciplines/game-feel"
+      },
+      "decision": "recommended",
+      "installable": true,
+      "audited": true,
+      "downloadedBytes": 1767300,
+      "expandedBytes": 2580480,
+      "sourceArtifactSha256": "d38431d0b30806d50c0c17246fe4e1701cad85edcd7c644a66bd6f82d6759744",
+      "preparedArtifactSha256": "d38431d0b30806d50c0c17246fe4e1701cad85edcd7c644a66bd6f82d6759744",
+      "manifestSha256": "68fc818ad939151be2db9e358e4295a71830c19d61f3aff849f1599307f39f9d",
+      "resourceFiles": [
+        "SKILL.md",
+        "references/feedback-recipes.md"
+      ],
+      "quarantinedFiles": [],
+      "risk": {
+        "scannerRulesVersion": "2026-08-27.1",
+        "riskReportHash": "ba5e8f65b12cc0d9822f364697cd19a8ebf7f0757e6feba3bba1cb2a31e0b4d8",
+        "summary": {
+          "low": 0,
+          "medium": 0,
+          "high": 0,
+          "critical": 0
+        },
+        "blocked": false
+      }
+    },
+    {
+      "id": "game-ui-ux",
+      "source": {
+        "owner": "gamedev-skills",
+        "repo": "awesome-gamedev-agent-skills",
+        "ref": "7110607ab816ece9669274bc84937857a8819796",
+        "commit": "7110607ab816ece9669274bc84937857a8819796",
+        "subdir": "skills/disciplines/game-ui-ux"
+      },
+      "decision": "recommended",
+      "installable": true,
+      "audited": true,
+      "downloadedBytes": 1767300,
+      "expandedBytes": 2580480,
+      "sourceArtifactSha256": "5ebed16498b89a5d2343cbe52539dbaf120e757bb049436fb933b2477af334b9",
+      "preparedArtifactSha256": "5ebed16498b89a5d2343cbe52539dbaf120e757bb049436fb933b2477af334b9",
+      "manifestSha256": "8a094c84a377503aa8f4c40df676d1c6b6fc07d36ff95554ce06467f1614397e",
+      "resourceFiles": [
+        "SKILL.md",
+        "references/layout-and-flow.md"
+      ],
+      "quarantinedFiles": [],
+      "risk": {
+        "scannerRulesVersion": "2026-08-27.1",
+        "riskReportHash": "363cc8ee3831b73dfedc7283b7d08a16a1b9b1a8774a2e2a1eacf735c5d5a51a",
+        "summary": {
+          "low": 0,
+          "medium": 0,
+          "high": 0,
+          "critical": 0
+        },
+        "blocked": false
+      }
+    },
+    {
+      "id": "threejs-game-ui-designer",
+      "source": {
+        "owner": "majidmanzarpour",
+        "repo": "threejs-game-skills",
+        "ref": "7221c1f4a6d2ae189a4d85d058d24f3228499d46",
+        "commit": "7221c1f4a6d2ae189a4d85d058d24f3228499d46",
+        "subdir": "skills/threejs-game-ui-designer"
+      },
+      "decision": "optional",
+      "installable": true,
+      "audited": true,
+      "downloadedBytes": 317980,
+      "expandedBytes": 768000,
+      "sourceArtifactSha256": "6fc82dabe5d236d9ad0837f3abb2ed7c4be6e7a063bccb2857185ac773d5ac6a",
+      "preparedArtifactSha256": "6fc82dabe5d236d9ad0837f3abb2ed7c4be6e7a063bccb2857185ac773d5ac6a",
+      "manifestSha256": "66a9c5b4872d6b30d7206a09c9cf737af8d3aeacbf2a93f9c3b9ebe95c6f0467",
+      "resourceFiles": [
+        "SKILL.md",
+        "agents/openai.yaml",
+        "references/checklists/game-ui-quality.md",
+        "references/checklists/hud-readability.md",
+        "references/checklists/mobile-input.md",
+        "references/checklists/responsive-ui-fit.md",
+        "references/prompt-templates.md",
+        "references/ui-patterns.md"
+      ],
+      "quarantinedFiles": [],
+      "risk": {
+        "scannerRulesVersion": "2026-08-27.1",
+        "riskReportHash": "30286bda998c7885daea09fc51de64266478256a3718dc4bfbf3c9df043a0c9a",
+        "summary": {
+          "low": 0,
+          "medium": 5,
+          "high": 0,
+          "critical": 0
+        },
+        "blocked": false
+      }
+    },
+    {
+      "id": "develop-web-game",
+      "source": {
+        "kind": "historical-snapshot",
+        "pageUrl": "https://www.skills.sh/openai/skills/develop-web-game",
+        "artifactSha256": "bed6531d882d1887b71502387340c22fd236ffd9108a1d7e909230c29be89fb8"
+      },
+      "decision": "external-candidate",
+      "installable": false,
+      "audited": false,
+      "reason": "0.6.0 accepts only immutable GitHub commit sources for runtime installation."
+    }
+  ]
+}

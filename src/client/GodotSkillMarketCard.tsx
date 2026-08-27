@@ -188,8 +188,14 @@ export function GodotSkillMarketCard({ api }: GodotSkillMarketCardProps): ReactN
           {state?.market.catalog.length === 0 ? <p className="dga-market-empty">本地还没有已验证的精选 Catalog。可先使用 GitHub 导入。</p> : null}
           {state?.market.catalog.map(item => (
             <div className="dga-market-skill" key={item.id}>
-              <div className="dga-market-row"><strong>{item.title}</strong><span>{item.license.id} · {item.compatibility}</span></div>
-              <p>{item.description}</p><Button disabled={busy || !item.installable} onClick={() => inspectCurated(item.id)}>审阅</Button>
+              <div className="dga-market-row"><strong>{item.title}</strong><span>{item.license.id} · {item.compatibility} · {item.upstreamStatus}</span></div>
+              <p>{item.description}</p><Button disabled={busy || !item.installable} onClick={() => inspectCurated(item.id)}>{item.installable ? '审阅' : '当前不可安装'}</Button>
+            </div>
+          ))}
+          {state?.market.candidateNotices.filter(notice => !state.market.catalog.some(item => item.id === notice.id)).map(notice => (
+            <div className="dga-market-skill" key={notice.id}>
+              <div className="dga-market-row"><strong>{notice.id}</strong><span>{notice.upstreamStatus} · {notice.compatibility}</span></div>
+              <p>{notice.description}</p><Button disabled>当前不可安装</Button>
             </div>
           ))}
         </div>

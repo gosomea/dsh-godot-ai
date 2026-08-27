@@ -449,11 +449,11 @@ userInvocable: true
 | Skill | 确认来源 | 许可证 / 上游状态 | Godot 适配 | 0.6.0 决策 | 首次引导默认勾选 |
 | --- | --- | --- | --- | --- | --- |
 | `higgsfield-game-generation` | `higgsfield-ai/skills`，历史 commit `9db2e5b…` | MIT；已在上游 commit `383c14a…` 删除并合并到 `higgsfield-websites` | 浏览器游戏；要求 Higgsfield CLI、登录、生成、部署，正文含 `curl ... | sh` | 保留审计记录和“已迁移”卡片，指向 successor；不安装旧 Skill | 否 |
-| `game-engine` | `github/awesome-copilot@634b92f…` | MIT；active | HTML5/Canvas/WebGL/Phaser/Three.js，不是 Godot | 精选可选、标记 `web-runtime` | 否 |
+| `game-engine` | `github/awesome-copilot@634b92f…` | MIT；active，但固定归档约 86 MB，超过 16 MB codeload 上限 | HTML5/Canvas/WebGL/Phaser/Three.js，不是 Godot | 保留候选说明；0.6.0 不可安装 | 否 |
 | `multiplayer-game` | `rivet-dev/skills`，历史 commit `ba5d3db…` | 上游已删除；仓库没有可确认的再分发许可证 | RivetKit 专用服务端/部署，不是 Godot Multiplayer API | `license-blocked + deleted`，只留审计记录，不生成 Artifact | 否 |
 | `game-developer` | `Jeffallan/claude-skills@882ef55…` | MIT；active | 内容主要是 Unity/Unreal，缺 Godot 实现 | 精选可选、标记 `engine-mismatch` | 否 |
 | `game-ui-design` | `omer-metin/skills-for-antigravity@e8dcf4e…` | Apache-2.0；active | 引擎中立的 HUD、菜单、可访问性和响应式设计 | 精选；作为推荐安装候选 | 是 |
-| `game-design-theory` | `pluginagentmarketplace/custom-plugin-game-developer@aa7edfe…` | 自定义可分发许可证，必须原样附带；active | 引擎中立理论，非 Godot 工具操作 | 精选可选；显著显示 custom license | 否 |
+| `game-design-theory` | `pluginagentmarketplace/custom-plugin-game-developer@aa7edfe…` | 自定义可分发许可证，必须原样附带；active | 引擎中立理论，非 Godot 工具操作 | 保留候选说明；0.6.0 在许可证全文审阅 UI 完成前不可安装 | 否 |
 | `game-feel` | `gamedev-skills/awesome-gamedev-agent-skills@7110607…` | Apache-2.0；active | 引擎中立并含 Godot 4.7 示例，明确与 Godot Skill 配合 | 精选；作为推荐安装候选 | 是 |
 | `game-ui-ux` | 同上 `@7110607…` | Apache-2.0；active | 含 Godot Control、anchor、safe area、focus 示例 | 精选；作为推荐安装候选 | 是 |
 | `threejs-game-ui-designer` | `majidmanzarpour/threejs-game-skills@7221c1f…` | MIT；active | Three.js 专用，并依赖同仓其他 Three.js Skills | 精选可选，默认不安装、不启用 | 否 |

@@ -16,6 +16,9 @@
 - 在设置页加入 Godot 风格四标签 Skill 市场：已安装、精选、GitHub 导入和更新，并提供 critical 摘要、high/medium 逐项确认和默认禁用安装。
 - 增加 active Artifact 与 update inspection 的有边界差异审阅：最多 2,000 行、Host 响应小于 128 KiB，并以 Artifact hash 对做 32 项/8 MiB 磁盘 LRU 缓存。
 - 补齐设置页恢复闭环：可继续或放弃暂存 inspection、回滚历史版本，并列出/恢复七天保留期内的回收站条目。
+- 增加可复现的首批市场构建与审计：10 个用户指定候选全部保留状态，8 个固定 commit 完成真实扫描，5 个条目可安装，三个 Godot Starter 默认推荐但不自动安装。
+- npm 包内置 Ed25519 多 key 信任根、serial 1 Catalog 与签名；全新环境可离线建立 last-good，随后按 24 小时节流检查 GitHub Release 更新。
+- `higgsfield-game-generation` 因 critical 远程执行链保持阻断；`game-engine` 因固定归档超过 16 MiB 安全上限不可导入；`game-design-theory` 在许可证全文审阅 UI 完成前不可安装。
 
 ## 0.5.0 - 2026-08-26
 

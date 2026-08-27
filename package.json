@@ -60,10 +60,12 @@
     "build": "pnpm clean && tsc -p tsconfig.json && tsdown",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "test:capability:static": "vitest run tests/adaptive-routing.test.ts tests/adaptive-state.test.ts tests/tool-name-compat.test.ts tests/compatibility.test.ts tests/package-contract.test.ts tests/preset-manager.test.ts tests/skills.test.ts tests/skill-providers.test.ts tests/skill-store-provider.test.ts tests/skill-market-contracts.test.ts tests/skill-market-store.test.ts tests/skill-market-scanner.test.ts tests/skill-market-rescan.test.ts tests/skill-market-preparation.test.ts tests/skill-market-catalog.test.ts tests/skill-market-github-import.test.ts tests/skill-market-diff.test.ts tests/skill-market-service.test.ts tests/skill-market-routes.test.ts tests/skill-market-card.test.tsx tests/workflows.test.ts",
+    "test:capability:static": "vitest run tests/adaptive-routing.test.ts tests/adaptive-state.test.ts tests/tool-name-compat.test.ts tests/compatibility.test.ts tests/package-contract.test.ts tests/preset-manager.test.ts tests/skills.test.ts tests/skill-providers.test.ts tests/skill-store-provider.test.ts tests/skill-market-contracts.test.ts tests/skill-market-store.test.ts tests/skill-market-scanner.test.ts tests/skill-market-rescan.test.ts tests/skill-market-preparation.test.ts tests/skill-market-catalog.test.ts tests/skill-market-github-import.test.ts tests/skill-market-diff.test.ts tests/skill-market-bootstrap.test.ts tests/skill-market-release-assets.test.ts tests/skill-market-service.test.ts tests/skill-market-routes.test.ts tests/skill-market-card.test.tsx tests/workflows.test.ts",
     "test:capability:live": "node validation/plugin-capability-smoke.mjs",
     "test:capability": "pnpm test:capability:static && pnpm test:capability:live",
     "test:live": "vitest run tests/live-agent.test.ts",
+    "market:build": "pnpm build && node validation/build-skill-catalog.mjs --manifest market/seed-review-manifest.json --catalog market/releases/skills-v1/catalog.json --audit-report market/releases/skills-v1/catalog-audit.json --serial 1 --issued-at 2026-08-27T00:00:00.000Z --expires-at 2027-08-27T00:00:00.000Z",
+    "market:sign": "node validation/sign-skill-catalog.mjs --catalog market/releases/skills-v1/catalog.json --audit-report market/releases/skills-v1/catalog-audit.json --signature market/releases/skills-v1/catalog.sig.json --trust-root market/skill-catalog-root.json --checksums market/releases/skills-v1/checksums.json --key-id catalog-2026-a --not-before 2026-08-27T00:00:00.000Z",
     "prepare": "pnpm build"
   },
   "dependencies": {

@@ -27,6 +27,7 @@ const state: SkillMarketStateResponse = {
       compatibility: 'godot-compatible', decision: 'recommended', installable: true,
       defaultSelected: true, externalRequirements: [],
     }],
+    candidateNotices: [],
     starterSkillIds: ['game-feel', 'game-ui-ux', 'game-ui-design'],
     trash: [],
     securityBoundary: '静态扫描不是沙箱。',

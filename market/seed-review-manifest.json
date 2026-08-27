@@ -36,10 +36,13 @@
       "upstreamStatus": "active",
       "compatibility": "web-runtime",
       "decision": "optional",
-      "installable": true,
+      "installable": false,
       "defaultSelected": false,
       "externalRequirements": ["web browser", "optional Node.js toolchain"],
-      "notes": ["Targets HTML5 Canvas, WebGL, Phaser, Three.js, Babylon.js and A-Frame rather than Godot."]
+      "notes": [
+        "Targets HTML5 Canvas, WebGL, Phaser, Three.js, Babylon.js and A-Frame rather than Godot.",
+        "The pinned repository archive is about 86 MB compressed and exceeds the market's 16 MB codeload safety limit."
+      ]
     },
     {
       "id": "multiplayer-game",
@@ -115,10 +118,13 @@
       "upstreamStatus": "active",
       "compatibility": "engine-neutral",
       "decision": "optional",
-      "installable": true,
+      "installable": false,
       "defaultSelected": false,
       "externalRequirements": [],
-      "notes": ["The custom license must be bundled verbatim and displayed before installation."]
+      "notes": [
+        "The custom license must be bundled verbatim and displayed before installation.",
+        "0.6.0 keeps this candidate non-installable until the full custom-license review UI is available."
+      ]
     },
     {
       "id": "game-feel",

@@ -66,9 +66,19 @@ export interface SkillMarketSnapshot {
   readonly revision: number
   readonly installed: Readonly<Record<string, InstalledSkillLock>>
   readonly catalog: readonly CuratedSkillEntry[]
+  readonly candidateNotices: readonly SkillMarketCandidateNotice[]
   readonly starterSkillIds: typeof STARTER_SKILL_IDS
   readonly trash: readonly SkillMarketTrashEntry[]
   readonly securityBoundary: string
+}
+
+export interface SkillMarketCandidateNotice {
+  readonly id: string
+  readonly upstreamStatus: string
+  readonly compatibility: string
+  readonly decision: string
+  readonly installable: boolean
+  readonly description: string
 }
 
 export interface SkillMarketDiffSummary {
@@ -90,6 +100,7 @@ export interface SkillMarketServiceOptions {
   readonly catalogRemote?: CatalogRemoteClient
   readonly now?: () => Date
   readonly inspectionTtlMs?: number
+  readonly candidateNotices?: readonly SkillMarketCandidateNotice[]
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -193,6 +204,7 @@ export class SkillMarketService {
   private readonly now: () => Date
   private readonly inspectionTtlMs: number
   private readonly diffCache: ArtifactDiffCache
+  private readonly candidateNotices: readonly SkillMarketCandidateNotice[]
 
   constructor(options: SkillMarketServiceOptions = {}) {
     this.store = options.store ?? new SkillMarketStore()
@@ -201,6 +213,7 @@ export class SkillMarketService {
     this.catalogRemote = options.catalogRemote
     this.now = options.now ?? (() => new Date())
     this.inspectionTtlMs = options.inspectionTtlMs ?? 30 * 60_000
+    this.candidateNotices = options.candidateNotices ?? []
     this.diffCache = new ArtifactDiffCache(this.store.paths.diffCache, { now: this.now })
   }
 
@@ -222,6 +235,7 @@ export class SkillMarketService {
       revision: lockfile.revision,
       installed: lockfile.installed,
       catalog: catalog?.skills ?? [],
+      candidateNotices: this.candidateNotices,
       starterSkillIds: STARTER_SKILL_IDS,
       trash,
       securityBoundary: '静态扫描是启发式 Guardrail，不是沙箱，也不能证明第三方 Skill 安全。',
