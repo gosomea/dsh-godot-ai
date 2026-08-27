@@ -5,6 +5,7 @@ export const PRESET_API_PREFIX = '/api/dsh-godot-ai/preset'
 export const ADAPTIVE_PRESET_API_PREFIX = '/api/dsh-godot-ai/adaptive/preset'
 export const ADAPTIVE_ROUTE_API_PREFIX = '/api/dsh-godot-ai/adaptive/route'
 export const INTEGRATION_API_PREFIX = '/api/dsh-godot-ai/integration'
+export const SKILL_MARKET_API_PREFIX = '/api/dsh-godot-ai/skills'
 
 export type GodotAdaptiveSelection = 'auto' | 'build' | 'repair'
 export type GodotAdaptiveRoute = 'build' | 'repair' | 'classic'

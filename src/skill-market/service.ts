@@ -15,8 +15,9 @@ import { SkillMarketStore } from './store.js'
 import type { InstalledSkillLock, InstalledSkillSource } from './lockfile.js'
 import type { CuratedSkillEntry, SkillCatalogVerifier } from './catalog.js'
 import type { CatalogRemoteClient } from './catalog-fetch.js'
+import { SKILL_MARKET_API_PREFIX } from '../core/types.js'
 
-export const SKILL_MARKET_API_PREFIX = '/api/dsh-godot-ai/skills'
+export { SKILL_MARKET_API_PREFIX }
 export const STARTER_SKILL_IDS = ['game-feel', 'game-ui-ux', 'game-ui-design'] as const
 const INSPECTION_ID = /^[a-f0-9-]{36}$/
 

@@ -6,7 +6,8 @@ import { GodotIntegrationCard } from './GodotIntegrationCard.js'
 import { GodotAdaptivePresetCard } from './GodotAdaptivePresetCard.js'
 import { GodotPresetOnboarding } from './GodotPresetOnboarding.js'
 import { GodotWorkspaceHeader } from './GodotWorkspaceHeader.js'
-import { GodotAdaptivePresetApi, GodotAdaptiveRouteApi, GodotIntegrationApi, GodotPresetApi } from './api.js'
+import { GodotSkillMarketCard } from './GodotSkillMarketCard.js'
+import { GodotAdaptivePresetApi, GodotAdaptiveRouteApi, GodotIntegrationApi, GodotPresetApi, GodotSkillMarketApi } from './api.js'
 import { installStyles } from './styles.js'
 import { installWorkspaceStyles } from './workspace-styles.js'
 import { en, zh, type GodotAiKey } from './locales.js'
@@ -27,6 +28,7 @@ export function apply(ctx: ClientContext): void {
   const integrationApi = new GodotIntegrationApi()
   const adaptivePresetApi = new GodotAdaptivePresetApi()
   const adaptiveRouteApi = new GodotAdaptiveRouteApi()
+  const skillMarketApi = new GodotSkillMarketApi()
   ctx.effect(() => ctx.locale.register(NS, { zh, en }), 'dsh-godot-ai: dictionaries')
   ctx.effect(installStyles, 'dsh-godot-ai: onboarding styles')
   ctx.effect(installWorkspaceStyles, 'dsh-godot-ai: Creator workspace v0 styles')
@@ -48,6 +50,12 @@ export function apply(ctx: ClientContext): void {
     order: 41,
     locale: NS,
   }, props => createElement(GodotAdaptivePresetCard, { ...props, api: adaptivePresetApi })))
+  ctx.slots.inject('settings.general.item', () => ctx.slots.register({
+    name: 'settings.general.item',
+    id: 'godot-skill-market',
+    order: 42,
+    locale: NS,
+  }, props => createElement(GodotSkillMarketCard, { ...props, api: skillMarketApi })))
   ctx.slots.inject('conversation.session.header.actions', () => ctx.slots.register({
     name: 'conversation.session.header.actions',
     id: 'dsh-godot-ai-workspace',

@@ -13,6 +13,7 @@
 - 增加 24 小时 ETag Catalog 更新和固定 commit GitHub Import；归档仅从 codeload 获取，并限制重定向、大小、文件数、路径穿越和链接。
 - 增加 Store-backed 市场 Provider：只暴露已启用、当前扫描规则、批准有效且哈希完整的用户调用 Skill，并避免跨进程状态被 DSH 长期缓存。
 - 增加五路由 Host API 的后端闭环：GitHub/精选 Inspect、风险确认、一次性 Install、Enable/Disable/Rollback/GC 等 action，以及 inspection/quarantine TTL 回收。
+- 在设置页加入 Godot 风格四标签 Skill 市场：已安装、精选、GitHub 导入和更新，并提供 critical 摘要、high/medium 逐项确认和默认禁用安装。
 
 ## 0.5.0 - 2026-08-26
 
