@@ -14,6 +14,9 @@ export * from './core/types.js'
 export * from './core/compatibility.js'
 export { GodotIntegrationManager, type IntegrationProbeDependencies } from './host/integration-manager.js'
 export { ManagedPresetManager, type ManagedPresetManagerOptions, type PresetRoster } from './host/preset-manager.js'
+export * from './skill-market/approval.js'
+export * from './skill-market/preparation.js'
+export * from './skill-market/scanner.js'
 
 export const name = 'dsh-godot-ai'
 export const inject = ['agents', 'agentPresets', 'webServer']

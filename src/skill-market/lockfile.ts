@@ -1,6 +1,6 @@
 export const SKILL_MARKET_LOCKFILE_SCHEMA_VERSION = 1 as const
 
-export type InstalledSkillState = 'ready' | 'missing-artifact'
+export type InstalledSkillState = 'ready' | 'missing-artifact' | 'review-required' | 'blocked'
 
 export type InstalledSkillSource =
   | { readonly kind: 'curated'; readonly catalogSerial: number; readonly skillId: string }
@@ -29,6 +29,7 @@ export interface InstalledSkillLock {
   readonly activeArtifactHash: string
   readonly activeVersion: string
   readonly enabled: boolean
+  readonly enabledBeforeReview?: boolean
   readonly modelInvocable: false
   readonly userInvocable: boolean
   readonly installedAt: string
@@ -131,10 +132,13 @@ function parseRevision(value: unknown, field: string): InstalledSkillRevision {
 function parseInstalled(value: unknown, field: string): InstalledSkillLock {
   if (!isRecord(value)) throw new Error(`${field} must be an object`)
   const source = parseSource(value.source, `${field}.source`)
-  if (value.state !== 'ready' && value.state !== 'missing-artifact') throw new Error(`${field}.state is unsupported`)
+  if (!['ready', 'missing-artifact', 'review-required', 'blocked'].includes(String(value.state))) {
+    throw new Error(`${field}.state is unsupported`)
+  }
   assertSha256(value.activeArtifactHash, `${field}.activeArtifactHash`)
   assertString(value.activeVersion, `${field}.activeVersion`)
   assertBoolean(value.enabled, `${field}.enabled`)
+  if (value.enabledBeforeReview !== undefined) assertBoolean(value.enabledBeforeReview, `${field}.enabledBeforeReview`)
   if (value.modelInvocable !== false) throw new Error(`${field}.modelInvocable must be false`)
   assertBoolean(value.userInvocable, `${field}.userInvocable`)
   assertString(value.installedAt, `${field}.installedAt`)
@@ -144,14 +148,15 @@ function parseInstalled(value: unknown, field: string): InstalledSkillLock {
   if (value.approvalHash !== undefined) assertSha256(value.approvalHash, `${field}.approvalHash`)
   assertStringArray(value.acknowledgedFindingIds, `${field}.acknowledgedFindingIds`)
   if (!Array.isArray(value.history)) throw new Error(`${field}.history must be an array`)
-  if (value.state !== 'ready' && value.enabled) throw new Error(`${field} cannot enable a missing artifact`)
+  if (value.state !== 'ready' && value.enabled) throw new Error(`${field} cannot enable a non-ready artifact`)
   if (value.enabled !== value.userInvocable) throw new Error(`${field}.enabled and userInvocable must match`)
   return {
     source,
-    state: value.state,
+    state: value.state as InstalledSkillState,
     activeArtifactHash: value.activeArtifactHash,
     activeVersion: value.activeVersion,
     enabled: value.enabled,
+    ...value.enabledBeforeReview === undefined ? {} : { enabledBeforeReview: value.enabledBeforeReview },
     modelInvocable: false,
     userInvocable: value.userInvocable,
     installedAt: value.installedAt,

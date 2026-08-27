@@ -7,6 +7,8 @@
 - 第三方市场 Skill 默认禁止模型自动调用；只有已经安装、通过审核且用户显式启用的 Skill 才能出现在用户调用面。
 - 增加基于 `$DSH_HOME/dsh-godot-ai/skill-market/v1` 的不可变内容寻址 Store、schema 1 lockfile、跨进程短租约、revision 冲突检查、三版本历史和默认禁用更新。
 - 增加完整性校验回滚、缺失 Artifact 的 fail-closed 启动恢复、30 分钟 inspection TTL、可恢复 trash、七天后清理和 symlink 拒绝测试。
+- 增加确定性的 Prompt / 文件风险扫描、稳定 finding/report/approval hash、critical 硬阻断和 high 逐条确认。
+- 增加扫描规则升级时的 fail-closed 重审生命周期，并把第三方 scripts、hooks、bin 和可执行文件隔离到永不执行的 quarantine。
 
 ## 0.5.0 - 2026-08-26
 

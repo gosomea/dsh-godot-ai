@@ -20,6 +20,13 @@ import {
   type SkillMarketLockfileV1,
 } from './lockfile.js'
 import { resolveSkillMarketPaths, type SkillMarketPaths } from './paths.js'
+import {
+  reviewRiskReport,
+  verifyRiskApproval,
+  type RiskAcknowledgement,
+  type SkillRiskApproval,
+} from './approval.js'
+import { verifyRiskReport, type SkillRiskReport } from './scanner.js'
 
 const SHA256 = /^[a-f0-9]{64}$/
 const SKILL_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -42,6 +49,16 @@ export interface InstallPreparedSkillInput {
   readonly riskReportHash: string
   readonly approvalHash?: string
   readonly acknowledgedFindingIds?: readonly string[]
+  readonly expectedRevision?: number
+}
+
+export interface InstallReviewedSkillInput {
+  readonly skillId: string
+  readonly version: string
+  readonly source: InstalledSkillSource
+  readonly stagedDirectory: string
+  readonly riskReport: SkillRiskReport
+  readonly approval: SkillRiskApproval
   readonly expectedRevision?: number
 }
 
@@ -166,6 +183,7 @@ export class SkillMarketStore {
     return path
   }
 
+  /** Low-level persistence primitive for recovery/tests; host code must call installReviewed(). */
   async installPrepared(input: InstallPreparedSkillInput): Promise<InstalledSkillLock> {
     assertInstallInput(input)
     await this.initialize()
@@ -202,6 +220,25 @@ export class SkillMarketStore {
     })
   }
 
+  /** Security-gated install entrypoint for host/API code. */
+  async installReviewed(input: InstallReviewedSkillInput): Promise<InstalledSkillLock> {
+    verifyRiskReport(input.riskReport)
+    if (input.riskReport.blocked) throw new Error(`skill ${input.skillId} is blocked by critical risk findings`)
+    verifyRiskApproval(input.riskReport, input.approval)
+    return this.installPrepared({
+      skillId: input.skillId,
+      version: input.version,
+      source: input.source,
+      stagedDirectory: input.stagedDirectory,
+      expectedArtifactHash: input.riskReport.artifactHash,
+      scannerRulesVersion: input.riskReport.scannerRulesVersion,
+      riskReportHash: input.riskReport.riskReportHash,
+      approvalHash: input.approval.approvalHash,
+      acknowledgedFindingIds: input.approval.acknowledgedFindingIds,
+      ...input.expectedRevision === undefined ? {} : { expectedRevision: input.expectedRevision },
+    })
+  }
+
   async setEnabled(skillId: string, enabled: boolean, expectedRevision?: number): Promise<InstalledSkillLock> {
     return this.mutate(expectedRevision, async lockfile => {
       const current = lockfile.installed[skillId]
@@ -216,6 +253,100 @@ export class SkillMarketStore {
         enabled,
         userInvocable: enabled,
         updatedAt: this.now().toISOString(),
+      }
+      return {
+        result: updated,
+        lockfile: { ...lockfile, installed: { ...lockfile.installed, [skillId]: updated } },
+      }
+    })
+  }
+
+  /** Fail closed before rescanning artifacts under a new scanner rules version. */
+  async beginScannerUpgrade(scannerRulesVersion: string, expectedRevision?: number): Promise<number> {
+    if (scannerRulesVersion.length === 0) throw new Error('scannerRulesVersion must be non-empty')
+    return this.mutate(expectedRevision, lockfile => {
+      let changed = 0
+      const installed: Record<string, InstalledSkillLock> = {}
+      for (const [skillId, current] of Object.entries(lockfile.installed)) {
+        if (current.scannerRulesVersion === scannerRulesVersion || current.state === 'missing-artifact') {
+          installed[skillId] = current
+          continue
+        }
+        changed += 1
+        installed[skillId] = {
+          ...current,
+          state: 'review-required',
+          enabledBeforeReview: current.enabledBeforeReview ?? current.enabled,
+          enabled: false,
+          userInvocable: false,
+          updatedAt: this.now().toISOString(),
+        }
+      }
+      return {
+        result: changed,
+        lockfile: changed === 0 ? lockfile : { ...lockfile, installed },
+        changed: changed > 0,
+      }
+    }, { allowUnchanged: true })
+  }
+
+  /** Apply a verified rescan, preserving prior enablement only after all required review is complete. */
+  async applyRescan(
+    skillId: string,
+    report: SkillRiskReport,
+    acknowledgements: readonly RiskAcknowledgement[],
+    expectedRevision?: number,
+  ): Promise<InstalledSkillLock> {
+    verifyRiskReport(report)
+    const review = reviewRiskReport(report, acknowledgements)
+    return this.mutate(expectedRevision, async lockfile => {
+      const current = lockfile.installed[skillId]
+      if (current === undefined) throw new Error(`skill ${skillId} is not installed`)
+      if (current.activeArtifactHash !== report.artifactHash) throw new Error(`risk report does not match ${skillId} active artifact`)
+      if (!await this.isValidArtifact(current.activeArtifactHash)) throw new Error(`skill ${skillId} active artifact failed integrity verification`)
+      const restoreEnabled = current.enabledBeforeReview ?? false
+      const {
+        approvalHash: _previousApprovalHash,
+        enabledBeforeReview: _previousEnabledBeforeReview,
+        ...currentWithoutReview
+      } = current
+      const timestamp = this.now().toISOString()
+      let updated: InstalledSkillLock
+      if (review.status === 'blocked') {
+        updated = {
+          ...currentWithoutReview,
+          state: 'blocked',
+          enabled: false,
+          userInvocable: false,
+          scannerRulesVersion: report.scannerRulesVersion,
+          riskReportHash: report.riskReportHash,
+          acknowledgedFindingIds: [],
+          updatedAt: timestamp,
+        }
+      } else if (review.status === 'review-required') {
+        updated = {
+          ...currentWithoutReview,
+          state: 'review-required',
+          enabledBeforeReview: current.enabledBeforeReview ?? current.enabled,
+          enabled: false,
+          userInvocable: false,
+          scannerRulesVersion: report.scannerRulesVersion,
+          riskReportHash: report.riskReportHash,
+          acknowledgedFindingIds: acknowledgements.map(item => item.findingId).sort(),
+          updatedAt: timestamp,
+        }
+      } else {
+        updated = {
+          ...currentWithoutReview,
+          state: 'ready',
+          enabled: restoreEnabled,
+          userInvocable: restoreEnabled,
+          scannerRulesVersion: report.scannerRulesVersion,
+          riskReportHash: report.riskReportHash,
+          approvalHash: review.approval.approvalHash,
+          acknowledgedFindingIds: review.approval.acknowledgedFindingIds,
+          updatedAt: timestamp,
+        }
       }
       return {
         result: updated,
