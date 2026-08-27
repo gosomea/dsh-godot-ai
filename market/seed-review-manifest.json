@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-08-27T00:00:00.000Z",
+  "candidates": [
+    {
+      "id": "higgsfield-game-generation",
+      "source": {
+        "kind": "github",
+        "owner": "higgsfield-ai",
+        "repo": "skills",
+        "commit": "9db2e5bf22ff93d0bffb48664a8d0d6bb417082c",
+        "subdir": "higgsfield-game-generation"
+      },
+      "license": { "id": "MIT", "redistributable": true, "noticeRequired": true },
+      "upstreamStatus": "moved",
+      "compatibility": "external-runtime",
+      "decision": "moved",
+      "installable": false,
+      "defaultSelected": false,
+      "externalRequirements": ["Higgsfield CLI", "Higgsfield account", "network deployment"],
+      "notes": [
+        "The exact skill was removed by upstream commit 383c14a and folded into higgsfield-websites.",
+        "The historical prompt requests a remote curl-to-shell installer and must never be executed by the market."
+      ]
+    },
+    {
+      "id": "game-engine",
+      "source": {
+        "kind": "github",
+        "owner": "github",
+        "repo": "awesome-copilot",
+        "commit": "634b92f887487fc61cddc2f61d77830e09e8f589",
+        "subdir": "skills/game-engine"
+      },
+      "license": { "id": "MIT", "redistributable": true, "noticeRequired": true },
+      "upstreamStatus": "active",
+      "compatibility": "web-runtime",
+      "decision": "optional",
+      "installable": true,
+      "defaultSelected": false,
+      "externalRequirements": ["web browser", "optional Node.js toolchain"],
+      "notes": ["Targets HTML5 Canvas, WebGL, Phaser, Three.js, Babylon.js and A-Frame rather than Godot."]
+    },
+    {
+      "id": "multiplayer-game",
+      "source": {
+        "kind": "github",
+        "owner": "rivet-dev",
+        "repo": "skills",
+        "commit": "ba5d3db3d7489cfc6190fd0de45b96e3787e1ea3",
+        "subdir": "multiplayer-game"
+      },
+      "license": { "id": "NOASSERTION", "redistributable": false, "noticeRequired": true },
+      "upstreamStatus": "license-blocked",
+      "compatibility": "external-runtime",
+      "decision": "blocked",
+      "installable": false,
+      "defaultSelected": false,
+      "externalRequirements": ["RivetKit", "Rivet deployment platform"],
+      "notes": [
+        "The exact skill was removed from current upstream by commit a3ed653.",
+        "No redistribution license was found in the audited repository history."
+      ]
+    },
+    {
+      "id": "game-developer",
+      "source": {
+        "kind": "github",
+        "owner": "Jeffallan",
+        "repo": "claude-skills",
+        "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+        "subdir": "skills/game-developer"
+      },
+      "license": { "id": "MIT", "redistributable": true, "noticeRequired": true },
+      "upstreamStatus": "active",
+      "compatibility": "engine-mismatch",
+      "decision": "optional",
+      "installable": true,
+      "defaultSelected": false,
+      "externalRequirements": ["Unity or Unreal profiling tools for its concrete validation steps"],
+      "notes": ["Architecture advice is useful, but concrete examples and profiling gates primarily target Unity and Unreal."]
+    },
+    {
+      "id": "game-ui-design",
+      "source": {
+        "kind": "github",
+        "owner": "omer-metin",
+        "repo": "skills-for-antigravity",
+        "commit": "e8dcf4e8737921a10088bd5c9eb65e81f74c051f",
+        "subdir": "skills/game-ui-design"
+      },
+      "license": { "id": "Apache-2.0", "redistributable": true, "noticeRequired": true },
+      "upstreamStatus": "active",
+      "compatibility": "engine-neutral",
+      "decision": "recommended",
+      "installable": true,
+      "defaultSelected": true,
+      "externalRequirements": [],
+      "notes": ["Engine-neutral HUD, menu, accessibility, controller and responsive layout guidance."]
+    },
+    {
+      "id": "game-design-theory",
+      "source": {
+        "kind": "github",
+        "owner": "pluginagentmarketplace",
+        "repo": "custom-plugin-game-developer",
+        "commit": "aa7edfe267b34eac63d888f60b13e08aca7850ed",
+        "subdir": "skills/game-design-theory"
+      },
+      "license": {
+        "id": "LicenseRef-PluginAgentMarketplace",
+        "redistributable": true,
+        "noticeRequired": true
+      },
+      "upstreamStatus": "active",
+      "compatibility": "engine-neutral",
+      "decision": "optional",
+      "installable": true,
+      "defaultSelected": false,
+      "externalRequirements": [],
+      "notes": ["The custom license must be bundled verbatim and displayed before installation."]
+    },
+    {
+      "id": "game-feel",
+      "source": {
+        "kind": "github",
+        "owner": "gamedev-skills",
+        "repo": "awesome-gamedev-agent-skills",
+        "commit": "7110607ab816ece9669274bc84937857a8819796",
+        "subdir": "skills/disciplines/game-feel"
+      },
+      "license": { "id": "Apache-2.0", "redistributable": true, "noticeRequired": true },
+      "upstreamStatus": "active",
+      "compatibility": "godot-compatible",
+      "decision": "recommended",
+      "installable": true,
+      "defaultSelected": true,
+      "externalRequirements": [],
+      "notes": ["Engine-neutral game-feel guidance with concrete Godot 4.7 examples."]
+    },
+    {
+      "id": "game-ui-ux",
+      "source": {
+        "kind": "github",
+        "owner": "gamedev-skills",
+        "repo": "awesome-gamedev-agent-skills",
+        "commit": "7110607ab816ece9669274bc84937857a8819796",
+        "subdir": "skills/disciplines/game-ui-ux"
+      },
+      "license": { "id": "Apache-2.0", "redistributable": true, "noticeRequired": true },
+      "upstreamStatus": "active",
+      "compatibility": "godot-compatible",
+      "decision": "recommended",
+      "installable": true,
+      "defaultSelected": true,
+      "externalRequirements": [],
+      "notes": ["Includes Godot Control, anchors, safe areas and focus navigation examples."]
+    },
+    {
+      "id": "threejs-game-ui-designer",
+      "source": {
+        "kind": "github",
+        "owner": "majidmanzarpour",
+        "repo": "threejs-game-skills",
+        "commit": "7221c1f4a6d2ae189a4d85d058d24f3228499d46",
+        "subdir": "skills/threejs-game-ui-designer"
+      },
+      "license": { "id": "MIT", "redistributable": true, "noticeRequired": true },
+      "upstreamStatus": "active",
+      "compatibility": "web-runtime",
+      "decision": "optional",
+      "installable": true,
+      "defaultSelected": false,
+      "externalRequirements": ["Three.js", "other skills from threejs-game-skills"],
+      "notes": ["Explicitly excluded from the default starter set by product decision."]
+    },
+    {
+      "id": "develop-web-game",
+      "source": {
+        "kind": "historical-snapshot",
+        "pageUrl": "https://www.skills.sh/openai/skills/develop-web-game",
+        "artifactSha256": "bed6531d882d1887b71502387340c22fd236ffd9108a1d7e909230c29be89fb8"
+      },
+      "license": { "id": "Apache-2.0", "redistributable": true, "noticeRequired": true },
+      "upstreamStatus": "deleted",
+      "compatibility": "web-runtime",
+      "decision": "external-candidate",
+      "installable": false,
+      "defaultSelected": false,
+      "externalRequirements": ["Codex home layout", "Node.js", "Playwright"],
+      "notes": [
+        "The historical snapshot is not an accepted runtime source for 0.6.0.",
+        "Explicitly excluded from the default starter set by product decision."
+      ]
+    }
+  ]
+}

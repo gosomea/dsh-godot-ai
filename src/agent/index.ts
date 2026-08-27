@@ -10,11 +10,13 @@ import {
   GODOT_MCP_SERVER_NAME,
 } from './launch-spec.js'
 import { installAdaptiveRuntime } from './adaptive-runtime.js'
+import { BundledGodotSkillProvider } from './bundled-skill-provider.js'
 import { renderGodotCreatorPersona } from './persona.js'
 import { loadBundledGodotSkills } from './skills.js'
 import { installToolNameCompatibility } from './tool-name-compat.js'
 import { loadWorkflowCatalog } from './workflows.js'
 import { GODOT_ADAPTIVE_PRESET_ID, GODOT_PRESET_ID } from '../core/types.js'
+import { MarketSkillProvider } from '../skill-market/provider.js'
 
 export const name = 'dsh-godot-ai/agent'
 export const inject = ['skills', 'systemPrompt', 'tools']
@@ -30,7 +32,8 @@ export async function apply(ctx: Context, config: Config = {}): Promise<void> {
     loadWorkflowCatalog(),
     loadBundledGodotSkills(),
   ])
-  for (const skill of skills) ctx.skills.register(skill)
+  ctx.skills.registerProvider(() => new BundledGodotSkillProvider(skills))
+  ctx.skills.registerProvider(() => new MarketSkillProvider())
   ctx.tools.presentAs('code')
   ctx.systemPrompt.section({
     name: 'godot-ai:creator-mode',

@@ -20,6 +20,14 @@ const BLOCK_V2 = `# dsh-godot-ai:managed:start schema=2
 # dsh-godot-ai:managed:end
 `
 
+const STANDARD_COMPOSITION = `- id: standard-marker
+  name: fixture-standard
+- id: skill-filesystem
+  name: '@deepseek-ai/dsh-skill-filesystem'
+- id: tool-skill
+  name: '@deepseek-ai/dsh-tool-skill'
+`
+
 class FakeRoster implements PresetRoster {
   readonly authorable = true
   failNextCopy = false
@@ -83,7 +91,7 @@ beforeEach(async () => {
   userRoot = join(root, 'user')
   await mkdir(join(systemRoot, SOURCE_PRESET_ID), { recursive: true })
   await mkdir(userRoot, { recursive: true })
-  await writeFile(join(systemRoot, SOURCE_PRESET_ID, 'agent.cordis.yml'), '- id: standard-marker\n  name: fixture-standard\n')
+  await writeFile(join(systemRoot, SOURCE_PRESET_ID, 'agent.cordis.yml'), STANDARD_COMPOSITION)
   roster = new FakeRoster(systemRoot, userRoot)
   manager = new ManagedPresetManager({
     roster,
@@ -115,6 +123,20 @@ describe('ManagedPresetManager', () => {
     expect(await manager.state()).toEqual({ kind: 'not-installed' })
     expect(await readFile(join(userRoot, GODOT_ADAPTIVE_PRESET_ID, 'agent.cordis.yml'), 'utf8'))
       .toContain('mode: adaptive')
+    expect(await readFile(join(userRoot, GODOT_ADAPTIVE_PRESET_ID, 'agent.cordis.yml'), 'utf8'))
+      .toContain("name: '@deepseek-ai/dsh-skill-filesystem'")
+    expect(await readFile(join(userRoot, GODOT_ADAPTIVE_PRESET_ID, 'agent.cordis.yml'), 'utf8'))
+      .toContain("name: '@deepseek-ai/dsh-tool-skill'")
+  })
+
+  it('inherits the Standard filesystem and skill-tool rows instead of mounting duplicates', async () => {
+    await manager.install()
+    const installed = await readFile(compositionPath(), 'utf8')
+
+    expect(installed).toContain("name: '@deepseek-ai/dsh-skill-filesystem'")
+    expect(installed).toContain("name: '@deepseek-ai/dsh-tool-skill'")
+    expect(installed.match(/dsh-skill-filesystem/g)).toHaveLength(1)
+    expect(installed.match(/dsh-tool-skill/g)).toHaveLength(1)
   })
 
   it('installs once, preserves the copied bytes, and serializes concurrent requests', async () => {

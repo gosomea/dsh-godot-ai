@@ -1,6 +1,6 @@
 # Bundled Godot skills
 
-This directory is the on-demand knowledge layer for the `godot-creator` preset. The agent plugin reads each direct child `SKILL.md`, validates the exact catalog, strips frontmatter, and registers the body into the preset's DSH skill-registry layer. Other presets do not see these registrations.
+This directory is the on-demand knowledge layer for the `godot-creator` preset. The agent plugin reads each direct child `SKILL.md`, validates the exact catalog, strips frontmatter, and publishes the body through the preset-scoped `dsh-godot-ai:bundled` provider at DSH's standard bundled rank 600. Other presets do not see this provider. Project, custom, market, and user skills may intentionally override these fallback definitions according to the DSH rank contract.
 
 ## Source policy
 

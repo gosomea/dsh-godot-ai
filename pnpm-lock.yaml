@@ -45,6 +45,9 @@ importers:
       '@deepseek-ai/dsh-code-runtime':
         specifier: 0.1.0-rc.8
         version: 0.1.0-rc.8(@deepseek-ai/cordis@4.0.1)(@deepseek-ai/dsh-invariants@0.1.0-rc.8(@deepseek-ai/cordis@4.0.1))
+      '@deepseek-ai/dsh-home-paths':
+        specifier: 0.1.0-rc.8
+        version: 0.1.0-rc.8(@deepseek-ai/cordis@4.0.1)(@deepseek-ai/dsh-invariants@0.1.0-rc.8(@deepseek-ai/cordis@4.0.1))
       '@deepseek-ai/dsh-host-webserver':
         specifier: 0.1.0-rc.8
         version: 0.1.0-rc.8(@deepseek-ai/cordis@4.0.1)(@deepseek-ai/dsh-invariants@0.1.0-rc.8(@deepseek-ai/cordis@4.0.1))
