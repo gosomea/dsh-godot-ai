@@ -197,6 +197,9 @@ export class ManagedPresetManager {
     if (sidecar.schemaVersion < this.schemaVersion) {
       return { kind: 'sync-available', installedSchema: sidecar.schemaVersion, currentSchema: this.schemaVersion }
     }
+    if (sidecar.wrapperVersion !== this.wrapperVersion) {
+      return { kind: 'sync-available', installedSchema: sidecar.schemaVersion, currentSchema: this.schemaVersion }
+    }
 
     let source: string
     try { source = await this.roster.read(SOURCE_PRESET_ID) }

@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T12:26:05.915Z",
-  "baseUrl": "http://127.0.0.1:3081",
+  "generatedAt": "2026-08-28T03:16:06.143Z",
+  "baseUrl": "http://127.0.0.1:3080",
   "model": "deepseek-v4-flash-ioa",
-  "timeoutMs": 180000,
+  "timeoutMs": 240000,
   "purpose": "plugin-capability-smoke",
   "scope": "plugin capability, not game-delivery quality",
   "host": {
     "integration": {
-      "checkedAt": "2026-08-26T12:25:02.859Z",
-      "wrapperVersion": "0.5.0-rc.1",
+      "checkedAt": "2026-08-28T03:15:03.354Z",
+      "wrapperVersion": "0.6.0",
       "testedVersion": "3.1.5",
       "godotMinimum": "4.5",
       "godotRecommended": "4.7",
@@ -26,19 +26,19 @@
           "excludeDomains": [],
           "ownerType": "attach",
           "toolCatalogHash": "af75d04a00d4be87421db50c6f51ba709375286178ea02482ef2776acace1470",
-          "activeLeaseCount": 3
+          "activeLeaseCount": 1
         }
       },
       "editor": {
         "kind": "connected",
         "sessions": [
           {
-            "sessionId": "godot-test-project@48a1",
+            "sessionId": "godot-test-project@551c",
             "name": "godot-test-project",
             "godotVersion": "4.6-stable (official)",
             "projectPath": "/Users/yuqixian/forever-skills/projects/godot-test-project/",
             "pluginVersion": "3.1.5",
-            "currentScene": "res://validation_games/rc8_matrix/10-long-resume-flash-adaptive-3/click_timer_game.tscn",
+            "currentScene": "res://validation_games/rc8_matrix/10-long-resume-flash-adaptive-3/click_game.tscn",
             "playState": "stopped",
             "readiness": "ready",
             "isActive": true
@@ -47,21 +47,21 @@
       },
       "update": {
         "kind": "unverified-update",
-        "latestVersion": "3.2.0"
+        "latestVersion": "3.2.4"
       }
     },
     "presetStates": {
       "classic": {
         "kind": "current",
-        "wrapperVersion": "0.5.0-rc.1",
-        "installedWrapperVersion": "0.4.2",
-        "baseHash": "fa14feb98daef20b810fef30bb7239a89a786de3c45c602b37743f7100d9a5af"
+        "wrapperVersion": "0.6.0",
+        "installedWrapperVersion": "0.6.0",
+        "baseHash": "cb98756a9ed76ca351a45a0ba138a97bf0ab7eead4fe2f1e9d1c9f9ec97937f0"
       },
       "adaptive": {
         "kind": "current",
-        "wrapperVersion": "0.5.0-rc.1",
-        "installedWrapperVersion": "0.5.0-rc.0",
-        "baseHash": "fa14feb98daef20b810fef30bb7239a89a786de3c45c602b37743f7100d9a5af"
+        "wrapperVersion": "0.6.0",
+        "installedWrapperVersion": "0.6.0",
+        "baseHash": "cb98756a9ed76ca351a45a0ba138a97bf0ab7eead4fe2f1e9d1c9f9ec97937f0"
       }
     },
     "checks": {
@@ -74,7 +74,7 @@
     }
   },
   "classic": {
-    "sessionId": "capability-classic-1787747146791",
+    "sessionId": "capability-classic-1787886942786",
     "agentPreset": "godot-creator",
     "selected": {
       "provider": "deepseek-official",
@@ -104,16 +104,28 @@
     "assistantToolCalls": [
       {
         "name": "run_code",
-        "id": "call_00_hYlwqyatRwVIvBEyIBF17898"
+        "id": "call_00_iABnJqBoyDk25UR8feVU5117"
+      },
+      {
+        "name": "run_code",
+        "id": "call_00_GKhGU9qtgehyqDeOwR5z2949"
+      },
+      {
+        "name": "run_code",
+        "id": "call_00_87tXweLi1ga2QR6lQGpe0701"
       }
     ],
     "dispatches": [
       {
-        "name": "mcp__godot-ai__editor_state",
+        "name": "skill",
         "isError": false
       },
       {
         "name": "mcp__godot-ai__session_manage",
+        "isError": false
+      },
+      {
+        "name": "mcp__godot-ai__editor_state",
         "isError": false
       }
     ],
@@ -129,7 +141,7 @@
   },
   "adaptive": {
     "manual": {
-      "sessionId": "capability-adaptive-1787747102883",
+      "sessionId": "capability-adaptive-1787886903384",
       "timedOut": false,
       "selection": {
         "selection": "build",
@@ -140,7 +152,7 @@
         "classifierVersion": "keyword-v1",
         "promptVariant": "creator-classic-v1",
         "modelClass": "flash",
-        "updatedAt": "2026-08-26T12:25:02.951Z"
+        "updatedAt": "2026-08-28T03:15:04.387Z"
       },
       "finalRoute": {
         "selection": "build",
@@ -151,7 +163,7 @@
         "classifierVersion": "keyword-v1",
         "promptVariant": "build-minimal-v1",
         "modelClass": "flash",
-        "updatedAt": "2026-08-26T12:25:06.723Z"
+        "updatedAt": "2026-08-28T03:15:08.342Z"
       },
       "godotSkills": [
         "godot-2d-movement",
@@ -181,7 +193,7 @@
           "classifierVersion": "keyword-v1",
           "promptVariant": "build-minimal-v1",
           "modelClass": "flash",
-          "updatedAt": "2026-08-26T12:25:02.954Z"
+          "updatedAt": "2026-08-28T03:15:04.392Z"
         },
         {
           "selection": "build",
@@ -192,17 +204,17 @@
           "classifierVersion": "keyword-v1",
           "promptVariant": "build-minimal-v1",
           "modelClass": "flash",
-          "updatedAt": "2026-08-26T12:25:06.723Z"
+          "updatedAt": "2026-08-28T03:15:08.342Z"
         }
       ],
       "assistantToolCalls": [
         {
           "name": "run_code",
-          "id": "call_00_HjbbWt4G11WFzlrRtZk59304"
+          "id": "call_00_PpamLcpwsBL09LX2XCpa9252"
         },
         {
           "name": "run_code",
-          "id": "call_00_CkWZkSIP74GR0NzPvSGr2044"
+          "id": "call_00_XtGLaFcJpAmrsoyQrca30741"
         }
       ],
       "dispatches": [
@@ -236,7 +248,7 @@
       }
     },
     "auto": {
-      "sessionId": "capability-adaptive-1787747124853",
+      "sessionId": "capability-adaptive-1787886923004",
       "timedOut": false,
       "selection": {
         "selection": "auto",
@@ -247,7 +259,7 @@
         "classifierVersion": "keyword-v1",
         "promptVariant": "creator-classic-v1",
         "modelClass": "flash",
-        "updatedAt": "2026-08-26T12:25:24.912Z"
+        "updatedAt": "2026-08-28T03:15:23.072Z"
       },
       "finalRoute": {
         "selection": "auto",
@@ -258,7 +270,7 @@
         "classifierVersion": "keyword-v1",
         "promptVariant": "build-minimal-v1",
         "modelClass": "flash",
-        "updatedAt": "2026-08-26T12:25:28.836Z"
+        "updatedAt": "2026-08-28T03:15:26.363Z"
       },
       "godotSkills": [
         "godot-2d-movement",
@@ -288,7 +300,7 @@
           "classifierVersion": "keyword-v1",
           "promptVariant": "build-minimal-v1",
           "modelClass": "flash",
-          "updatedAt": "2026-08-26T12:25:24.914Z"
+          "updatedAt": "2026-08-28T03:15:23.074Z"
         },
         {
           "selection": "auto",
@@ -299,17 +311,17 @@
           "classifierVersion": "keyword-v1",
           "promptVariant": "build-minimal-v1",
           "modelClass": "flash",
-          "updatedAt": "2026-08-26T12:25:28.836Z"
+          "updatedAt": "2026-08-28T03:15:26.363Z"
         }
       ],
       "assistantToolCalls": [
         {
           "name": "run_code",
-          "id": "call_00_9wFngr5BQOVk5F5Yu7eV4449"
+          "id": "call_00_or8VSCzj7Xu2zZ8r1aSc9379"
         },
         {
           "name": "run_code",
-          "id": "call_00_diKWwCUScf8vqm89LOxS9881"
+          "id": "call_00_TTLcd6Y4DPpohFbckxty6365"
         }
       ],
       "dispatches": [

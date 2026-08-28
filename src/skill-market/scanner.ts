@@ -5,7 +5,7 @@ import { sha256CanonicalJson } from './canonical-json.js'
 import { hashArtifactDirectory } from './files.js'
 import type { PreparedSkillArtifact } from './preparation.js'
 
-export const SCANNER_RULES_VERSION = '2026-08-27.1'
+export const SCANNER_RULES_VERSION = '2026-08-28.2'
 
 export type RiskSeverity = 'low' | 'medium' | 'high' | 'critical'
 
@@ -153,14 +153,14 @@ const LINE_RULES: readonly LineRule[] = [
   {
     ruleId: 'authentication-or-secret',
     severity: 'medium',
-    pattern: /(?:api[_ -]?key|access[_ -]?token|secret|oauth|log\s*in|sign\s*in|认证|登录|密钥|令牌)/iu,
+    pattern: /(?:\bapi[_ -]?key\b|\baccess[_ -]?token\b|\bsecret\b|\boauth\b|\b(?:log|sign)\s+in(?:\s+(?:to|with|using|via|as)\b|(?=\s*(?:[.!?,;:]|$)))|认证|登录|密钥|令牌)/iu,
     explanation: '正文涉及认证或秘密信息，可能引入外部账户和凭据边界。',
     recommendation: '确认所需服务、凭据范围、保存位置和最小权限。',
   },
   {
     ruleId: 'publish-or-deploy',
     severity: 'medium',
-    pattern: /\b(?:deploy|publish|release|upload)\b|部署|发布|上传/iu,
+    pattern: /\b(?:deploy|publish|upload)\b|\brelease\s+(?:the\s+)?(?:build|package|artifact|version|app|game|site|to\s+(?:production|an?\s+app\s+store))\b|\b(?:create|cut|ship)\s+(?:a\s+)?release\b|部署|发布|上传/iu,
     explanation: '正文可能要求向外部平台部署、发布或上传。',
     recommendation: '执行前必须再次获得用户对目标平台和具体副作用的确认。',
   },

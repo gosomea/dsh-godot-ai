@@ -6,6 +6,7 @@ import { GitHubImportClient, type GitHubImportSource, type ResolvedGitHubImportS
 import { prepareThirdPartyArtifact } from './preparation.js'
 import {
   SCANNER_RULES_VERSION,
+  scanSkillDirectory,
   scanPreparedThirdPartyArtifact,
   verifyRiskReport,
   type SkillRiskReport,
@@ -220,6 +221,7 @@ export class SkillMarketService {
   async initialize(): Promise<void> {
     await this.store.initialize()
     await this.store.recover()
+    await this.rescanInstalledSkillsAfterRulesUpgrade()
   }
 
   async snapshot(): Promise<SkillMarketSnapshot> {
@@ -393,6 +395,23 @@ export class SkillMarketService {
   private inspectionDirectory(inspectionId: string): string {
     if (!INSPECTION_ID.test(inspectionId)) throw new Error('invalid inspectionId')
     return join(this.store.paths.staging, inspectionId)
+  }
+
+  private async rescanInstalledSkillsAfterRulesUpgrade(): Promise<void> {
+    if (await this.store.beginScannerUpgrade(SCANNER_RULES_VERSION) === 0) return
+    const lockfile = await this.store.readLockfile()
+    for (const [skillId, installed] of Object.entries(lockfile.installed)) {
+      if (installed.scannerRulesVersion === SCANNER_RULES_VERSION) continue
+      try {
+        const report = await scanSkillDirectory(this.store.artifactPath(installed.activeArtifactHash), {
+          expectedArtifactHash: installed.activeArtifactHash,
+        })
+        await this.store.applyRescan(skillId, report, [])
+      } catch {
+        // beginScannerUpgrade already failed closed. Keep this Skill disabled
+        // and continue initializing the rest of the market.
+      }
+    }
   }
 }
 

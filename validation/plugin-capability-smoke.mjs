@@ -5,7 +5,7 @@
  * read-only orientation instead of creating a game, so the report measures the
  * wrapper's adaptive route, bootstrap surface, continuation and event trace.
  */
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname } from 'node:path'
 
 const baseUrl = process.env.DSH_EVAL_URL ?? 'http://127.0.0.1:3081'
@@ -13,6 +13,9 @@ const outputPath = process.env.DSH_CAPABILITY_REPORT
   ?? '/Users/yuqixian/forever-skills/projects/deepseek-harness-plugins/dsh-godot-ai/validation/plugin-capability-report.json'
 const model = process.env.DSH_CAPABILITY_MODEL ?? 'deepseek-v4-flash-ioa'
 const timeoutMs = Number(process.env.DSH_CAPABILITY_TIMEOUT_MS ?? 180_000)
+const packageManifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
+const expectedWrapperVersion = packageManifest.version
+if (typeof expectedWrapperVersion !== 'string') throw new Error('package.json has no string version')
 
 async function rpc(method, payload) {
   const response = await fetch(`${baseUrl}/api/${method}`, {
@@ -231,7 +234,7 @@ async function inspectHostContracts() {
     integration,
     presetStates: { classic: classicPreset, adaptive: adaptivePreset },
     checks: {
-      wrapperVersion: integration.wrapperVersion === '0.5.0-rc.1',
+      wrapperVersion: integration.wrapperVersion === expectedWrapperVersion,
       backendReady: integration.backend?.kind === 'ready' && integration.backend.details?.serverVersion === '3.1.5',
       editorConnected: integration.editor?.kind === 'connected'
         && integration.editor.sessions.some(session => session.pluginVersion === '3.1.5'),

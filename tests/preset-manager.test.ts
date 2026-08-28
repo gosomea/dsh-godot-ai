@@ -192,6 +192,21 @@ describe('ManagedPresetManager', () => {
     expect(after).toContain('contract: 2')
   })
 
+  it('offers a sync when the wrapper version advances without a schema change', async () => {
+    await manager.install()
+    const upgraded = new ManagedPresetManager({
+      roster,
+      wrapperVersion: '0.2.0',
+      schemaVersion: 1,
+      managedBlock: BLOCK_V1,
+    })
+
+    expect(await upgraded.state()).toEqual({ kind: 'sync-available', installedSchema: 1, currentSchema: 1 })
+    expect((await upgraded.sync()).kind).toBe('current')
+    expect(JSON.parse(await readFile(join(dirname(compositionPath()), 'dsh-godot-ai.managed.json'), 'utf8')))
+      .toMatchObject({ schemaVersion: 1, wrapperVersion: '0.2.0' })
+  })
+
   it('detects a Standard update and rebuilds from the new base', async () => {
     await manager.install()
     const newSource = '- id: current-standard\n  name: fixture-current\n'

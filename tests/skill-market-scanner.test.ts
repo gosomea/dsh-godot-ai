@@ -76,6 +76,22 @@ describe('skill market risk scanner', () => {
     expect(changed.riskReportHash).not.toBe(first.riskReportHash)
   })
 
+  it('does not confuse ordinary game UI wording with login or external release actions', async () => {
+    await writeSkill([
+      '# Game UI',
+      'Designing UI for immersive experiences.',
+      'Hold to open, release to select.',
+      'Modal dialogs must trap then release focus.',
+      'Plan navigation for a future console release.',
+      'Use [SerializeField] and assign in Inspector.',
+      'Keep a notification log in menu.',
+    ].join('\n'))
+
+    const report = await scanSkillDirectory(root)
+    expect(report.findings.filter(finding => finding.ruleId === 'authentication-or-secret')).toEqual([])
+    expect(report.findings.filter(finding => finding.ruleId === 'publish-or-deploy')).toEqual([])
+  })
+
   it('flags scripts, hidden files, archives, and unsafe file trees', async () => {
     await writeSkill('# Metadata')
     await mkdir(join(root, 'scripts'))
