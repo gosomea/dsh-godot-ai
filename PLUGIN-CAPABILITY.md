@@ -1,52 +1,39 @@
-# dsh-godot-ai 插件能力验证
+# 插件能力验证
 
-这份验证只回答一个问题：`dsh-godot-ai` 自己提供的能力是否真的被 DSH 使用。
-它不把“游戏最后做得好不好”混进插件能力结论；游戏创建矩阵属于另一个产品级回归层。
+当前验证对象：`dsh-godot-ai@0.7.0`、DSH `0.2.0-rc.2` 官方源码 Web、Godot AI `3.1.5`。旧版本三款游戏和 Adaptive 矩阵不作为本版本验收证据。
 
-## 验证对象
+## 验证范围
 
-- Host：集成状态、Godot AI 版本、编辑器连接、更新探测和两个 managed preset 路由。
-- Agent：`godot-creator` 稳定模式、`godot-creator-adaptive` 独立模式、16 个 Godot Skills 和 Godot MCP 工具注入。
-- Adaptive：手动 `build`、`auto` 关键词分类、只读 bootstrap、`run_code`、promotion 到 `full`、第二条消息实际使用完整工具面、首条消息后的选择锁定。
-- 安全与兼容：bootstrap 只允许 `session_manage(list)` / `editor_state`，不产生写工具或空工具名；Classic 不产生 Adaptive 路由事件。
+- 单元与组件契约：兼容清单、一个声明式 preset、官方 PTC composition 一致性、技能优先级、市场签名/扫描/确认/更新/回滚、页面草稿与焦点行为。
+- 类型和构建：直接使用 npm 的 DSH rc.2 开发依赖，不使用旧 rc8 类型或跳过插件自身类型错误。
+- 正式安装：通过当前 DSH CLI 的 `plugin --profile ... add <tarball>` 安装打包产物，再检查合成配置和真实 Host。
+- 运行行为：公开 registry 识别唯一 Godot 模式；会话绑定到独立测试工作区；真实原生 PTC 调用 `session_manage(op=list)`。
+- 数据与隔离：完整 45 个 Godot SDK bindings、16 Skills、项目同名 Skill 覆盖；Standard 不出现 Godot 工具和 Persona。
+- 浏览器：正常点击设置与市场标签页，检查加载、Addon 未连接提示、模式列表和创作台；不强制绕过 onboarding。
+- 发布：npm 线上包与 GitHub 附件必须等于已测 tarball 的 SHA-256。
 
-## 执行方式
+测试桥仅位于 `validation/`，不进入 npm 包；它只运行固定的只读 Godot 调用，不接受任意代码或项目修改。测试使用独立 DSH Home/profile/端口，日常 Web profile 不参与。
 
-在 DSH Web 和 Godot 编辑器已启动的环境中：
+## 证据与重跑
+
+[单元报告](validation/rc2-release/unit-report.json)、[运行报告](validation/rc2-release/runtime-report.json)和[发布报告](validation/rc2-release/release-report.json)记录各层的实际结果。迁移门禁由 [plan.json](docs/10-plans/godot-creator-rc2/plan.json)管理。
 
 ```bash
-pnpm test:capability:static
-pnpm test:capability:live
-# 或一条命令执行两层
-pnpm test:capability
+pnpm check
+pnpm test
+pnpm build
 ```
 
-live 脚本只发送一次只读请求，不创建、修改、运行或保存 Godot 项目。它保存精简事件摘要到 `validation/plugin-capability-report.json`，不会把整份 session history 当作成功证据。
+Host 重跑需要先通过正式 CLI 在隔离 profile 安装测试 tarball，并挂载 test-only probe：
 
-## 最近一次结果（2026-08-26）
-
-环境：DSH 官方 rc8（commit `141eb6fef83422698aef7a981029e843e8161534`）、dsh-godot-ai `0.5.0-rc.1`、Godot AI `3.1.5`、Godot `4.6`、DeepSeek Flash。
-
-| 检查 | 结果 | 直接证据 |
-| --- | --- | --- |
-| Host 集成与更新探测 | PASS | backend ready、editor connected、addon 3.1.5、update probe 有结果 |
-| Classic 对照 | PASS | `godot-creator`、16 个 Skills、`mcp__godot-ai__*`；无 Adaptive 路由 |
-| Adaptive 手动 build | PASS | `manual build → bootstrap → full`、`run_code`、两个只读 bootstrap binding、第二轮 `scene_get_hierarchy` |
-| Adaptive auto | PASS | `classifier clear-build-intent → bootstrap → full`，第二轮实际使用 Adaptive 工具 |
-| 安全/生命周期 | PASS | 无写工具、无空工具名、正常 `turn/end`、首条消息后拒绝更改选择 |
-
-这次能力门是 `host + classic + adaptive/manual + adaptive/auto` 全部通过，才允许进入游戏矩阵的发布决策。它证明插件的注入、路由和边界工作；不证明模型在复杂游戏任务上的成功率、视觉质量或效率。
-
-正式游戏 runner 也会把同一组归因字段写入每个 run：新的报告必须包含实际 preset、16 个可调用 Skills、对应 MCP namespace、Adaptive 生命周期和首轮只读 bootstrap；旧报告会标记为 `legacyEvidence`，不能冒充新候选的插件证据。
-
-## 与游戏矩阵的关系
-
-游戏矩阵仍然有价值：它验证真实 Godot 项目能否被交付、运行和回读。但它只能作为产品级端到端回归，不能单独回答“这个结果是不是插件带来的”。发布顺序固定为：
-
-```text
-插件能力门通过
-    ↓
-有限游戏回归 / Classic 对照
-    ↓
-安全、真实性、效率与成功率发布判断
+```bash
+DSH_GODOT_SMOKE_URL=http://127.0.0.1:<测试端口> \
+DSH_GODOT_TEST_LOG=<本次隔离Host私有启动日志> \
+node validation/rc2-smoke.mjs verify
 ```
+
+启动日志包含本次 Host 的认证链接，必须留在本地权限受控目录；报告不记录 token 或模型凭据。不要把日常 profile 用作测试目录。
+
+## 明确未覆盖
+
+本次没有连接 Godot Addon，因此不声称编辑器写入、运行输入或完整游戏创作 E2E 通过；真实模型生成亦未重新测试。Godot AI 新版和 DSH alpha 支持需另行验证。静态单元测试和 Web 能力验证不等同于完整游戏验收。

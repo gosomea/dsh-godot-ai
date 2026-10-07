@@ -2,10 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
-import {
-  createGodotMcpConfig,
-  GODOT_ADAPTIVE_MCP_SERVER_NAME,
-} from '../src/agent/launch-spec.js'
+import { createGodotMcpConfig } from '../src/agent/launch-spec.js'
 import { parseCompatibilityManifest } from '../src/core/compatibility.js'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -31,13 +28,6 @@ describe('compatibility manifest', () => {
       failOnStartupError: false,
       reconnect: { enabled: true, initialDelayMs: 500, maxDelayMs: 30_000, maxAttempts: 10 },
     })
-  })
-
-  it('isolates the Adaptive MCP registry without changing the backend command', async () => {
-    const manifest = parseCompatibilityManifest(await manifestValue())
-    const config = createGodotMcpConfig(manifest, GODOT_ADAPTIVE_MCP_SERVER_NAME)
-    expect(config.serverName).toBe('godot-ai-adaptive')
-    expect(config.args).toEqual(expect.arrayContaining(['godot-ai', 'attach']))
   })
 
   it('rejects an untested default, unsafe registry URL, and invalid ports', async () => {

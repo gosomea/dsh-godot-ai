@@ -1,115 +1,71 @@
+---
+description: "在 DeepSeek Harness 中用一个 Godot Creator 模式读取、构建和验证 Godot 游戏，并管理游戏开发 Skills。"
+kind: "package-bundle"
+---
+
 # dsh-godot-ai
 
 中文 | [English](README.en.md)
 
-给 [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness) 增加一个专门做 Godot 游戏的 **Godot Creator 模式**。
+## 简介
 
-简单说：你在 Godot 里打开项目，AI 就能通过 [Godot AI](https://github.com/hi-godot/godot-ai) 读取编辑器、创建场景、修改脚本、运行游戏，并检查做出来的结果。
+给 DeepSeek Harness 增加一个专门做 Godot 游戏的 **Godot Creator** 模式。你描述玩法，AI 通过原版 [Godot AI](https://github.com/hi-godot/godot-ai) 操作当前打开的编辑器，搭场景、改脚本、制作 UI，再运行并检查结果。插件同时提供游戏创作台、16 个 Godot Skills、3 个工作流和第三方 Skill 市场。Godot AI Addon 需要你在目标项目中手动安装并启用。
 
-> 当前版本：`0.6.0`。插件能力门已经通过真实 DSH rc8 + Godot 编辑器验证；完整 15 Classic + 15 Adaptive 产品矩阵尚未跑满，推荐在 Godot 编辑器旁监督使用，暂不承诺完全无人值守。
+当前版本 `0.7.0`，支持 DSH `0.2.0-rc.2` Web；不支持旧 rc8。所有能力集中在一个 `godot-creator` preset，不再提供 Adaptive 模式。
 
-## 它能帮你做什么
+## 目录
 
-- 从零搭建可玩的 2D、3D 游戏原型。
-- 创建和修改场景、节点、脚本、资源、信号和输入设置。
-- 制作菜单、HUD、暂停界面、动画、材质、Shader、粒子、音频和相机。
-- 运行游戏并模拟键盘、鼠标或手柄输入。
-- 检查场景树、运行状态、报错、警告、日志和游戏画面。
-- 修改后重新读取结果，避免工具显示成功但项目实际没有改对。
-- 出错时从最近一次验证成功的阶段继续，不轻易推倒重来。
+- [安装与开始](#安装与开始)
+- [能做什么](#能做什么)
+- [这个模式的底座是什么](#这个模式的底座是什么)
+- [Skills 与更新](#skills-与更新)
+- [实现方式](#实现方式)
+- [模型使用方式](#模型使用方式)
+- [限制与验证](#限制与验证)
+- [开发](#开发)
 
-它不是 Godot 编辑器的替代品，也不是 Godot AI 的修改版。它是在 DeepSeek Harness 和 Godot AI 之间加了一层更适合“完整做游戏”的对话方式、工作流、知识和安全检查。
-
-## Godot Creator 是从极简模式改的吗？
-
-**准确地说：安装底座仍然是 DSH Standard，但 Adaptive 的首轮执行采用了“极简化启动”。**
-
-插件没有复制或修改 DSH 的 Minimal preset，也没有修改 DSH 源码。安装时，两个模式都会从当前 DSH 自带的 `standard` 创建独立用户 preset：
-
-| 模式 | preset | 启动方式 | 适合场景 |
-| --- | --- | --- | --- |
-| Godot Creator | `godot-creator` | 从第一轮开始保留 Standard 能力，并加入 Godot Persona、Godot AI、16 个 Skills、3 个工作流和 PTC / Code Mode | 通用创作、过程透明、方便调试 |
-| Godot Creator Adaptive | `godot-creator-adaptive` | 仍以 Standard 为安装底座；创建/修复任务首轮临时使用完整短提示词，只允许 `run_code` 编排两个只读 Godot binding；检查成功后提升到完整 Standard + Godot 能力 | 批量搭建、固定工作流、减少首轮工具和提示词干扰 |
-
-也就是说，Adaptive 不是“换成 Minimal preset”，而是在 Standard 底座上实现了一段受控的极简阶段：
-
-```text
-DSH Standard 独立副本
-        +
-Godot Creator Persona / Skills / Workflows
-        +
-Godot AI 完整工具面
-        ↓
-Adaptive 首轮：短完整提示词 + run_code + 只读检查
-        ↓ 检查成功后 promotion
-完整 Standard + Godot Creator 能力
-```
-
-这样既利用了极简启动在首轮聚焦和工具控制上的优势，又保留 Standard 的文件、Shell、检索、Skills、计划和验证能力。稳定的 `godot-creator` 不经过 Adaptive 路由；两个模式互相独立，可以随时切换和对照。
-
-## 五分钟开始
+## 安装与开始
 
 ### 1. 准备环境
 
-- DeepSeek Harness：`>=0.1.0-rc.8 <0.2.0`
-- Node.js：`22.19.0+`
-- Godot：`4.5+`，推荐 `4.7`
-- [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
+需要 DSH `0.2.0-rc.2` Web、Node.js `22.19+` 的 22.x 或 `24+`（不使用 Node 23），以及 `uvx`。Godot 最低 `4.5`，推荐 `4.7+`；Godot AI 后端固定在已验证的 `3.1.5`。
 
-先确认 `uvx` 可以运行：
+先确认：
 
 ```bash
 uvx --version
 ```
 
-### 2. 安装 dsh-godot-ai
+### 2. 安装或升级插件
 
-从 npm 安装：
-
-```bash
-dsh plugin --profile web add dsh-godot-ai
-```
-
-如果你要使用 GitHub 上的源码：
+使用与你的 Web 实例相同的 profile。例如本机 `dsh-web` 使用 `web-rc2`：
 
 ```bash
-git clone https://github.com/gosomea/dsh-godot-ai.git
-cd dsh-godot-ai
-pnpm install
-pnpm build
-dsh plugin --profile web add "$(pwd)"
+dsh plugin --profile web-rc2 add dsh-godot-ai@0.7.0
 ```
 
-安装完成后重新启动 DSH：
+如果你的全局 `dsh` 比源码旧，在新版 DSH 源码目录使用对应的 CLI：
 
 ```bash
-dsh web --port 3080
+node --import tsx/esm apps/cli/src/bin.ts plugin --profile web-rc2 add dsh-godot-ai@0.7.0
 ```
 
-打开 DSH Settings，点击 **安装游戏创造模式**。这个按钮只创建 DSH 用户 preset，不会修改 Godot 项目。
+安装完成后，在当前任务结束时重新启动原来的 Web 命令。Godot Creator 会自动出现在 Agent 预设列表中，**无需再点击“安装游戏创造模式”**，也不会创建一套用户目录 preset 副本。
 
-### 3. 给 Godot 项目安装 Addon
+如果模式选择不可见，在设置中开启“显示代码工作视图”，再查看 Agent 预设；也可把 Godot Creator 设为新会话默认模式。
 
-这一步需要你自己操作。插件不会自动往项目里写 Addon。
+### 3. 在 Godot 项目中启用 Addon
 
-推荐方式：
+1. 用 Godot 打开目标项目。
+2. 在 AssetLib 搜索 **Godot AI** 并安装与后端兼容的 `3.1.5` Addon。
+3. 打开 **Project → Project Settings → Plugins**，启用 Godot AI。
+4. 保持项目在编辑器中打开。
 
-1. 在 Godot 中打开 **AssetLib**。
-2. 搜索 **Godot AI** 并安装。
-3. 打开 **Project → Project Settings → Plugins**。
-4. 启用 **Godot AI**。
-5. 保持目标项目在 Godot 编辑器中打开。
+如果 AssetLib 的最新版本已高于 `3.1.5`，使用对应的 [v3.1.5 源码](https://github.com/hi-godot/godot-ai/tree/v3.1.5)中的 `addons/godot_ai`；不要盲目把未经验证的新 Addon 与旧后端混用。插件不自动写入你的项目。安装帮助和连接诊断在 DSH 设置中的 Godot AI 卡片。
 
-也可以下载最新 [Godot AI Release](https://github.com/hi-godot/godot-ai/releases/latest)，把 `addons/godot_ai` 复制到项目。
+### 4. 开始创作
 
-### 4. 开始做游戏
-
-1. 在 DSH 中新建会话。
-2. 选择 **Godot Creator**。
-3. 确认顶部显示正确的 Godot 项目，并且状态为“已连接”。
-4. 直接描述游戏，或者打开 Godot Creator 面板选择快捷工作流。
-
-例如：
+新建会话并选择 **Godot Creator**。打开顶部的游戏创作台，确认连接状态和目标项目；多个项目时先选清楚目标。可以直接输入：
 
 ```text
 创建一个 480×720 的 2D 躲避游戏。
@@ -117,215 +73,74 @@ dsh web --port 3080
 并提供重新开始按钮。完成后运行游戏，检查日志和画面。
 ```
 
-```text
-读取当前 3D 项目，制作一个第三人称收集游戏。
-收集 3 个能量球后打开出口，加入跟随相机、碰撞、HUD、材质和灯光，
-最后完整玩一遍并修复发现的问题。
-```
+创作台中的“2D 游戏骨架”“3D 可玩原型”“菜单与 HUD”只把需求放进输入框，不会自动发送，也不会覆盖已有草稿。
 
-```text
-给当前游戏添加主菜单、HUD、暂停、恢复和返回主菜单功能，
-保留现有游戏逻辑，并测试键盘和鼠标操作。
-```
+## 能做什么
 
-## 三个快捷工作流
+- 创建和修改场景、节点、GDScript/C# 脚本、资源、信号、输入设置。
+- 制作 UI、动画、材质、Shader、粒子、音频、相机和环境。
+- 运行游戏，检查场景树、运行状态、报错、警告、日志和画面；在工具支持范围内模拟输入。
+- 按“读取 → 小批次修改 → 回读 → 运行 → 验证”工作，失败时从已验证阶段恢复。
+- 在创作台查看项目、Addon、后端和版本状态；在 Skill 市场审阅、安装、更新及回滚第三方知识。
 
-| 工作流 | 适合做什么 |
-| --- | --- |
-| 创建 2D 游戏骨架 | 玩家、世界、相机、输入、HUD 和基础玩法循环 |
-| 创建 3D 可玩原型 | 空间、角色、碰撞、相机、灯光和基础交互 |
-| 添加菜单与 HUD | 主菜单、状态显示、暂停、恢复和界面导航 |
+Godot 编辑器操作由原版 Godot AI 实现；这个插件负责 DSH 模式、对话规则、知识、工作流和界面，不替代游戏引擎，也不保证一句话就完成整款游戏。
 
-点击工作流不会立刻修改项目。它只会把一段可以检查和补充的需求放进输入框，发送以后 AI 才开始工作。
+## 这个模式的底座是什么
 
-## 插件里包含什么
+不是复制 Minimal，也不再复制用户目录中的 Standard。当前模式基于 **DSH 0.2.0-rc.2 官方 Web PTC 预设的声明式配置**，加入 Godot 专属规则、MCP 和技能提供方。
 
-| 能力 | 通俗解释 |
-| --- | --- |
-| Godot AI 工具 | 真正负责读取和操作 Godot 编辑器，当前验证了 45 个工具 bindings |
-| Godot Creator Persona | 告诉 AI 应该怎样设计、实现、运行和验收游戏 |
-| PTC / Code Mode | 把多次工具调用组合成较小的程序批次，减少来回等待 |
-| 16 个 Godot Skills | 补充 GDScript、2D/3D、UI、物理、动画、Shader、音频等知识 |
-| 3 个工作流 | 规定每类任务需要哪些输入、阶段、验收和出错恢复方式 |
-| 游戏创作台 | 显示项目、Addon、Backend、版本和运行状态，并提供工作流入口 |
-| Godot Skill 市场 | 审阅、安装、更新和回滚第三方游戏开发 Skill；默认不会自动安装、自动启用或交给模型调用 |
+它保留文件、Shell、搜索、Skills、计划、目标、压缩和验证工具；通过原生 PTC 把模型直接调用的入口收敛到 `run_code`。这是聚焦工具编排，不是删除工程能力。Standard、Minimal 等 DSH 自带模式不被修改。
 
-工作路径如下：
+从 `0.6.0` 升级时，需要同时升级 DSH；新会话统一选择 Godot Creator。旧 `godot-creator-adaptive` 会话不做无损恢复承诺，旧用户 preset 文件不会自动删除，请先备份旧配置与会话。
 
-```text
-Godot Creator 对话
-    ↓
-PTC / Code Mode 编排
-    ↓
-Godot AI MCP backend
-    ↓
-Godot AI Addon
-    ↓
-当前打开的 Godot 编辑器
-```
+## Skills 与更新
 
-完整 Skills 来源和许可证见 [`skills/README.md`](skills/README.md) 与 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
+16 个内置 Godot Skills 是离线兜底，跟随 npm 版本更新；正文按任务读取，不把整个目录塞入每轮提示词。项目和用户的同名 Skill 可以按 DSH 的作用域和优先级覆盖兜底版本，来源及许可证见 [Skills 说明](skills/README.md)。
 
-## Godot Skill 市场
+第三方市场继续提供“已安装 / 精选 / GitHub 导入 / 更新”四个标签页：
 
-0.6.0 在设置页加入了一个独立的 Skill 市场。它解决的是“第三方游戏开发知识怎样持续更新”，不会替换插件随包的 16 个 Godot Skills：
+- 固定 commit 下载，审阅正文、差异、许可证和风险后安装；不运行第三方脚本或安装器。
+- 新安装默认禁用；启用后也仅供用户主动调用，不允许模型自动调用。
+- critical 风险硬阻断，high/medium 需要逐条确认。静态扫描不是沙箱，也不能证明正文绝对安全。
+- Catalog 有 Ed25519 签名、多 key 信任根、防回滚 serial 和初始哈希；签名不等于内容安全背书。
+- 手动检查更新为主，后台至多每日一次；更新再次审阅，保留最多三版历史用于回滚。
 
-- 随包 16 个 Skill 是 rank 600 的离线兜底，跟随 npm 插件版本更新。
-- 项目、用户、自定义目录和市场中的同名 Skill 可以按 DSH 优先级覆盖兜底版本。
-- 市场内容保存在 `$DSH_HOME/dsh-godot-ai/skill-market/v1`，不会复制到插件源码目录。
-- 精选 Catalog 使用 Ed25519 签名、keyId、多 key 信任根和单调 serial，拒绝旧版本回滚。
-- Catalog 每 24 小时最多后台检查一次，并使用 ETag；也可以在“更新”页手动检查。
+市场数据保存在 `$DSH_HOME/dsh-godot-ai/skill-market/v1`，不写进插件目录。候选不等于默认安装：Three.js 与网页小游戏技能仍不默认安装，许可证或安全状态不合格的条目保持不可安装。详见 [第三方说明](THIRD_PARTY_NOTICES.md)。
 
-首发保留了你指定的 10 个候选状态，其中 8 个固定 GitHub commit 完成了真实下载和扫描。当前可以进入安装审阅的有 5 个：
+插件更新使用安装相应新版本的同一个命令，然后重启 DSH。Godot AI 新版会显示为待验证更新，不自动更换后端或 Addon。
 
-| Skill | 定位 | 默认策略 |
-| --- | --- | --- |
-| `game-feel` | 手感、反馈、打击感；含 Godot 示例 | Starter 推荐，不自动安装 |
-| `game-ui-ux` | Godot Control、锚点、安全区、焦点导航 | Starter 推荐，不自动安装 |
-| `game-ui-design` | HUD、菜单、可访问性、手柄和响应式 UI | Starter 推荐，不自动安装 |
-| `game-developer` | 通用开发与性能；偏 Unity/Unreal | 可选，不默认推荐 |
-| `threejs-game-ui-designer` | Three.js 专用游戏 UI | 可选，明确不默认安装 |
+## 实现方式
 
-其余候选仍会显示真实状态：
+<details>
+<summary>给开发者的实现说明</summary>
 
-- `higgsfield-game-generation` 已被上游迁移，且历史正文命中远程下载后交给 Shell 执行的 critical 规则，硬阻断。
-- `multiplayer-game` 缺少可确认的再分发许可证，不可安装。
-- `game-engine` 的固定仓库归档约 86 MB，超过 16 MiB codeload 安全上限，不为了 Web 引擎 Skill 放大所有用户的内存攻击面。
-- `game-design-theory` 使用自定义许可证，在许可证全文审阅 UI 完成前不可安装。
-- `develop-web-game` 只找到历史快照，没有可接受的当前固定 GitHub 来源；按你的要求明确不默认安装。
+[cordis.patch.yml](cordis.patch.yml) 声明一个 Host 插件和一个 Godot Creator preset；preset 内的 Agent 插件挂载 Persona、Skills 和 Godot AI MCP。Host 提供只读模式状态、集成诊断及 Skill 市场管理；Client 给设置和会话标题贡献界面。模式归属读取新版会话投影，工具展示使用官方 `dsh-agent-tool-presentation` 的 `ptc` 配置。
 
-安装流程不是“一点就信任”，而是：
+配置按 DSH 官方 rc.2 PTC 文件固定，契约测试验证其一致性。上游更新不会静默改写用户会话，后续 DSH 版本需要重新适配与验证。没有修改 DSH 源码，也没有工具名改写补丁或首轮自定义路由状态机。
 
-```text
-固定 commit 下载
-    → 隔离 scripts / hooks / bin / 可执行文件
-    → 扫描 SKILL.md 和引用正文中的 Prompt 风险
-    → 查看 active 与新 Artifact 的 diff
-    → critical 硬阻断；high / medium 逐条确认
-    → 安装为默认禁用
-    → 用户再次点击启用后，才进入用户可调用面
-```
+</details>
 
-第三方市场 Skill 在 0.6.0 始终是 `modelInvocable: false`。即使它来自签名精选 Catalog，模型也不能自动选择它；签名只证明“这是维护者发布的 Catalog”，不证明 Skill 正文绝对安全。更新同样重新经过 Inspect、Diff、Scan 和 Confirm，当前版本在确认前保持可用；历史最多保留三版，可回滚。卸载后失去引用的 Artifact 和过期暂存会在 GC 时先进入七天可恢复回收站。
+## 模型使用方式
 
-## 它怎样保证修改更可靠
+模型直接看到 `run_code` 和当前生成的 TypeScript SDK；通过 SDK 调用 Godot 与工程工具。创作规则要求先确认目标项目，按需加载 Skill，顺序执行依赖性写入，每批读回，仅返回当前决策需要的摘要。第三方 Skill 仍需用户明确调用。
 
-Godot Creator 默认按以下过程工作：
+## 限制与验证
 
-1. **先看**：确认目标项目、场景、已有节点、脚本和运行状态。
-2. **再做**：把任务拆成场景、脚本、UI 等小批次。
-3. **回头检查**：每批修改后重新读取关键结果。
-4. **实际运行**：启动游戏并走一遍主要玩法。
-5. **最后验收**：检查错误、警告、日志、状态和画面。
+新版测试覆盖 TypeScript、单元与组件契约、tarball 正式安装、真实 rc.2 Web 挂载、45 个 Godot bindings、16 个 Skills、项目 Skill 覆盖、原生 PTC 只读调用和 Standard 隔离；证据见 [插件能力验证](PLUGIN-CAPABILITY.md)。
 
-单个工具返回 `success` 不代表整个任务完成。只有项目可以运行、核心玩法走通、结果已经回读，Creator 才会把它当作完成。
+本次环境没有连接 Godot Addon，没有重新测试三款完整游戏或真实模型生成，因此不宣称新版的游戏创作端到端通过。旧游戏验证属于历史版本证据。Godot AI `4.x` 和 DSH `0.2.1-alpha` 尚未验证；缺少 `uvx`、编辑器连接或兼容后端时请先修复设置页提示。
 
-## 已经做过哪些真实验证
-
-我们使用真实的 DSH、Godot AI 和 Godot 编辑器创建了三款不同类型的原型：
-
-| 原型 | 验证内容 | 结果 |
-| --- | --- | --- |
-| Neon Dash | 2D 移动、跳跃、障碍、重生、相机、胜利和重新开始 | PASS |
-| Signal Circuit | UI、信号、焦点导航、键鼠、Tween 和程序音频 | PASS |
-| Orbit Collector | 3D 移动、相机、碰撞、材质、灯光、HUD 和收集玩法 | PASS |
-
-完整报告见 [`validation/report.md`](validation/report.md)，已知问题见 [`validation/issues.md`](validation/issues.md)。
-
-需要区分两类验证：上面的游戏原型是产品级端到端回归，证明“从对话到 Godot 项目”的链路能否交付；它不能单独证明插件自己的路由、注入和安全守卫有效。插件能力还会单独执行以下检查：
-
-- 静态契约：`godot-creator` 与 `godot-creator-adaptive` 的 preset 组成、16 个 Godot Skills、45 个工具目录、兼容性、工作流和 preset 更新保护。
-- 实机能力：Adaptive 是否先走只读 bootstrap、是否在检查成功后 promotion 到 full、是否真的挂载 Adaptive MCP 工具、是否阻止写入工具和空工具名。
-- 上游边界：检查只通过公开的 DSH rc8 扩展面工作，不把改动写入 DeepSeek Harness 或 Godot AI 源码。
-
-在已启动 DSH Web（默认 `http://127.0.0.1:3081`）和 Godot 编辑器后，可以运行：
+## 开发
 
 ```bash
-pnpm test:capability:static   # 不访问网络，不修改 Godot 项目
-pnpm test:capability:live     # 真实 DSH → 插件 → MCP → Godot，只做一次只读检查
-pnpm test:capability          # 先跑静态，再跑实机能力门
-```
-
-实机报告写入 [`validation/plugin-capability-report.json`](validation/plugin-capability-report.json)，验证说明见 [`PLUGIN-CAPABILITY.md`](PLUGIN-CAPABILITY.md)。只有插件能力门通过后，才把游戏矩阵结果作为发布决策的补充证据；不能用游戏 PASS 代替插件能力门。
-
-## Godot AI 版本与更新
-
-当前固定并验证的 Godot AI 版本是 `3.1.5`：
-
-```bash
-uvx --link-mode copy --from godot-ai==3.1.5 \
-  godot-ai attach --port 8000 --ws-port 9500
-```
-
-第一次打开 Godot Creator 时，`uvx` 可能需要下载 Python 包。它仍然不会自动安装 Godot Addon。
-
-更新本插件：
-
-```bash
-dsh plugin --profile web update dsh-godot-ai
-```
-
-更新后重启 DSH。新的 Godot AI 版本只有通过兼容性验证后才会成为默认版本，不会因为 PyPI 出现新版本就自动切换。
-
-## 常见问题
-
-| 现象 | 怎么处理 |
-| --- | --- |
-| 找不到 Godot Creator | 到 Settings 安装游戏创造模式，然后重启 DSH |
-| 提示没有 `uvx` | 安装 `uv`，再运行 `uvx --version` |
-| Backend 等待启动 | 打开一个 Godot Creator 会话；首次启动可能需要下载依赖 |
-| Editor / Addon 未连接 | 打开 Godot 项目，并在 Plugins 中启用 Godot AI |
-| 8000 端口被占用 | 检查占用进程；插件不会自动结束未知进程 |
-| Web boot 显示很多插件 `pending` | 先确认 `dsh web` 仍在运行；基础连接断开会让很多插件一起等待 |
-
-## 安全边界
-
-- 不修改 DeepSeek Harness 源码。
-- 不自动安装 Godot Addon，也不自动修改项目的 `addons/`。
-- 安装、同步、重建和卸载 Creator preset 都需要用户主动操作。
-- 不覆盖已经存在但不属于本插件管理的 `godot-creator`。
-- 重建 preset 前会创建备份，失败时恢复。
-- 只连接本机 loopback 服务。
-- 不会杀掉占用端口的未知进程。
-- 不会自动使用未经验证的 Godot AI 新版本。
-- 不自动安装、启用或让模型自动调用第三方市场 Skill。
-- 静态扫描是启发式 Guardrail，不是沙箱，也不能证明 Prompt 没有恶意指令。
-- GitHub 导入只接受 owner/repo、ref 和子目录；ref 先固定为 commit，归档只从 `codeload.github.com` 下载。
-
-## 卸载
-
-先在插件界面卸载 Godot Creator preset，再删除插件：
-
-```bash
-dsh plugin --profile web remove dsh-godot-ai
-```
-
-如果先删除 npm 包，磁盘上的 Creator preset 会因为找不到 `dsh-godot-ai/agent` 而损坏。
-
-## 开发与测试
-
-```bash
+pnpm install
 pnpm check
 pnpm test
 pnpm build
-pnpm test:live
-pnpm market:build   # 维护者：按固定 commit 重建首批 Catalog（会访问 GitHub）
 ```
 
-`test:live` 会走真实的 `uvx → godot-ai → DSH MCP Client → Code Mode` 路径，但只执行只读检查，不会修改 Godot 项目。
+发布前先测试打包产物，再发布同一 tarball；发布后比较 npm、GitHub 附件和本地 SHA-256。迁移计划见 [0.7.0 计划](docs/10-plans/godot-creator-rc2/plan.json)，版本变化见 [CHANGELOG](CHANGELOG.md)。License：MIT。
 
-## 兼容性
+### 开发备注
 
-| 组件 | 版本 |
-| --- | --- |
-| dsh-godot-ai | `0.6.0` |
-| DeepSeek Harness | `>=0.1.0-rc.8 <0.2.0` |
-| Node.js | `>=22.19.0` |
-| Godot AI | `3.1.5` |
-| Godot | `>=4.5`，推荐 `4.7` |
-
-机器可读配置见 [`compatibility.json`](compatibility.json)。
-
-## License
-
-[MIT](LICENSE)。第三方来源和许可证见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
+没有额外运行时实验模式。

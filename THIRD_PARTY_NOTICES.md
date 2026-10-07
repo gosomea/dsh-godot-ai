@@ -1,5 +1,37 @@
 # Third-party notices
 
+## DeepSeek Harness Web PTC composition
+
+The Godot Creator declaration in `cordis.patch.yml` derives from the public `@deepseek-ai/dsh-web-app` 0.2.0-rc.2 PTC preset. The Godot declaration identity and description are changed, the disabled plugin-manager row is omitted, and the scoped Godot Agent row is added. The upstream DSH modes are not modified.
+
+- Source: https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.0-rc.2/packages/bundle/web-app/presets/ptc.patch.yml
+- License: MIT
+- Copyright (c) 2026 DeepSeek
+
+```text
+MIT License
+
+Copyright (c) 2026 DeepSeek
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
 ## Godot Engine icon
 
 The colored Godot Engine icon in `assets/godot/icon-color.svg` is Copyright © Andrea Calabró and the Godot Engine project contributors. It is used under the Creative Commons Attribution 4.0 International license.

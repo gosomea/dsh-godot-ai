@@ -2,7 +2,7 @@
 
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import type { GodotAdaptiveState, GodotIntegrationSnapshot } from '../src/core/types.js'
+import type { GodotIntegrationSnapshot } from '../src/core/types.js'
 import { GodotWorkspaceHeader } from '../src/client/GodotWorkspaceHeader.js'
 import { zh, type GodotAiKey } from '../src/client/locales.js'
 
@@ -28,21 +28,14 @@ const snapshot: GodotIntegrationSnapshot = {
 
 function props(preset = 'godot-creator', draft = '') {
   const setDraft = vi.fn()
-  const adaptiveState: GodotAdaptiveState = {
-    selection: 'auto', route: 'classic', phase: 'unclassified', source: 'fallback',
-    reason: 'awaiting-first-message', classifierVersion: 'keyword-v1', promptVariant: 'creator-classic-v1',
-    modelClass: 'pro', updatedAt: '2026-08-26T00:00:00.000Z',
-  }
-  const select = vi.fn(async (_sessionId: string, selection: 'auto' | 'build' | 'repair') => ({ ...adaptiveState, selection }))
   return {
     setDraft,
     value: {
       sessionId: 'session-1',
-      useSessions: (select: (state: unknown) => unknown) => select({ byId: { 'session-1': { agentPreset: preset } } }),
+      useSessions: (select: (state: unknown) => unknown) => select({ byId: { 'session-1': { projectionValues: { agentPreset: preset } } } }),
       useInput: (select: (state: unknown) => unknown) => select({ draft }),
       inputActions: { setDraft },
       api: { state: vi.fn(async () => snapshot), refresh: vi.fn(async () => snapshot) },
-      adaptiveApi: { state: vi.fn(async () => adaptiveState), select },
       t,
     },
   }
@@ -92,14 +85,10 @@ describe('Godot Creator workspace header', () => {
     expect(document.activeElement).toBe(opener)
   })
 
-  it('shows Adaptive routing only for the independent adaptive preset', async () => {
+  it('does not mount a legacy Adaptive theme', () => {
     const { value } = props('godot-creator-adaptive')
-    render(<GodotWorkspaceHeader {...value as never} />)
-    await screen.findByText('Space Garden')
-    expect(document.documentElement.dataset.dgaMode).toBe('godot-creator-adaptive')
-    fireEvent.click(screen.getByRole('button', { name: /Godot Adaptive/ }))
-    expect(await screen.findByText('Adaptive 路由')).toBeTruthy()
-    fireEvent.click(screen.getByRole('button', { name: '修复' }))
-    await waitFor(() => { expect(value.adaptiveApi.select).toHaveBeenCalledWith('session-1', 'repair') })
+    const { container } = render(<GodotWorkspaceHeader {...value as never} />)
+    expect(container.textContent).toBe('')
+    expect(document.documentElement.dataset.dgaMode).toBeUndefined()
   })
 })

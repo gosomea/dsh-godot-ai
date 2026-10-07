@@ -3,15 +3,14 @@ import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import type { PropsLocale, PropsRuntime, TranslateNS } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
-import type { GodotAdaptiveSelection, GodotAdaptiveState, GodotIntegrationSnapshot } from '../core/types.js'
-import { GODOT_ADAPTIVE_PRESET_ID, GODOT_PRESET_ID } from '../core/types.js'
-import { GodotAdaptiveRouteApi, GodotIntegrationApi } from './api.js'
+import type { GodotIntegrationSnapshot } from '../core/types.js'
+import { GODOT_PRESET_ID } from '../core/types.js'
+import { GodotIntegrationApi } from './api.js'
 import { GODOT_ICON_DATA_URL } from './godot-icon.js'
 import { presentWorkspace, workspaceWorkflows } from './workspace.js'
 
 export interface GodotWorkspaceHeaderProps extends PropsRuntime<'conversation.session.header.actions'>, PropsLocale<'dsh-godot-ai'> {
   readonly api: GodotIntegrationApi
-  readonly adaptiveApi: GodotAdaptiveRouteApi
 }
 
 const themedSessions = new Set<string>()
@@ -49,17 +48,14 @@ interface DrawerProps {
   readonly busy: boolean
   readonly error: string | undefined
   readonly draftOccupied: boolean
-  readonly adaptive: GodotAdaptiveState | undefined
-  readonly adaptiveBusy: boolean
   readonly onClose: () => void
   readonly onReturnFocus: () => void
   readonly onRefresh: () => void
   readonly onDraft: (prompt: string) => void
-  readonly onAdaptiveSelect: (selection: GodotAdaptiveSelection) => void
   readonly t: TranslateNS<'dsh-godot-ai'>
 }
 
-function GodotWorkspaceDrawer({ snapshot, busy, error, draftOccupied, adaptive, adaptiveBusy, onClose, onReturnFocus, onRefresh, onDraft, onAdaptiveSelect, t }: DrawerProps): ReactNode {
+function GodotWorkspaceDrawer({ snapshot, busy, error, draftOccupied, onClose, onReturnFocus, onRefresh, onDraft, t }: DrawerProps): ReactNode {
   const titleId = useId()
   const view = presentWorkspace(t, snapshot)
   const workflows = workspaceWorkflows(t)
@@ -101,22 +97,6 @@ function GodotWorkspaceDrawer({ snapshot, busy, error, draftOccupied, adaptive, 
           </section>
 
           {error === undefined ? null : <p className="dga-ws-error" role="alert">{error}</p>}
-
-          {adaptive === undefined ? null : (
-            <section className="dga-ws-section dga-ws-adaptive">
-              <div className="dga-ws-section-title"><span>{t('adaptive.route')}</span></div>
-              <div className="dga-ws-route-options" role="group" aria-label={t('adaptive.route')}>
-                {(['auto', 'build', 'repair'] as const).map(selection => (
-                  <button key={selection} type="button" data-selected={adaptive.selection === selection}
-                    disabled={adaptiveBusy || adaptive.phase !== 'unclassified'} onClick={() => { onAdaptiveSelect(selection) }}>
-                    {t(`adaptive.route.${selection}`)}
-                  </button>
-                ))}
-              </div>
-              <p className="dga-ws-workflow-help">{t(`adaptive.route.${adaptive.phase}`)}</p>
-              <dl className="dga-ws-facts"><div><dt>route</dt><dd>{adaptive.route}</dd></div><div><dt>reason</dt><dd>{adaptive.reason}</dd></div></dl>
-            </section>
-          )}
 
           <section className="dga-ws-section">
             <div className="dga-ws-section-title"><span>{t('workspace.connection')}</span><button type="button" disabled={busy} onClick={onRefresh}>{busy ? t('common.checking') : t('common.refresh')}</button></div>
@@ -162,17 +142,14 @@ function GodotWorkspaceDrawer({ snapshot, busy, error, draftOccupied, adaptive, 
   )
 }
 
-export function GodotWorkspaceHeader({ sessionId, useSessions, useInput, inputActions, api, adaptiveApi, t }: GodotWorkspaceHeaderProps): ReactNode {
-  const preset = useSessions(state => state.byId[sessionId]?.agentPreset)
+export function GodotWorkspaceHeader({ sessionId, useSessions, useInput, inputActions, api, t }: GodotWorkspaceHeaderProps): ReactNode {
+  const preset = useSessions(state => state.byId[sessionId]?.projectionValues?.agentPreset)
   const draftOccupied = useInput(state => state.draft.trim() !== '')
-  const creator = preset === GODOT_PRESET_ID || preset === GODOT_ADAPTIVE_PRESET_ID
-  const adaptiveMode = preset === GODOT_ADAPTIVE_PRESET_ID
+  const creator = preset === GODOT_PRESET_ID
   const [open, setOpen] = useState(false)
   const [snapshot, setSnapshot] = useState<GodotIntegrationSnapshot>()
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string>()
-  const [adaptive, setAdaptive] = useState<GodotAdaptiveState>()
-  const [adaptiveBusy, setAdaptiveBusy] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
 
   const load = useCallback(async (force: boolean, background = false): Promise<void> => {
@@ -182,27 +159,13 @@ export function GodotWorkspaceHeader({ sessionId, useSessions, useInput, inputAc
     finally { if (!background) setBusy(false) }
   }, [api])
 
-  const loadAdaptive = useCallback(async (): Promise<void> => {
-    if (!adaptiveMode) return
-    try { setAdaptive(await adaptiveApi.state(sessionId)) }
-    catch (caught) { setError(caught instanceof Error ? caught.message : String(caught)) }
-  }, [adaptiveApi, adaptiveMode, sessionId])
-
-  const selectAdaptive = useCallback(async (selection: GodotAdaptiveSelection): Promise<void> => {
-    setAdaptiveBusy(true)
-    try { setAdaptive(await adaptiveApi.select(sessionId, selection)); setError(undefined) }
-    catch (caught) { setError(caught instanceof Error ? caught.message : String(caught)) }
-    finally { setAdaptiveBusy(false) }
-  }, [adaptiveApi, sessionId])
-
-  useEffect(() => creator && preset !== undefined ? activateTheme(sessionId, preset) : undefined, [creator, preset, sessionId])
+  useEffect(() => creator && typeof preset === 'string' ? activateTheme(sessionId, preset) : undefined, [creator, preset, sessionId])
   useEffect(() => {
     if (!creator) return undefined
     void load(false)
-    if (adaptiveMode) void loadAdaptive()
     const timer = window.setInterval(() => { void load(false, true) }, 5_000)
     return () => { window.clearInterval(timer) }
-  }, [adaptiveMode, creator, load, loadAdaptive])
+  }, [creator, load])
   useEffect(() => { if (!creator) setOpen(false) }, [creator])
 
   const close = useCallback((): void => { setOpen(false) }, [])
@@ -215,15 +178,13 @@ export function GodotWorkspaceHeader({ sessionId, useSessions, useInput, inputAc
     <>
       <button ref={triggerRef} type="button" className="dga-ws-header" data-tone={view.tone} aria-expanded={open} onClick={() => { setOpen(value => !value) }}>
         <img src={GODOT_ICON_DATA_URL} alt="" width="18" height="18" />
-        <span className="dga-ws-header-name">{adaptiveMode ? 'Godot Adaptive' : 'Godot Creator'}</span>
+        <span className="dga-ws-header-name">Godot Creator</span>
         <span className="dga-ws-header-project">{view.project}</span>
         <span className="dga-ws-status-dot" aria-label={view.status} />
       </button>
       {open && <GodotWorkspaceDrawer
         snapshot={snapshot} busy={busy} error={error} draftOccupied={draftOccupied}
-        adaptive={adaptiveMode ? adaptive : undefined} adaptiveBusy={adaptiveBusy}
         onClose={close} onReturnFocus={returnFocus} onRefresh={() => { void load(true) }}
-        onAdaptiveSelect={(selection) => { void selectAdaptive(selection) }}
         onDraft={(prompt) => { inputActions.setDraft(prompt); close() }} t={t}
       />}
     </>

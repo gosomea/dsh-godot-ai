@@ -1,13 +1,15 @@
 {
   "schemaVersion": 2,
-  "wrapperVersion": "0.6.0",
+  "wrapperVersion": "0.7.0",
   "dsh": {
-    "tested": "0.1.0-rc.8",
-    "range": ">=0.1.0-rc.8 <0.2.0"
+    "tested": "0.2.0-rc.2",
+    "range": ">=0.2.0-rc.2 <0.2.1-0"
   },
   "godotAi": {
     "defaultVersion": "3.1.5",
-    "testedVersions": ["3.1.5"],
+    "testedVersions": [
+      "3.1.5"
+    ],
     "attachProtocolVersion": 1,
     "expectedToolCount": 45,
     "expectedToolCatalogHash": "af75d04a00d4be87421db50c6f51ba709375286178ea02482ef2776acace1470",

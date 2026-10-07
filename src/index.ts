@@ -2,20 +2,19 @@ import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { Context } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-agent'
-import type {} from '@deepseek-ai/dsh-agent-presets'
+import type {} from '@deepseek-ai/dsh-agent-preset-registry'
 import type {} from '@deepseek-ai/dsh-host-webserver'
-import { ADAPTIVE_PRESET_API_PREFIX, GODOT_ADAPTIVE_PRESET_ID } from './core/types.js'
 import { loadCompatibilityManifest } from './core/compatibility.js'
 import { GodotIntegrationManager } from './host/integration-manager.js'
-import { ManagedPresetManager } from './host/preset-manager.js'
-import { registerAdaptiveRoute, registerIntegrationRoutes, registerManagedPresetRoutes, registerPresetRoutes } from './host/routes.js'
+import { GodotPresetManager } from './host/preset-manager.js'
+import { registerIntegrationRoutes, registerPresetRoutes } from './host/routes.js'
 import { registerSkillMarketRoutes } from './host/skill-market-routes.js'
 import { createPackagedSkillMarketService } from './skill-market/bootstrap.js'
 
 export * from './core/types.js'
 export * from './core/compatibility.js'
 export { GodotIntegrationManager, type IntegrationProbeDependencies } from './host/integration-manager.js'
-export { ManagedPresetManager, type ManagedPresetManagerOptions, type PresetRoster } from './host/preset-manager.js'
+export { GodotPresetManager } from './host/preset-manager.js'
 export * from './skill-market/approval.js'
 export * from './skill-market/catalog.js'
 export * from './skill-market/catalog-fetch.js'
@@ -29,7 +28,7 @@ export * from './skill-market/preparation.js'
 export * from './skill-market/scanner.js'
 
 export const name = 'dsh-godot-ai'
-export const inject = ['agents', 'agentPresets', 'webServer']
+export const inject = ['agentPresets', 'webServer']
 
 async function packageVersion(): Promise<string> {
   const path = fileURLToPath(new URL('../package.json', import.meta.url))
@@ -44,32 +43,12 @@ export async function apply(ctx: Context): Promise<void> {
   if (compatibility.wrapperVersion !== wrapperVersion) {
     throw new Error(`compatibility wrapper version ${compatibility.wrapperVersion} does not match package ${wrapperVersion}`)
   }
-  const managedBlock = await readFile(fileURLToPath(new URL('../templates/godot-creator-managed-row.yml', import.meta.url)), 'utf8')
-  const adaptiveManagedBlock = await readFile(
-    fileURLToPath(new URL('../templates/godot-creator-adaptive-managed-row.yml', import.meta.url)),
-    'utf8',
-  )
-  const manager = new ManagedPresetManager({
-    roster: ctx.agentPresets,
-    wrapperVersion,
-    schemaVersion: 1,
-    managedBlock,
-  })
-  const adaptiveManager = new ManagedPresetManager({
-    roster: ctx.agentPresets,
-    wrapperVersion,
-    schemaVersion: 1,
-    managedBlock: adaptiveManagedBlock,
-    presetId: GODOT_ADAPTIVE_PRESET_ID,
-    displayName: 'Godot Creator Adaptive',
-  })
+  const manager = new GodotPresetManager(ctx.agentPresets, wrapperVersion)
   const integration = new GodotIntegrationManager(compatibility, wrapperVersion)
   const skillMarket = await createPackagedSkillMarketService()
   ctx.effect(() => {
     const disposers = [
       registerPresetRoutes(ctx.webServer, manager),
-      registerManagedPresetRoutes(ctx.webServer, adaptiveManager, ADAPTIVE_PRESET_API_PREFIX),
-      registerAdaptiveRoute(ctx.webServer, ctx.agents),
       registerIntegrationRoutes(ctx.webServer, integration),
       registerSkillMarketRoutes(ctx.webServer, skillMarket),
     ]

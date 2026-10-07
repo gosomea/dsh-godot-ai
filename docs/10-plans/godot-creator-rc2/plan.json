@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "id": "godot-creator-rc2-release",
+  "title": "Godot Creator 单模式迁移与 0.7.0 发布",
+  "objectives": {
+    "migration": "以声明式单一 Godot Creator 支持 DSH 0.2.0-rc.2；保留全部 Godot MCP、16 Skills、工作流及市场。",
+    "runtime": "打包插件经隔离 DSH Web 安装、模式与工具运行验证，不改 DSH 源码或日常 profile。",
+    "release": "中文优先文档与兼容信息准确；发布 npm 0.7.0 及附带 tarball 的 GitHub Release。"
+  },
+  "constraints": [
+    "仅插件新 worktree 内开发，保护旧 checkout 未提交修改。",
+    "旧 rc8 双模式为破坏性迁移；不删除用户旧 preset 文件。",
+    "没有 Godot 项目连通证据不得声称游戏创建 E2E 通过。"
+  ],
+  "documents": [],
+  "final": "release",
+  "nodes": [
+    {
+      "id": "migration",
+      "title": "迁移 Host、Agent、Client 与单模式 composition",
+      "kind": "task",
+      "objectives": [
+        "migration"
+      ],
+      "depends_on": [],
+      "requires_gates": [],
+      "inputs": [
+        "tests/skill-market-release-assets.test.ts",
+        "tests/skill-market-preparation.test.ts",
+        "tests/skill-providers.test.ts",
+        "tests/workflows.test.ts",
+        "tests/locales.test.ts",
+        "tests/skill-market-scanner.test.ts",
+        "tests/persona.test.ts",
+        "tests/skill-market-rescan.test.ts",
+        "tests/preset-manager.test.ts",
+        "tests/package-contract.test.ts",
+        "tests/request-trust.test.ts",
+        "tests/compatibility.test.ts",
+        "tests/skill-market-github-import.test.ts",
+        "tests/workspace.test.ts",
+        "tests/skill-market-contracts.test.ts",
+        "tests/skill-store-provider.test.ts",
+        "tests/skill-market-diff.test.ts",
+        "tests/skill-market-service.test.ts",
+        "tests/skill-market-card.test.tsx",
+        "tests/skill-market-catalog.test.ts",
+        "tests/workspace-styles.test.ts",
+        "tests/skill-market-bootstrap.test.ts",
+        "tests/workspace-header.test.tsx",
+        "tests/skills.test.ts",
+        "tests/integration-manager.test.ts",
+        "tests/skill-market-store.test.ts",
+        "tests/skill-market-routes.test.ts",
+        "src/client/index.ts",
+        "src/client/GodotPresetOnboarding.tsx",
+        "src/client/api.ts",
+        "src/client/GodotIntegrationCard.tsx",
+        "src/client/godot-icon.ts",
+        "src/client/styles.ts",
+        "src/client/locales.ts",
+        "src/client/GodotSkillMarketCard.tsx",
+        "src/client/workspace.ts",
+        "src/client/GodotWorkspaceHeader.tsx",
+        "src/client/workspace-styles.ts",
+        "src/index.ts",
+        "src/host/skill-market-routes.ts",
+        "src/host/integration-manager.ts",
+        "src/host/preset-manager.ts",
+        "src/host/request-trust.ts",
+        "src/host/routes.ts",
+        "src/skill-market/catalog.ts",
+        "src/skill-market/bootstrap.ts",
+        "src/skill-market/store.ts",
+        "src/skill-market/service.ts",
+        "src/skill-market/files.ts",
+        "src/skill-market/scanner.ts",
+        "src/skill-market/lockfile.ts",
+        "src/skill-market/paths.ts",
+        "src/skill-market/provider.ts",
+        "src/skill-market/github-import.ts",
+        "src/skill-market/approval.ts",
+        "src/skill-market/contracts.ts",
+        "src/skill-market/diff.ts",
+        "src/skill-market/catalog-fetch.ts",
+        "src/skill-market/canonical-json.ts",
+        "src/skill-market/preparation.ts",
+        "src/client.ts",
+        "src/core/compatibility.ts",
+        "src/agent/skills.ts",
+        "src/core/types.ts",
+        "src/agent/persona.ts",
+        "src/agent/launch-spec.ts",
+        "src/agent/workflows.ts",
+        "src/agent/bundled-skill-provider.ts",
+        "src/agent/index.ts",
+        "package.json",
+        "tsconfig.json",
+        "tsdown.config.ts",
+        "cordis.patch.yml",
+        "compatibility.json",
+        "README.md",
+        "README.en.md",
+        "CHANGELOG.md",
+        "THIRD_PARTY_NOTICES.md",
+        "PLUGIN-CAPABILITY.md",
+        "pnpm-lock.yaml"
+      ],
+      "outputs": [
+        "validation/rc2-release/unit-report.json"
+      ],
+      "writes": [
+        "src",
+        "tests",
+        "package.json",
+        "pnpm-lock.yaml",
+        "compatibility.json",
+        "cordis.patch.yml",
+        "tsdown.config.ts",
+        "templates",
+        "validation/rc2-release",
+        "validation/rc2-smoke.mjs",
+        "README.md",
+        "README.en.md",
+        "CHANGELOG.md",
+        "PLUGIN-CAPABILITY.md",
+        "THIRD_PARTY_NOTICES.md"
+      ],
+      "resources": [
+        "godot-plugin"
+      ],
+      "checks": [
+        {
+          "id": "typecheck",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "check"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "expected_exit": 0
+        },
+        {
+          "id": "test",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--reporter=json",
+            "--outputFile=validation/rc2-release/unit-report.json"
+          ],
+          "cwd": ".",
+          "timeout": 240,
+          "expected_exit": 0
+        },
+        {
+          "id": "build",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "build"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "expected_exit": 0
+        }
+      ],
+      "review": true
+    },
+    {
+      "id": "runtime",
+      "title": "隔离 Web tarball 安装和 runtime 验证",
+      "kind": "gate",
+      "objectives": [
+        "runtime"
+      ],
+      "depends_on": [
+        "migration"
+      ],
+      "requires_gates": [],
+      "inputs": [
+        "validation/rc2-smoke.mjs",
+        "validation/rc2-release/host-probe.mjs",
+        "package.json"
+      ],
+      "outputs": [
+        "validation/rc2-release/runtime-report.json"
+      ],
+      "writes": [
+        "validation/rc2-release"
+      ],
+      "resources": [
+        "godot-plugin-web"
+      ],
+      "checks": [
+        {
+          "id": "runtime",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "validation/rc2-smoke.mjs",
+            "verify"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "expected_exit": 0
+        }
+      ],
+      "review": true
+    },
+    {
+      "id": "release",
+      "title": "npm/GitHub 发布并核验线上版本",
+      "kind": "gate",
+      "objectives": [
+        "migration",
+        "runtime",
+        "release"
+      ],
+      "depends_on": [
+        "runtime"
+      ],
+      "requires_gates": [
+        "runtime"
+      ],
+      "inputs": [
+        "README.md",
+        "package.json",
+        "validation/rc2-smoke.mjs"
+      ],
+      "outputs": [
+        "validation/rc2-release/release-report.json"
+      ],
+      "writes": [
+        "validation/rc2-release"
+      ],
+      "resources": [
+        "godot-plugin-release"
+      ],
+      "checks": [
+        {
+          "id": "release",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "validation/rc2-smoke.mjs",
+            "release-verify"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "expected_exit": 0
+        }
+      ],
+      "review": true
+    }
+  ]
+}

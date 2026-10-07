@@ -4,29 +4,18 @@ import type {} from '@deepseek-ai/dsh-system-prompt'
 import type {} from '@deepseek-ai/dsh-skill'
 import type {} from '@deepseek-ai/dsh-tools'
 import { loadCompatibilityManifest } from '../core/compatibility.js'
-import {
-  createGodotMcpConfig,
-  GODOT_ADAPTIVE_MCP_SERVER_NAME,
-  GODOT_MCP_SERVER_NAME,
-} from './launch-spec.js'
-import { installAdaptiveRuntime } from './adaptive-runtime.js'
+import { createGodotMcpConfig } from './launch-spec.js'
 import { BundledGodotSkillProvider } from './bundled-skill-provider.js'
 import { renderGodotCreatorPersona } from './persona.js'
 import { loadBundledGodotSkills } from './skills.js'
-import { installToolNameCompatibility } from './tool-name-compat.js'
 import { loadWorkflowCatalog } from './workflows.js'
-import { GODOT_ADAPTIVE_PRESET_ID, GODOT_PRESET_ID } from '../core/types.js'
 import { StoreBackedMarketSkillProvider } from '../skill-market/provider.js'
 
 export const name = 'dsh-godot-ai/agent'
 export const inject = ['skills', 'systemPrompt', 'tools']
 
-export interface Config {
-  readonly mode?: 'classic' | 'adaptive'
-}
-
 /** Mount the tested Godot AI tool surface inside the Godot Creator preset only. */
-export async function apply(ctx: Context, config: Config = {}): Promise<void> {
+export async function apply(ctx: Context): Promise<void> {
   const [manifest, workflows, skills] = await Promise.all([
     loadCompatibilityManifest(),
     loadWorkflowCatalog(),
@@ -34,19 +23,10 @@ export async function apply(ctx: Context, config: Config = {}): Promise<void> {
   ])
   ctx.skills.registerProvider(() => new BundledGodotSkillProvider(skills))
   ctx.skills.registerProvider(() => new StoreBackedMarketSkillProvider())
-  ctx.tools.presentAs('code')
   ctx.systemPrompt.section({
     name: 'godot-ai:creator-mode',
     order: 10,
     text: renderGodotCreatorPersona(manifest, workflows),
   })
-  await McpClient.apply(ctx, createGodotMcpConfig(
-    manifest,
-    config.mode === 'adaptive' ? GODOT_ADAPTIVE_MCP_SERVER_NAME : GODOT_MCP_SERVER_NAME,
-  ))
-  installToolNameCompatibility(
-    ctx,
-    config.mode === 'adaptive' ? GODOT_ADAPTIVE_PRESET_ID : GODOT_PRESET_ID,
-  )
-  if (config.mode === 'adaptive') installAdaptiveRuntime(ctx)
+  await McpClient.apply(ctx, createGodotMcpConfig(manifest))
 }

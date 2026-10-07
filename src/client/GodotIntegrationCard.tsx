@@ -96,7 +96,7 @@ export function GodotIntegrationCard({ api, t }: GodotIntegrationCardProps): Rea
           <a href="https://docs.astral.sh/uv/getting-started/installation/" target="_blank" rel="noreferrer">{t('integration.installUv')}</a>
         </div>
       </div>
-      <p className="dga-update-help">{t('integration.updateHelp')}<code>dsh plugin --profile web update dsh-godot-ai</code>{t('integration.updatePolicy')}</p>
+      <p className="dga-update-help">{t('integration.updateHelp')}<code>dsh plugin --profile &lt;profile&gt; add dsh-godot-ai@latest</code>{t('integration.updatePolicy')}</p>
     </section>
   )
 }

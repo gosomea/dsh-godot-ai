@@ -1,0 +1,12 @@
+{
+  "node": "runtime",
+  "attempt": "f924187d1c534b9b8e69d1c827b14279",
+  "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+  "subject": "5951bb32e131f790a43436407a00a751cab2d6db0b239485af60f18d4ab9d5eb",
+  "reviewer": "codex-self-review",
+  "independent": false,
+  "verdict": "pass",
+  "objectives": ["runtime"],
+  "evidence": ["validation/rc2-release/runtime-report.json"],
+  "findings": []
+}

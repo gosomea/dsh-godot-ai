@@ -1,6 +1,6 @@
 {
   "name": "dsh-godot-ai",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Godot Creator mode and godot-ai integration for DeepSeek Harness",
   "repository": {
     "type": "git",
@@ -14,14 +14,30 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "keywords": ["deepseek", "deepseek-harness", "dsh", "godot", "mcp", "game-development"],
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "godot",
+    "mcp",
+    "game-development"
+  ],
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/types/index.d.ts",
   "exports": {
-    ".": { "types": "./lib/types/index.d.ts", "default": "./lib/index.js" },
-    "./agent": { "types": "./lib/types/agent/index.d.ts", "default": "./lib/agent.js" },
-    "./client": { "types": "./lib/types/client/index.d.ts", "default": "./lib/client.js" },
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./agent": {
+      "types": "./lib/types/agent/index.d.ts",
+      "default": "./lib/agent.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -29,7 +45,6 @@
     "lib",
     "market",
     "skills",
-    "templates",
     "workflows",
     "compatibility.json",
     "cordis.patch.yml",
@@ -42,15 +57,19 @@
     "LICENSE"
   ],
   "dsh": {
-    "bundle": { "patch": "./cordis.patch.yml" },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-client-runtime",
         "@deepseek-ai/dsh-client-locale",
         "@deepseek-ai/dsh-client-ui-conversation",
         "@deepseek-ai/dsh-client-ui-settings",
         "@deepseek-ai/dsh-client-ui-settings-general",
-        "@deepseek-ai/dsh-client-ui-primitives"
+        "@deepseek-ai/dsh-client-ui-primitives",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-session"
       ],
       "platform": "web"
     }
@@ -60,10 +79,10 @@
     "build": "pnpm clean && tsc -p tsconfig.json && tsdown",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "test:capability:static": "vitest run tests/adaptive-routing.test.ts tests/adaptive-state.test.ts tests/tool-name-compat.test.ts tests/compatibility.test.ts tests/package-contract.test.ts tests/preset-manager.test.ts tests/skills.test.ts tests/skill-providers.test.ts tests/skill-store-provider.test.ts tests/skill-market-contracts.test.ts tests/skill-market-store.test.ts tests/skill-market-scanner.test.ts tests/skill-market-rescan.test.ts tests/skill-market-preparation.test.ts tests/skill-market-catalog.test.ts tests/skill-market-github-import.test.ts tests/skill-market-diff.test.ts tests/skill-market-bootstrap.test.ts tests/skill-market-release-assets.test.ts tests/skill-market-service.test.ts tests/skill-market-routes.test.ts tests/skill-market-card.test.tsx tests/workflows.test.ts",
-    "test:capability:live": "node validation/plugin-capability-smoke.mjs",
+    "test:capability:static": "vitest run",
+    "test:capability:live": "node validation/rc2-smoke.mjs verify",
     "test:capability": "pnpm test:capability:static && pnpm test:capability:live",
-    "test:live": "vitest run tests/live-agent.test.ts",
+    "test:live": "node validation/rc2-smoke.mjs verify",
     "market:build": "pnpm build && node validation/build-skill-catalog.mjs --manifest market/seed-review-manifest.json --catalog market/releases/skills-v1/catalog.json --audit-report market/releases/skills-v1/catalog-audit.json --serial 1 --issued-at 2026-08-27T00:00:00.000Z --expires-at 2027-08-27T00:00:00.000Z",
     "market:sign": "node validation/sign-skill-catalog.mjs --catalog market/releases/skills-v1/catalog.json --audit-report market/releases/skills-v1/catalog-audit.json --signature market/releases/skills-v1/catalog.sig.json --trust-root market/skill-catalog-root.json --checksums market/releases/skills-v1/checksums.json --key-id catalog-2026-a --not-before 2026-08-27T00:00:00.000Z",
     "prepare": "pnpm build"
@@ -73,38 +92,35 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": ">=4.0.1 <5",
-    "@deepseek-ai/dsh-agent": ">=0.1.0-rc.8 <0.2.0",
-    "@deepseek-ai/dsh-agent-presets": ">=0.1.0-rc.5 <0.2.0",
-    "@deepseek-ai/dsh-host-webserver": ">=0.1.0-rc.5 <0.2.0",
-    "@deepseek-ai/dsh-home-paths": ">=0.1.0-rc.8 <0.2.0",
-    "@deepseek-ai/dsh-llm": ">=0.1.0-rc.8 <0.2.0",
-    "@deepseek-ai/dsh-mcp-client": ">=0.1.0-rc.5 <0.2.0",
-    "@deepseek-ai/dsh-session": ">=0.1.0-rc.8 <0.2.0",
-    "@deepseek-ai/dsh-skill": ">=0.1.0-rc.5 <0.2.0",
-    "@deepseek-ai/dsh-system-prompt": ">=0.1.0-rc.5 <0.2.0",
-    "@deepseek-ai/dsh-tools": ">=0.1.0-rc.5 <0.2.0"
+    "@deepseek-ai/dsh-agent": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-host-webserver": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-home-paths": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-llm": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-mcp-client": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-session": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-skill": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-system-prompt": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-tools": ">=0.2.0-rc.2 <0.2.1-0",
+    "@deepseek-ai/dsh-agent-preset-registry": ">=0.2.0-rc.2 <0.2.1-0"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "4.0.1",
-    "@deepseek-ai/dsh-agent": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-agent-presets": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-code-runtime": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-client-runtime": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-client-locale": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-client-ui-conversation": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-client-ui-primitives": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-client-ui-settings": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-client-ui-settings-general": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-client-ui-slots": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-host-webserver": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-home-paths": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-llm": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-mcp-client": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-session": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-scope": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-skill": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-system-prompt": "0.1.0-rc.8",
-    "@deepseek-ai/dsh-tools": "0.1.0-rc.8",
+    "@deepseek-ai/cordis": "4.0.4",
+    "@deepseek-ai/dsh-agent": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-locale": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-conversation": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-primitives": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-settings": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-settings-general": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-slots": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-host-webserver": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-home-paths": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-llm": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-mcp-client": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-session": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-scope": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-skill": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-system-prompt": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-tools": "0.2.0-rc.2",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^22.20.0",
     "@types/react": "~18.3.1",
@@ -114,9 +130,22 @@
     "react-dom": "^18.3.1",
     "tsdown": "0.22.2",
     "typescript": "~5.7.2",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "@deepseek-ai/dsh-agent-preset-registry": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-agent-preset": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-web-app": "0.2.0-rc.2",
+    "@deepseek-ai/cordis-plugin-include": "1.0.9",
+    "js-yaml": "^4.1.0",
+    "@types/js-yaml": "^4.0.9",
+    "@deepseek-ai/dsh-client-store": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-renderer": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-client-ui-session": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-api-session-controller": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-workspace": "0.2.0-rc.2"
   },
   "license": "MIT",
-  "engines": { "node": ">=22.19.0" },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
   "packageManager": "pnpm@11.7.0"
 }

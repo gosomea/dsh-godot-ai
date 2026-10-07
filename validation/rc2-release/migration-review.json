@@ -1,0 +1,16 @@
+{
+  "node": "migration",
+  "attempt": "46f6cc9a5bbc4b35b660f8d0a37f53f4",
+  "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+  "subject": "943d4a3803ede73be7efe1e0e116d7b569d8aae78da343bbfa3decec0b920893",
+  "reviewer": "codex-self-review",
+  "independent": false,
+  "verdict": "pass",
+  "objectives": [
+    "migration"
+  ],
+  "evidence": [
+    "validation/rc2-release/unit-report.json"
+  ],
+  "findings": []
+}

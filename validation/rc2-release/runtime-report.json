@@ -1,0 +1,115 @@
+{
+  "version": "0.7.0",
+  "dsh": "0.2.0-rc.2",
+  "host": "http://127.0.0.1:3197",
+  "workspace": "/private/var/folders/kg/klnm7xcn56lbsvcwp5tqnxh00000gn/T/godot-rc2-workspace-fWHtLI",
+  "probe": {
+    "roster": [
+      {
+        "id": "standard",
+        "order": 1
+      },
+      {
+        "id": "ptc",
+        "order": 2
+      },
+      {
+        "id": "minimal",
+        "order": 3
+      },
+      {
+        "id": "cordis",
+        "order": 4
+      },
+      {
+        "id": "godot-creator",
+        "name": "Godot Creator",
+        "description": "专注 Godot 游戏创作：编辑器工具、Skills、工作流和验证。",
+        "order": 5
+      }
+    ],
+    "sessionId": "session-cf035891-c218-431e-8822-0637b7e6d79f",
+    "ordinarySessionId": "session-4a277b4f-c65a-43dc-842d-d6327ace0cbc",
+    "cwd": "/private/var/folders/kg/klnm7xcn56lbsvcwp5tqnxh00000gn/T/godot-rc2-workspace-fWHtLI",
+    "agentPreset": "godot-creator",
+    "directTools": [
+      "run_code"
+    ],
+    "godotNames": [
+      "mcp__godot-ai__animation_create",
+      "mcp__godot-ai__animation_manage",
+      "mcp__godot-ai__api_manage",
+      "mcp__godot-ai__audio_manage",
+      "mcp__godot-ai__autoload_manage",
+      "mcp__godot-ai__batch_execute",
+      "mcp__godot-ai__camera_manage",
+      "mcp__godot-ai__client_manage",
+      "mcp__godot-ai__csg_manage",
+      "mcp__godot-ai__editor_manage",
+      "mcp__godot-ai__editor_reload_plugin",
+      "mcp__godot-ai__editor_screenshot",
+      "mcp__godot-ai__editor_state",
+      "mcp__godot-ai__filesystem_manage",
+      "mcp__godot-ai__game_manage",
+      "mcp__godot-ai__gridmap_manage",
+      "mcp__godot-ai__input_map_manage",
+      "mcp__godot-ai__logs_read",
+      "mcp__godot-ai__material_manage",
+      "mcp__godot-ai__node_create",
+      "mcp__godot-ai__node_find",
+      "mcp__godot-ai__node_get_properties",
+      "mcp__godot-ai__node_manage",
+      "mcp__godot-ai__node_set_property",
+      "mcp__godot-ai__particle_manage",
+      "mcp__godot-ai__project_manage",
+      "mcp__godot-ai__project_run",
+      "mcp__godot-ai__resource_manage",
+      "mcp__godot-ai__scene_get_hierarchy",
+      "mcp__godot-ai__scene_manage",
+      "mcp__godot-ai__scene_open",
+      "mcp__godot-ai__scene_save",
+      "mcp__godot-ai__script_attach",
+      "mcp__godot-ai__script_create",
+      "mcp__godot-ai__script_manage",
+      "mcp__godot-ai__script_patch",
+      "mcp__godot-ai__session_activate",
+      "mcp__godot-ai__session_manage",
+      "mcp__godot-ai__signal_manage",
+      "mcp__godot-ai__test_manage",
+      "mcp__godot-ai__test_run",
+      "mcp__godot-ai__theme_manage",
+      "mcp__godot-ai__tilemap_manage",
+      "mcp__godot-ai__tileset_manage",
+      "mcp__godot-ai__ui_manage"
+    ],
+    "creatorPersona": true,
+    "godotSkills": [
+      "godot-2d-movement",
+      "godot-3d-essentials",
+      "godot-ai-orchestration",
+      "godot-animation",
+      "godot-audio",
+      "godot-csharp",
+      "godot-export",
+      "godot-gdscript",
+      "godot-multiplayer",
+      "godot-nodes-scenes",
+      "godot-physics",
+      "godot-resources",
+      "godot-shaders",
+      "godot-signals-groups",
+      "godot-tilemap",
+      "godot-ui-control"
+    ],
+    "projectSkillOverride": true,
+    "standardUnaffected": true,
+    "ptc": {
+      "success": true,
+      "hasSessionList": true
+    }
+  },
+  "marketAvailable": true,
+  "integrationAvailable": true,
+  "gameCreationE2E": "not-tested",
+  "success": true
+}

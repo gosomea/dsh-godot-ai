@@ -1,0 +1,16 @@
+{
+  "version": "0.7.0",
+  "dsh": "0.2.0-rc.2",
+  "host": "http://127.0.0.1:3197",
+  "method": "manual-browser-observation",
+  "checks": {
+    "oneGodotCreatorMenuItem": true,
+    "noAdaptiveMenuItem": true,
+    "GodotCreatorSelectable": true,
+    "integrationSettingsVisible": true,
+    "skillMarketFourTabsVisible": true,
+    "curatedCatalogVisible": true,
+    "browserConsoleErrors": 0
+  },
+  "limitations": ["No model-generated game test", "No Godot editor write test", "No sent-message workspace header interaction test"]
+}

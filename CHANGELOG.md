@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.0 - 2026-10-07
+
+- 支持 DeepSeek Harness 0.2.0-rc.2 Web，开发依赖与 peer 范围迁到新版公开 API。
+- 收敛为一个声明式 Godot Creator preset；安装插件后直接可用，不再复制用户 preset 或提供 Adaptive。
+- 使用官方原生 PTC 展示及新版会话投影，移除旧工具名兼容补丁和 Adaptive 状态机。
+- 保留 Godot AI 3.1.5 的 45 个工具、16 个内置 Skills、3 个工作流、创作台和签名 Skill 市场。
+- 修复旧 onboarding 对整个应用设置 inert 的副作用，并保留初始化取消保护。
+- 中文优先重写安装、升级、Addon 版本配对和验证边界；旧 rc8/Adaptive 会话不做无损恢复承诺。
+
+
 ## 0.6.0 - 2026-08-27
 
 - 开始实现 0.6.0 Skill 市场基础：增加固定来源和许可证的 10 个候选审核清单、市场 rank 350 Provider 骨架，以及 Standard composition 继承契约测试。
