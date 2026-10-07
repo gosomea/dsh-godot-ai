@@ -1,0 +1,1022 @@
+{
+  "schema_version": 1,
+  "status": {
+    "plan": "godot-creator-rc2-release",
+    "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+    "nodes": {
+      "migration": {
+        "status": "passed",
+        "reason": null,
+        "owner": "codex",
+        "attempt": "46f6cc9a5bbc4b35b660f8d0a37f53f4",
+        "subject": "943d4a3803ede73be7efe1e0e116d7b569d8aae78da343bbfa3decec0b920893",
+        "root": "/Users/yuqixian/forever-skills/tmp/dsh-godot-ai-0.7"
+      },
+      "runtime": {
+        "status": "passed",
+        "reason": null,
+        "owner": "codex",
+        "attempt": "f924187d1c534b9b8e69d1c827b14279",
+        "subject": "5951bb32e131f790a43436407a00a751cab2d6db0b239485af60f18d4ab9d5eb",
+        "root": "/Users/yuqixian/forever-skills/tmp/dsh-godot-ai-0.7"
+      },
+      "release": {
+        "status": "passed",
+        "reason": null,
+        "owner": "codex",
+        "attempt": "d81d4f97bb66420685b2afecd9633c3f",
+        "subject": "7e19f0ae15025de6a4a2a85d7493787873ca78babe1cc18b2153c3b673fa461a",
+        "root": "/Users/yuqixian/forever-skills/tmp/dsh-godot-ai-0.7"
+      }
+    },
+    "complete": true
+  },
+  "events": [
+    {
+      "time": 1791362757.014997,
+      "action": "claim",
+      "node": "migration",
+      "token": "8c6d1c26ac0c4117b27ab15597e9b1f9",
+      "owner": "codex",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791362766.593066,
+      "action": "start",
+      "node": "migration",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363659.4025888,
+      "action": "verify",
+      "node": "migration",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363665.70822,
+      "action": "awaiting-review",
+      "node": "migration",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363702.199094,
+      "action": "cancel",
+      "node": "migration",
+      "reason": "补齐源码与文档输入指纹后重新验收",
+      "confirmed_stopped": true,
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363713.0775502,
+      "action": "revise",
+      "node": null,
+      "previous_revision": "d3f7fdeeb8f268e32728bd0468a226b5bc6a1cd17c2f3e9695e3303e260c3863",
+      "previous_attempts": [
+        "8c6d1c26ac0c4117b27ab15597e9b1f9"
+      ]
+    },
+    {
+      "time": 1791363713.277597,
+      "action": "claim",
+      "node": "migration",
+      "token": "46f6cc9a5bbc4b35b660f8d0a37f53f4",
+      "owner": "codex",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363731.1836102,
+      "action": "start",
+      "node": "migration",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363731.283817,
+      "action": "verify",
+      "node": "migration",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363737.493027,
+      "action": "awaiting-review",
+      "node": "migration",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363786.36656,
+      "action": "passed",
+      "node": "migration",
+      "receipt_hash": "f0e9d291d0f290428318b79ee4218cd9065c4c801f6c468b4f11823565147209",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363786.478699,
+      "action": "claim",
+      "node": "runtime",
+      "token": "bdb91c6d2f064e8d9281fcc2e859897b",
+      "owner": "codex",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363803.600971,
+      "action": "start",
+      "node": "runtime",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363803.6993248,
+      "action": "verify",
+      "node": "runtime",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363804.493705,
+      "action": "failed",
+      "node": "runtime",
+      "error": "check failed: runtime",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363825.159754,
+      "action": "retry",
+      "node": "runtime",
+      "reason": "macOS 工作区正规化为 realpath；上轮仅创建隔离 fixture 和只读调用，没有游戏写入",
+      "previous_attempts": [
+        "bdb91c6d2f064e8d9281fcc2e859897b"
+      ]
+    },
+    {
+      "time": 1791363825.2864242,
+      "action": "claim",
+      "node": "runtime",
+      "token": "f924187d1c534b9b8e69d1c827b14279",
+      "owner": "codex",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363840.014899,
+      "action": "start",
+      "node": "runtime",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363840.122593,
+      "action": "verify",
+      "node": "runtime",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791363840.5880268,
+      "action": "awaiting-review",
+      "node": "runtime",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364100.895967,
+      "action": "passed",
+      "node": "runtime",
+      "receipt_hash": "a44023ef7e331e75e77a9cf3a1c4dc3d0359eb3d2b36f9aadefb01bd4ff0a155",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364101.059533,
+      "action": "claim",
+      "node": "release",
+      "token": "264ceab7681149fda477d9eed5aa34a9",
+      "owner": "codex",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364108.377256,
+      "action": "start",
+      "node": "release",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364182.79122,
+      "action": "heartbeat",
+      "node": "release",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364197.668136,
+      "action": "verify",
+      "node": "release",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364198.7416809,
+      "action": "failed",
+      "node": "release",
+      "error": "check failed: release",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364221.645309,
+      "action": "retry",
+      "node": "release",
+      "reason": "npm publish 已成功，Registry 首轮读取仍为 404；等待分发后重新核验",
+      "previous_attempts": [
+        "264ceab7681149fda477d9eed5aa34a9"
+      ]
+    },
+    {
+      "time": 1791364221.805247,
+      "action": "claim",
+      "node": "release",
+      "token": "d81d4f97bb66420685b2afecd9633c3f",
+      "owner": "codex",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364276.921487,
+      "action": "start",
+      "node": "release",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364277.0760262,
+      "action": "verify",
+      "node": "release",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364282.021867,
+      "action": "awaiting-review",
+      "node": "release",
+      "previous_attempts": []
+    },
+    {
+      "time": 1791364299.959191,
+      "action": "passed",
+      "node": "release",
+      "receipt_hash": "0b364cad322b1c6497e9423396a37a7486dbd2c66fcacf01577769d117a9a410",
+      "previous_attempts": []
+    }
+  ],
+  "receipts": {
+    "migration": {
+      "node": "migration",
+      "attempt": "46f6cc9a5bbc4b35b660f8d0a37f53f4",
+      "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+      "checks": [
+        {
+          "id": "typecheck",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "check"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "started": 1791363731.284862,
+          "passed": true,
+          "expected_exit": 0,
+          "exit_code": 0,
+          "finished": 1791363732.969752,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "38ac890c60e7f38d59ddfb410325cdfb5fca83c9411765c5481754e01c021630"
+        },
+        {
+          "id": "test",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--reporter=json",
+            "--outputFile=validation/rc2-release/unit-report.json"
+          ],
+          "cwd": ".",
+          "timeout": 240,
+          "started": 1791363732.9700422,
+          "passed": true,
+          "expected_exit": 0,
+          "exit_code": 0,
+          "finished": 1791363735.306274,
+          "stdout_sha256": "071e9ef9220115eaa481a0797e9b7ba2a69aed251abcd526ee9fd4cb14a7b003",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "build",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "build"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "started": 1791363735.306619,
+          "passed": true,
+          "expected_exit": 0,
+          "exit_code": 0,
+          "finished": 1791363737.4139159,
+          "stdout_sha256": "b23dccbbcc8292ff00ccf730373dcfa397ecc93d833c0e18ace0961afa066d31",
+          "stderr_sha256": "797d9f44a7ff01eae5cadd5ba4ad3a0d2d301057c195d9d07e807547d31c5fe0"
+        }
+      ],
+      "inputs": {
+        "tests/skill-market-release-assets.test.ts": {
+          "sha256": "c1323da8d5b47c411f67151108a62cead4a09b4a5b79fab5fa118d807fd37bf0",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-preparation.test.ts": {
+          "sha256": "1b146b1e5acd6664a15e1d54f8c03a563dc8fbbc4de8683cc46f3cbbf1e2d463",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-providers.test.ts": {
+          "sha256": "87bc818801127a8b530fb567c859a894d2ded8ad381df20c460b0e9fb1138247",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/workflows.test.ts": {
+          "sha256": "b0f8219341481a3e3e4bde291c7b14f5d04e5f523c42120e960feefc3152dfd5",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/locales.test.ts": {
+          "sha256": "096ed159d7c6e7aa63c60206f02a797ec1739e4ca280db2531c722489097b9a3",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-scanner.test.ts": {
+          "sha256": "485c62b9d78eb1db7913fe429761833afd503079d7335fd5d754d8356089f96b",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/persona.test.ts": {
+          "sha256": "deb6bcfde45afd3ecf7beee8bfc21c491f7a5aeed2da4b204dd9b4cfaea206aa",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-rescan.test.ts": {
+          "sha256": "e58d170d136f7a43fa76ce95a36481f22adeb496aec30412578d25a5f2201875",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/preset-manager.test.ts": {
+          "sha256": "6001b5995dcfee00d1dc52b18da253760950e84dcd91de07f6afd67bf88f168c",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/package-contract.test.ts": {
+          "sha256": "0c76b18984e877775b16a931f3fd5090e37148e6b2fd9b5619f59100ff2960e7",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/request-trust.test.ts": {
+          "sha256": "1fe4467b4c0c9fa7f5dea0020a1e25c9e04a20f9edbea85fe532d452b8f7bff7",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/compatibility.test.ts": {
+          "sha256": "c2a26c198ffd9efda472a21f39c94ae8377fc34354bdc0c2856309c8bcc608ab",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-github-import.test.ts": {
+          "sha256": "e4fe1dc3e6b19bf44fabb73f8147a683ea1d092fdbb43c123d687331521b8d7e",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/workspace.test.ts": {
+          "sha256": "4e134d9d291b687c20982eebdda4b314a619950cca898d55d20ad06a1e02b680",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-contracts.test.ts": {
+          "sha256": "248978cc46be1d47db1cad05e4f2d2c8fd91918348f5d97f26cdadef9e9e0a95",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-store-provider.test.ts": {
+          "sha256": "8315b301c7cf7a7ea0dbdb3d0b7c401da9f4660bef45ce7df24bd08cf238dad8",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-diff.test.ts": {
+          "sha256": "a8bdfb5b7828b9309007d5e753f1e35ece5cfc3aeefdf5f37fc695febe55e167",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-service.test.ts": {
+          "sha256": "98d28d5b426448d24911570ac393747f01b6100ae03f90031a60346f6086c285",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-card.test.tsx": {
+          "sha256": "9d1ea41370e95bbae3d7eadc472bb25a12294f8051f6ae9b7dea0ed6edec7ea0",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-catalog.test.ts": {
+          "sha256": "1fedd8568a23e2166e828c53c5447a78e8b1803f0c7656c455e3963da387de03",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/workspace-styles.test.ts": {
+          "sha256": "00e39fbba5787c788582898f7ea2b6dbf1d1aa26b1958fde363856793836d398",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-bootstrap.test.ts": {
+          "sha256": "d0f76937886175eab1662710f370d9017fc90d52c6fd72634f9ab1f14a6ada95",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/workspace-header.test.tsx": {
+          "sha256": "ec0756aaa6eac2adda21724eedc475f2134848f514f5402ba8ee8ae9f353d3a1",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skills.test.ts": {
+          "sha256": "2a55f074f7c3ffc17144d71f20f22e0fdf32da15e9a100f54e3b34ff586f0815",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/integration-manager.test.ts": {
+          "sha256": "569dce0fdd81280344c60012796610e99cf2b5cd4d40f510a283544bd994d09c",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-store.test.ts": {
+          "sha256": "c07f765315c24a6cb2bb7086794340e97eb8ecbc05b77355991955641045a386",
+          "executable": false,
+          "symlink": null
+        },
+        "tests/skill-market-routes.test.ts": {
+          "sha256": "90b9b166008ee833bb75e4f396f02d63fe267b2a6a6bdff999c094ee626f0947",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/index.ts": {
+          "sha256": "b0e6fc3d9ee56fb83510a8ddadc665b9cf744fa6ea2bb60dfdd4f2922e737222",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/GodotPresetOnboarding.tsx": {
+          "sha256": "dd2d3014e9b4938d6abc0e0e4d7757123ba062400468891329ebb44df62567d2",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/api.ts": {
+          "sha256": "c2c86bce9ae49b64956865d1f568360ae5cd473923a3225645d1869d8c091086",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/GodotIntegrationCard.tsx": {
+          "sha256": "b52035a9eeaf1c8cb8a014674362a86c3be2748c803675141ea6d9f81312f71a",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/godot-icon.ts": {
+          "sha256": "2cf54a5f0cc0e4e32b0cb4601f57ecb8301ebdd38b929a6701c24b8c502a74ba",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/styles.ts": {
+          "sha256": "1bea8612888933459881a24929e57ae979cfa7e2eaca615142e803b5ae680df2",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/locales.ts": {
+          "sha256": "45f1ea945da918899128a3423dee8ff538d02010af71b1f8fe380d15685cb0e1",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/GodotSkillMarketCard.tsx": {
+          "sha256": "59fb80e3f920932833da30155747b293bed7ec5cfaac1419b9f882ad1fcf590c",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/workspace.ts": {
+          "sha256": "c1128a88383fa8d5d7eac1f495da141e4e55d477093b88e1b58852d30a09248d",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/GodotWorkspaceHeader.tsx": {
+          "sha256": "cf076a6bd8b980e173c7a40e64d0cba9c91cb039af4155d9738fdc2d53e524d6",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client/workspace-styles.ts": {
+          "sha256": "09570c58c2cd02557176885aa821c1062d71a75e9770c95f31dbb712e9be39c2",
+          "executable": false,
+          "symlink": null
+        },
+        "src/index.ts": {
+          "sha256": "b706ee8e909d4965cf5498b99552e07507214a7b3499194c40452120575400d2",
+          "executable": false,
+          "symlink": null
+        },
+        "src/host/skill-market-routes.ts": {
+          "sha256": "3b5d1cb54e6bede890b46ce49cb0e133607dca73dadbd9624efb3ca3f98ba3eb",
+          "executable": false,
+          "symlink": null
+        },
+        "src/host/integration-manager.ts": {
+          "sha256": "613f1aeba420e8f93a0a0460f4b5b91681c80a9879efb6a27b1bf6d2d5a52f9a",
+          "executable": false,
+          "symlink": null
+        },
+        "src/host/preset-manager.ts": {
+          "sha256": "e3a89e8782e6a07971618b9c928f03a681a94939778f2c4ab01d39dffc715711",
+          "executable": false,
+          "symlink": null
+        },
+        "src/host/request-trust.ts": {
+          "sha256": "f2ef6b56510fe1311e76b6c3a87c00fd20218b9b250b69a4adff97a5e165b417",
+          "executable": false,
+          "symlink": null
+        },
+        "src/host/routes.ts": {
+          "sha256": "60e87d7f465fcf4c581f5c01d87413b7428616303448a29183e159842e386548",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/catalog.ts": {
+          "sha256": "1a457e66d2e39a5fdf5f7d8ef759047c3ba44a01b939f9469a9a63370ba3cd51",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/bootstrap.ts": {
+          "sha256": "1f12ff8d361153df98950cee963eb477f1b8e5706777d4376a79a83e178924ce",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/store.ts": {
+          "sha256": "1abacf245d67b8951b3d0822657b5b5618857d964c7b0e3e6b98986d604d5e1e",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/service.ts": {
+          "sha256": "d6f4b2cd55a8165258cc3406e85fbe3a95951bf904b9f481c27155db05e3ca37",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/files.ts": {
+          "sha256": "d3bf71490593eeed0f9dd5a0be41d48c0d3e4401ce8e7e22ba35ac15c9faeeb2",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/scanner.ts": {
+          "sha256": "23648a005d9e968694accdc833dceee5e86512f0cf514ad455e283c58c4e64fa",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/lockfile.ts": {
+          "sha256": "b37c6b22b3c287cf333f8e89e9b01801622e9a59d958106b6ebce9fb17c7cd42",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/paths.ts": {
+          "sha256": "0185d17d33dbd2e8fa0f175bf34d9a3315d6fcab37dedae15e7f7d451a1816c5",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/provider.ts": {
+          "sha256": "cb18691678514498f6b2a484e8709973289f1599dc847ab3b0d57b9599ed59c1",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/github-import.ts": {
+          "sha256": "7658c5323a62417c37f8d23bce0040eddfb9a1df2ee45b1bdc932b41c5e27614",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/approval.ts": {
+          "sha256": "8b77d340df15df5e0d1ed449bd7c843a1eedb3feab138f46e1b6ec5ef2afdda1",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/contracts.ts": {
+          "sha256": "eba387d1cc234bbae1d49813d3aee003acf9e8677e4f0f0903bc901164f33fbd",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/diff.ts": {
+          "sha256": "707287af1909bc28f089670b8c5d2b284aacf4398403f5ef357245e63da18047",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/catalog-fetch.ts": {
+          "sha256": "c4b2d35159482f558e12b64c1af228b31a7b599ff551f20367feed2fd2769b84",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/canonical-json.ts": {
+          "sha256": "522b4aeea3262a1dcaaaa4debb4dc22ebbf5d4bef8f99f2c7a5283aa250cc66b",
+          "executable": false,
+          "symlink": null
+        },
+        "src/skill-market/preparation.ts": {
+          "sha256": "e7799bc736a45b95de7e1e78b801f99664b84b425f251c3bdf15288018073c7b",
+          "executable": false,
+          "symlink": null
+        },
+        "src/client.ts": {
+          "sha256": "a85caeae576f57d275c9ead69b6efc9c4ba0d24c3b9cbc3ee55c530959bc5f43",
+          "executable": false,
+          "symlink": null
+        },
+        "src/core/compatibility.ts": {
+          "sha256": "ddab2e1646cd1bab8410376935f5e0f0a70aee13e5c0d9e716702352121b620d",
+          "executable": false,
+          "symlink": null
+        },
+        "src/agent/skills.ts": {
+          "sha256": "48945ef5397fb961a6e2de32034619cbf537ab682f88882b078c1ac81e1b6948",
+          "executable": false,
+          "symlink": null
+        },
+        "src/core/types.ts": {
+          "sha256": "146dbf641e44d280719f654b7f99d6f9e96c44ba3f9308caaf4f967716e0c628",
+          "executable": false,
+          "symlink": null
+        },
+        "src/agent/persona.ts": {
+          "sha256": "a109e90610bb75c1ad5391815ae786bae9022e3391dd26d991ae6cb7a4752165",
+          "executable": false,
+          "symlink": null
+        },
+        "src/agent/launch-spec.ts": {
+          "sha256": "66df9ad9af06693a18e661828cc952250baf9fda1af2f8dfe8b0c3de2cdec123",
+          "executable": false,
+          "symlink": null
+        },
+        "src/agent/workflows.ts": {
+          "sha256": "7cd2adcc63b19be9e701da02b6afeaa7a6c789b133fb68b82e44a6cb4ad3df83",
+          "executable": false,
+          "symlink": null
+        },
+        "src/agent/bundled-skill-provider.ts": {
+          "sha256": "dc76882f79a72477233f90ca7f8aa3dbacf1a80b50296fde5f2c221d5a4ac317",
+          "executable": false,
+          "symlink": null
+        },
+        "src/agent/index.ts": {
+          "sha256": "267035f61a95e255a8793ea8f75e35874e68e7c347d1d1138d23359fc25e2781",
+          "executable": false,
+          "symlink": null
+        },
+        "package.json": {
+          "sha256": "e65d1becc158ff21e9a74e6a946979432ef6ce27b0ae8b7de23b0f354a7167b8",
+          "executable": false,
+          "symlink": null
+        },
+        "tsconfig.json": {
+          "sha256": "7f53e042111c3222357798fc0774102ca4ca0bfe845fd9e06074e449d6f04028",
+          "executable": false,
+          "symlink": null
+        },
+        "tsdown.config.ts": {
+          "sha256": "a8e98c837bd475fc04b8db5f75ef6f00f0f922e7c3e9ba43853659e3a8318c5e",
+          "executable": false,
+          "symlink": null
+        },
+        "cordis.patch.yml": {
+          "sha256": "0b30d2466cd054f9d203131e0a34071bf76d528bef184bef8652861d1477d7fb",
+          "executable": false,
+          "symlink": null
+        },
+        "compatibility.json": {
+          "sha256": "e0a1da5abbdd8ea30ff76463c3c6746f1d472b2cff6bc335805da43a45b5e4b9",
+          "executable": false,
+          "symlink": null
+        },
+        "README.md": {
+          "sha256": "ccb8a05b45b555be1b57cb48f25ed6ce2786ce48147da2b2faa412a055e21775",
+          "executable": false,
+          "symlink": null
+        },
+        "README.en.md": {
+          "sha256": "d2316e2e62c60cccc0a6ce48412ee2d0c74171d88efc130326dc5940853f2635",
+          "executable": false,
+          "symlink": null
+        },
+        "CHANGELOG.md": {
+          "sha256": "1633c3a34692bb98388cff2216dd7e57f82d6ccc935c4809550a2ce336931d87",
+          "executable": false,
+          "symlink": null
+        },
+        "THIRD_PARTY_NOTICES.md": {
+          "sha256": "83bdd9955f8cf5243699bc189bbe99d24ea02ed6f493606cf2f5969a77a6c29f",
+          "executable": false,
+          "symlink": null
+        },
+        "PLUGIN-CAPABILITY.md": {
+          "sha256": "c3761cbfab04b592b71d63edf2b5b7deab0baff26d80670be2573570a6def15b",
+          "executable": false,
+          "symlink": null
+        },
+        "pnpm-lock.yaml": {
+          "sha256": "0be80df423acaef53c7046b38cbe2231c166f89e42e1507fcbdcea7752536390",
+          "executable": false,
+          "symlink": null
+        }
+      },
+      "outputs": {
+        "validation/rc2-release/unit-report.json": {
+          "sha256": "731f9101f10b7459134ecbd50e273f197fad33b2bca088edf8cc3a1bdcabb6b1",
+          "executable": false,
+          "symlink": null
+        }
+      },
+      "error": null,
+      "subject": "943d4a3803ede73be7efe1e0e116d7b569d8aae78da343bbfa3decec0b920893",
+      "review": {
+        "node": "migration",
+        "attempt": "46f6cc9a5bbc4b35b660f8d0a37f53f4",
+        "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+        "subject": "943d4a3803ede73be7efe1e0e116d7b569d8aae78da343bbfa3decec0b920893",
+        "reviewer": "codex-self-review",
+        "independent": false,
+        "verdict": "pass",
+        "objectives": [
+          "migration"
+        ],
+        "evidence": [
+          "validation/rc2-release/unit-report.json"
+        ],
+        "findings": []
+      }
+    },
+    "runtime": {
+      "node": "runtime",
+      "attempt": "f924187d1c534b9b8e69d1c827b14279",
+      "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+      "checks": [
+        {
+          "id": "runtime",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "validation/rc2-smoke.mjs",
+            "verify"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "started": 1791363840.124047,
+          "passed": true,
+          "expected_exit": 0,
+          "exit_code": 0,
+          "finished": 1791363840.516024,
+          "stdout_sha256": "b78232f3aa4cd87695daade0592066a6b242abd6d09a3a66226a845e96a7e7d9",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "inputs": {
+        "validation/rc2-smoke.mjs": {
+          "sha256": "642a2d8c7ab5fc1c081a19166fe33ca33bc4dd56be1d29b15ad31358478f0237",
+          "executable": false,
+          "symlink": null
+        },
+        "validation/rc2-release/host-probe.mjs": {
+          "sha256": "e988f0a3b080f6dce3504724b0d8a07bdbd808baad8bdce0c394a616f7765ac1",
+          "executable": false,
+          "symlink": null
+        },
+        "package.json": {
+          "sha256": "e65d1becc158ff21e9a74e6a946979432ef6ce27b0ae8b7de23b0f354a7167b8",
+          "executable": false,
+          "symlink": null
+        }
+      },
+      "outputs": {
+        "validation/rc2-release/runtime-report.json": {
+          "sha256": "a3c8e21fc3dd2f7d430ab40c7ea67161fc021a2d4684a49b9e3f4279e6038259",
+          "executable": false,
+          "symlink": null
+        }
+      },
+      "error": null,
+      "subject": "5951bb32e131f790a43436407a00a751cab2d6db0b239485af60f18d4ab9d5eb",
+      "review": {
+        "node": "runtime",
+        "attempt": "f924187d1c534b9b8e69d1c827b14279",
+        "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+        "subject": "5951bb32e131f790a43436407a00a751cab2d6db0b239485af60f18d4ab9d5eb",
+        "reviewer": "codex-self-review",
+        "independent": false,
+        "verdict": "pass",
+        "objectives": [
+          "runtime"
+        ],
+        "evidence": [
+          "validation/rc2-release/runtime-report.json"
+        ],
+        "findings": []
+      }
+    },
+    "release": {
+      "node": "release",
+      "attempt": "d81d4f97bb66420685b2afecd9633c3f",
+      "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+      "checks": [
+        {
+          "id": "release",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "validation/rc2-smoke.mjs",
+            "release-verify"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "started": 1791364277.077538,
+          "passed": true,
+          "expected_exit": 0,
+          "exit_code": 0,
+          "finished": 1791364281.940775,
+          "stdout_sha256": "bb23b13365f63a8cb464cc6ff3db5889a638d8f6a7a2012a4d913c4b2b765257",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "inputs": {
+        "README.md": {
+          "sha256": "ccb8a05b45b555be1b57cb48f25ed6ce2786ce48147da2b2faa412a055e21775",
+          "executable": false,
+          "symlink": null
+        },
+        "package.json": {
+          "sha256": "e65d1becc158ff21e9a74e6a946979432ef6ce27b0ae8b7de23b0f354a7167b8",
+          "executable": false,
+          "symlink": null
+        },
+        "validation/rc2-smoke.mjs": {
+          "sha256": "642a2d8c7ab5fc1c081a19166fe33ca33bc4dd56be1d29b15ad31358478f0237",
+          "executable": false,
+          "symlink": null
+        }
+      },
+      "outputs": {
+        "validation/rc2-release/release-report.json": {
+          "sha256": "06f5417c4da64c172a6d65e42af82876c5b66e85dce12683a599eee0a4590062",
+          "executable": false,
+          "symlink": null
+        }
+      },
+      "error": null,
+      "subject": "7e19f0ae15025de6a4a2a85d7493787873ca78babe1cc18b2153c3b673fa461a",
+      "review": {
+        "node": "release",
+        "attempt": "d81d4f97bb66420685b2afecd9633c3f",
+        "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+        "subject": "7e19f0ae15025de6a4a2a85d7493787873ca78babe1cc18b2153c3b673fa461a",
+        "reviewer": "codex-self-review",
+        "independent": false,
+        "verdict": "pass",
+        "objectives": [
+          "migration",
+          "runtime",
+          "release"
+        ],
+        "evidence": [
+          "validation/rc2-release/release-report.json"
+        ],
+        "findings": []
+      }
+    }
+  },
+  "history": [
+    {
+      "node": "migration",
+      "attempt": "8c6d1c26ac0c4117b27ab15597e9b1f9",
+      "revision": "d3f7fdeeb8f268e32728bd0468a226b5bc6a1cd17c2f3e9695e3303e260c3863",
+      "checks": [
+        {
+          "id": "typecheck",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "check"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "started": 1791363659.403306,
+          "passed": true,
+          "expected_exit": 0,
+          "exit_code": 0,
+          "finished": 1791363661.094814,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "38ac890c60e7f38d59ddfb410325cdfb5fca83c9411765c5481754e01c021630"
+        },
+        {
+          "id": "test",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--reporter=json",
+            "--outputFile=validation/rc2-release/unit-report.json"
+          ],
+          "cwd": ".",
+          "timeout": 240,
+          "started": 1791363661.095145,
+          "passed": true,
+          "expected_exit": 0,
+          "exit_code": 0,
+          "finished": 1791363663.433165,
+          "stdout_sha256": "071e9ef9220115eaa481a0797e9b7ba2a69aed251abcd526ee9fd4cb14a7b003",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "id": "build",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "/opt/homebrew/bin/pnpm",
+            "build"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "started": 1791363663.433484,
+          "passed": true,
+          "expected_exit": 0,
+          "exit_code": 0,
+          "finished": 1791363665.649338,
+          "stdout_sha256": "bca0fca2aad85f57174144e6a4609be212bbd0d1b09860ea568303c9f2b7cebd",
+          "stderr_sha256": "797d9f44a7ff01eae5cadd5ba4ad3a0d2d301057c195d9d07e807547d31c5fe0"
+        }
+      ],
+      "inputs": {
+        "package.json": {
+          "sha256": "e65d1becc158ff21e9a74e6a946979432ef6ce27b0ae8b7de23b0f354a7167b8",
+          "executable": false,
+          "symlink": null
+        },
+        "tsconfig.json": {
+          "sha256": "7f53e042111c3222357798fc0774102ca4ca0bfe845fd9e06074e449d6f04028",
+          "executable": false,
+          "symlink": null
+        }
+      },
+      "outputs": {
+        "validation/rc2-release/unit-report.json": {
+          "sha256": "a653167517f386434df6c51fa0d6f48b5ab03124258f30c23f3aef9a187d3f8e",
+          "executable": false,
+          "symlink": null
+        }
+      },
+      "error": null,
+      "subject": "3c780dab9b3d8d191931de6298f15f0265cf6d33dc514cbaad2a915475c7dc61"
+    },
+    {
+      "node": "runtime",
+      "attempt": "bdb91c6d2f064e8d9281fcc2e859897b",
+      "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+      "checks": [
+        {
+          "id": "runtime",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "validation/rc2-smoke.mjs",
+            "verify"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "started": 1791363803.7004201,
+          "passed": false,
+          "expected_exit": 0,
+          "exit_code": 1,
+          "finished": 1791363804.475945,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "7388d43bf54810db240fd00607502280b66ba933bd32c4cf7bddf59482c33f93"
+        }
+      ],
+      "inputs": {},
+      "outputs": {},
+      "error": "check failed: runtime",
+      "subject": "68eb16808416d13e7005afaaf58f401229917e7061552275cf91a138db490978"
+    },
+    {
+      "node": "release",
+      "attempt": "264ceab7681149fda477d9eed5aa34a9",
+      "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+      "checks": [
+        {
+          "id": "release",
+          "argv": [
+            "/opt/homebrew/opt/node@24/bin/node",
+            "validation/rc2-smoke.mjs",
+            "release-verify"
+          ],
+          "cwd": ".",
+          "timeout": 180,
+          "started": 1791364197.669556,
+          "passed": false,
+          "expected_exit": 0,
+          "exit_code": 1,
+          "finished": 1791364198.7126231,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "bd4e1e7498be691351d69a928aee8326f71d483ccc65d12e9c8fd70aaa1b34f1"
+        }
+      ],
+      "inputs": {},
+      "outputs": {},
+      "error": "check failed: release",
+      "subject": "3c4a93a7e4b916f01d238d3c24626d4cb95668f2559fa0128f0ff3d2c1045bfc"
+    }
+  ]
+}

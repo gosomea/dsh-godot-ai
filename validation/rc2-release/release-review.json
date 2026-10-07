@@ -1,0 +1,12 @@
+{
+  "node": "release",
+  "attempt": "d81d4f97bb66420685b2afecd9633c3f",
+  "revision": "991cb70c556950c67f148ac05eab8ff155f00175ea1b817902a629545162ee7c",
+  "subject": "7e19f0ae15025de6a4a2a85d7493787873ca78babe1cc18b2153c3b673fa461a",
+  "reviewer": "codex-self-review",
+  "independent": false,
+  "verdict": "pass",
+  "objectives": ["migration", "runtime", "release"],
+  "evidence": ["validation/rc2-release/release-report.json"],
+  "findings": []
+}
